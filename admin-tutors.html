@@ -1,0 +1,1837 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Manage Tutors</title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css">
+
+    <style>
+
+        .action-section,
+        .search-section,
+        .table-section {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .save-button {
+            background: #111827;
+            color: #ffffff;
+        }
+
+        .cancel-button {
+            background: #eeeeee;
+            color: #222222;
+        }
+
+        .search-section input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .table-section {
+            overflow-x: auto;
+        }
+
+        .tutor-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        .tutor-table th,
+        .tutor-table td {
+            padding: 13px;
+            border-bottom: 1px solid #eeeeee;
+            text-align: left;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .status-active {
+            background: #e7f8ed;
+        }
+
+        .status-inactive {
+            background: #ffe5e5;
+        }
+
+        .table-button {
+            border: none;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .edit-button {
+            background: #e8f0ff;
+        }
+
+        .delete-button {
+            background: #ffe5e5;
+        }
+
+        .toggle-button {
+            background: #fff5d9;
+        }
+
+        .message {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            white-space: pre-wrap;
+        }
+
+        .message-success {
+            background: #e7f8ed;
+        }
+
+        .message-error {
+            background: #ffe5e5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+
+        .database-note {
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         WELCOME
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1>
+            Manage Tutors
+        </h1>
+
+        <p>
+            Add and manage MTHIS Tutorials tutors.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MESSAGES
+    ================================================== -->
+
+    <div
+        id="successMessage"
+        class="message message-success">
+    </div>
+
+
+    <div
+        id="errorMessage"
+        class="message message-error">
+    </div>
+
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section>
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div>
+                    👨‍🏫
+                </div>
+
+                <div
+                    id="totalTutors"
+                    class="stat-number">
+
+                    0
+
+                </div>
+
+                <p>
+                    Total Tutors
+                </p>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div>
+                    🟢
+                </div>
+
+                <div
+                    id="activeTutors"
+                    class="stat-number">
+
+                    0
+
+                </div>
+
+                <p>
+                    Active Tutors
+                </p>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div>
+                    🔴
+                </div>
+
+                <div
+                    id="inactiveTutors"
+                    class="stat-number">
+
+                    0
+
+                </div>
+
+                <p>
+                    Inactive Tutors
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ADD TUTOR
+    ================================================== -->
+
+    <section class="action-section">
+
+        <h2 id="formTitle">
+            ➕ Add New Tutor
+        </h2>
+
+
+        <form
+            id="tutorForm">
+
+
+            <input
+                type="hidden"
+                id="tutorId">
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tutorName"
+                        placeholder="Enter tutor name"
+                        required>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="tutorEmail"
+                        placeholder="Enter email address"
+                        required>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Contact Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tutorContact"
+                        placeholder="e.g. 0712345678">
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <select
+                        id="tutorSubject"
+                        required>
+
+                        <option value="">
+                            Select Subject
+                        </option>
+
+                        <option value="Mathematics">
+                            Mathematics
+                        </option>
+
+                        <option value="Physical Science">
+                            Physical Science
+                        </option>
+
+                        <option value="Mathematics & Physical Science">
+                            Mathematics & Physical Science
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select
+                        id="tutorStatus">
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    id="saveButton"
+                    class="form-button save-button">
+
+                    ➕ Add Tutor
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="cancelButton"
+                    class="form-button cancel-button"
+                    onclick="cancelEdit()"
+                    style="display:none;">
+
+                    Cancel
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <div class="database-note">
+
+            <strong>Database:</strong>
+            Tutors are saved in the
+            <strong>tutors</strong> table in Supabase.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="search-section">
+
+        <h3>
+            🔍 Search Tutors
+        </h3>
+
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by name, email or subject...">
+
+    </section>
+
+
+
+    <!-- =================================================
+         TUTORS
+    ================================================== -->
+
+    <section class="table-section">
+
+        <h2>
+            👨‍🏫 All Tutors
+        </h2>
+
+
+        <div
+            id="loading"
+            class="loading">
+
+            Loading tutors...
+
+        </div>
+
+
+        <table
+            id="tutorTable"
+            class="tutor-table"
+            style="display:none;">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Contact
+                    </th>
+
+                    <th>
+                        Subject
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="tutorTableBody">
+            </tbody>
+
+        </table>
+
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h3>
+                No tutors found
+            </h3>
+
+            <p>
+                Add a tutor using the form above.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="./admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let allTutors = [];
+
+
+
+/* =====================================================
+   ADMIN CHECK
+===================================================== */
+
+async function checkAdmin() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
+
+
+        if (
+            error ||
+            !user
+        ) {
+
+            window.location.href =
+                "./admin-login.html";
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "ADMIN CHECK ERROR:",
+            error
+        );
+
+
+        window.location.href =
+            "./admin-login.html";
+
+        return false;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD TUTORS
+===================================================== */
+
+async function loadTutors() {
+
+    hideMessages();
+
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "tutorTable"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "none";
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("tutors")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        allTutors =
+            data || [];
+
+
+        updateStatistics();
+
+        displayTutors(
+            allTutors
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOAD TUTORS ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        showError(
+            "❌ Could not load tutors.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+function updateStatistics() {
+
+    const active =
+        allTutors.filter(
+            tutor =>
+                String(
+                    tutor.status || "active"
+                ).toLowerCase()
+                === "active"
+        ).length;
+
+
+    const inactive =
+        allTutors.length -
+        active;
+
+
+    document.getElementById(
+        "totalTutors"
+    ).innerText =
+        allTutors.length;
+
+
+    document.getElementById(
+        "activeTutors"
+    ).innerText =
+        active;
+
+
+    document.getElementById(
+        "inactiveTutors"
+    ).innerText =
+        inactive;
+
+}
+
+
+
+/* =====================================================
+   DISPLAY TUTORS
+===================================================== */
+
+function displayTutors(
+    tutors
+) {
+
+    const body =
+        document.getElementById(
+            "tutorTableBody"
+        );
+
+
+    const table =
+        document.getElementById(
+            "tutorTable"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "emptyState"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    body.innerHTML =
+        "";
+
+
+    loading.style.display =
+        "none";
+
+
+    if (
+        tutors.length === 0
+    ) {
+
+        table.style.display =
+            "none";
+
+
+        empty.style.display =
+            "block";
+
+
+        return;
+
+    }
+
+
+    empty.style.display =
+        "none";
+
+
+    table.style.display =
+        "table";
+
+
+    tutors.forEach(
+        tutor => {
+
+
+            const status =
+                String(
+                    tutor.status ||
+                    "active"
+                ).toLowerCase();
+
+
+            const active =
+                status === "active";
+
+
+            body.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHTML(
+                            tutor.name || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            tutor.email || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            tutor.contact_number || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            tutor.subject || "-"
+                        )}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status-badge ${
+                                active
+                                    ? "status-active"
+                                    : "status-inactive"
+                            }">
+
+                            ${
+                                active
+                                    ? "Active"
+                                    : "Inactive"
+                            }
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="table-button edit-button"
+                            onclick="editTutor('${tutor.id}')">
+
+                             Edit
+
+                        </button>
+
+
+                        <button
+                            class="table-button toggle-button"
+                            onclick="toggleTutorStatus('${tutor.id}')">
+
+                            ${
+                                active
+                                    ? " Deactivate"
+                                    : " Activate"
+                            }
+
+                        </button>
+
+
+                        <button
+                            class="table-button delete-button"
+                            onclick="deleteTutor('${tutor.id}')">
+
+                            🗑️ Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   ADD / UPDATE TUTOR
+===================================================== */
+
+async function saveTutor(
+    event
+) {
+
+    event.preventDefault();
+
+
+    console.log(
+        "ADD TUTOR BUTTON CLICKED"
+    );
+
+
+    hideMessages();
+
+
+    const tutorId =
+        document.getElementById(
+            "tutorId"
+        ).value.trim();
+
+
+    const name =
+        document.getElementById(
+            "tutorName"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "tutorEmail"
+        ).value.trim();
+
+
+    const contact =
+        document.getElementById(
+            "tutorContact"
+        ).value.trim();
+
+
+    const subject =
+        document.getElementById(
+            "tutorSubject"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "tutorStatus"
+        ).value;
+
+
+    console.log(
+        "Tutor data:",
+        {
+            tutorId,
+            name,
+            email,
+            contact,
+            subject,
+            status
+        }
+    );
+
+
+    if (
+        !name ||
+        !email ||
+        !subject
+    ) {
+
+        showError(
+            "Please fill in the tutor name, email and subject."
+        );
+
+        return;
+
+    }
+
+
+    const tutorData = {
+
+        name: name,
+
+        email: email,
+
+        contact_number: contact,
+
+        subject: subject,
+
+        status: status
+
+    };
+
+
+    const saveButton =
+        document.getElementById(
+            "saveButton"
+        );
+
+
+    saveButton.disabled =
+        true;
+
+
+    saveButton.innerText =
+        tutorId
+            ? "Updating..."
+            : "Adding...";
+
+
+    try {
+
+        let result;
+
+
+        if (
+            tutorId
+        ) {
+
+            result =
+                await supabaseClient
+                    .from("tutors")
+                    .update(
+                        tutorData
+                    )
+                    .eq(
+                        "id",
+                        tutorId
+                    )
+                    .select();
+
+        }
+
+        else {
+
+            result =
+                await supabaseClient
+                    .from("tutors")
+                    .insert([
+                        tutorData
+                    ])
+                    .select();
+
+        }
+
+
+        console.log(
+            "SUPABASE RESULT:",
+            result
+        );
+
+
+        if (
+            result.error
+        ) {
+
+            throw result.error;
+
+        }
+
+
+        showSuccess(
+            tutorId
+                ? "Tutor updated successfully."
+                : "Tutor added successfully."
+        );
+
+
+        cancelEdit();
+
+
+        await loadTutors();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "SAVE TUTOR ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ Failed to save tutor.\n\n" +
+            "Supabase says:\n" +
+            error.message
+        );
+
+    }
+
+    finally {
+
+        saveButton.disabled =
+            false;
+
+
+        saveButton.innerText =
+            tutorId
+                ? "💾 Update Tutor"
+                : "➕ Add Tutor";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editTutor(
+    tutorId
+) {
+
+    const tutor =
+        allTutors.find(
+            item =>
+                String(
+                    item.id
+                ) === String(
+                    tutorId
+                )
+        );
+
+
+    if (!tutor) {
+
+        showError(
+            "Tutor not found."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "tutorId"
+    ).value =
+        tutor.id;
+
+
+    document.getElementById(
+        "tutorName"
+    ).value =
+        tutor.name || "";
+
+
+    document.getElementById(
+        "tutorEmail"
+    ).value =
+        tutor.email || "";
+
+
+    document.getElementById(
+        "tutorContact"
+    ).value =
+        tutor.contact_number || "";
+
+
+    document.getElementById(
+        "tutorSubject"
+    ).value =
+        tutor.subject || "";
+
+
+    document.getElementById(
+        "tutorStatus"
+    ).value =
+        tutor.status || "active";
+
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        " Edit Tutor";
+
+
+    document.getElementById(
+        "saveButton"
+    ).innerText =
+        " Update Tutor";
+
+
+    document.getElementById(
+        "cancelButton"
+    ).style.display =
+        "inline-block";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   CANCEL EDIT
+===================================================== */
+
+function cancelEdit() {
+
+    document.getElementById(
+        "tutorForm"
+    ).reset();
+
+
+    document.getElementById(
+        "tutorId"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        "➕ Add New Tutor";
+
+
+    document.getElementById(
+        "saveButton"
+    ).innerText =
+        "➕ Add Tutor";
+
+
+    document.getElementById(
+        "cancelButton"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   TOGGLE STATUS
+===================================================== */
+
+async function toggleTutorStatus(
+    tutorId
+) {
+
+    const tutor =
+        allTutors.find(
+            item =>
+                String(
+                    item.id
+                ) === String(
+                    tutorId
+                )
+        );
+
+
+    if (!tutor) {
+
+        return;
+
+    }
+
+
+    const currentStatus =
+        String(
+            tutor.status ||
+            "active"
+        ).toLowerCase();
+
+
+    const newStatus =
+        currentStatus === "active"
+            ? "inactive"
+            : "active";
+
+
+    const confirmed =
+        confirm(
+            newStatus === "active"
+                ? "Activate this tutor?"
+                : "Deactivate this tutor?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("tutors")
+                .update({
+                    status: newStatus
+                })
+                .eq(
+                    "id",
+                    tutorId
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        showSuccess(
+            newStatus === "active"
+                ? "Tutor activated successfully."
+                : "Tutor deactivated successfully."
+        );
+
+
+        await loadTutors();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "STATUS ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ Failed to change tutor status.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+async function deleteTutor(
+    tutorId
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to permanently delete this tutor?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("tutors")
+                .delete()
+                .eq(
+                    "id",
+                    tutorId
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        showSuccess(
+            "Tutor deleted successfully."
+        );
+
+
+        await loadTutors();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "DELETE ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ Failed to delete tutor.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    function() {
+
+        const search =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            allTutors.filter(
+                tutor => {
+
+                    const name =
+                        String(
+                            tutor.name || ""
+                        )
+                        .toLowerCase();
+
+
+                    const email =
+                        String(
+                            tutor.email || ""
+                        )
+                        .toLowerCase();
+
+
+                    const subject =
+                        String(
+                            tutor.subject || ""
+                        )
+                        .toLowerCase();
+
+
+                    return (
+                        name.includes(search) ||
+                        email.includes(search) ||
+                        subject.includes(search)
+                    );
+
+                }
+            );
+
+
+        displayTutors(
+            filtered
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   FORM SUBMIT
+===================================================== */
+
+document.getElementById(
+    "tutorForm"
+).addEventListener(
+    "submit",
+    saveTutor
+);
+
+
+
+/* =====================================================
+   SUCCESS MESSAGE
+===================================================== */
+
+function showSuccess(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "successMessage"
+        );
+
+
+    box.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+
+    setTimeout(
+        function() {
+
+            box.style.display =
+                "none";
+
+        },
+        5000
+    );
+
+}
+
+
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
+
+function showError(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    box.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
+
+
+    document.getElementById(
+        "successMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   HIDE MESSAGES
+===================================================== */
+
+function hideMessages() {
+
+    document.getElementById(
+        "successMessage"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    try {
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "./admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const allowed =
+        await checkAdmin();
+
+
+    if (allowed) {
+
+        await loadTutors();
+
+    }
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>
+```

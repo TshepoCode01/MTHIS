@@ -1,0 +1,1266 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Suspended Learners</title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css">
+
+    <style>
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .summary-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .summary-number {
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .search-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .search-box input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .table-section {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+
+        .suspension-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        .suspension-table th,
+        .suspension-table td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .status-paid {
+            background: #e7f8ed;
+        }
+
+        .status-pending {
+            background: #fff5d9;
+        }
+
+        .status-suspended {
+            background: #ffe5e5;
+        }
+
+        .action-button {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .reactivate-button {
+            background: #e7f8ed;
+        }
+
+        .suspend-button {
+            background: #ffe5e5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .message {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message-error {
+            background: #ffe5e5;
+        }
+
+        .message-success {
+            background: #e7f8ed;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1>
+            Suspended Learners
+        </h1>
+
+        <p>
+            Manage learner payment status and
+            suspend or reactivate learner accounts.
+        </p>
+
+    </section>
+
+
+
+    <!-- MESSAGES -->
+
+    <div
+        id="successMessage"
+        class="message message-success">
+    </div>
+
+
+    <div
+        id="errorMessage"
+        class="message message-error">
+    </div>
+
+
+
+    <!-- =================================================
+         SUMMARY
+    ================================================== -->
+
+    <section>
+
+        <div class="summary-grid">
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    
+                </div>
+
+                <p
+                    class="summary-number"
+                    id="suspendedCount">
+
+                    0
+
+                </p>
+
+                <p>
+                    Suspended Learners
+                </p>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    
+                </div>
+
+                <p
+                    class="summary-number"
+                    id="totalCount">
+
+                    0
+
+                </p>
+
+                <p>
+                    Total Learners
+                </p>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                
+                </div>
+
+                <p
+                    class="summary-number"
+                    id="paidCount">
+
+                    0
+
+                </p>
+
+                <p>
+                    Paid Learners
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="search-box">
+
+        <h3>
+            Search Learners
+        </h3>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by name or email..."
+            oninput="filterLearners()">
+
+    </section>
+
+
+
+    <!-- =================================================
+         TABLE
+    ================================================== -->
+
+    <section class="table-section">
+
+        <h2>
+            Learner Accounts
+        </h2>
+
+
+        <div
+            id="loading"
+            class="loading">
+
+            Loading learners...
+
+        </div>
+
+
+        <table
+            id="learnerTable"
+            class="suspension-table"
+            style="display:none;">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Grade
+                    </th>
+
+                    <th>
+                        Payment Status
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="learnerTableBody">
+
+            </tbody>
+
+        </table>
+
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h3>
+                No learners found
+            </h3>
+
+            <p>
+                No learners match your search.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="./admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let allLearners = [];
+
+
+
+/* =====================================================
+   CHECK ADMIN LOGIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "./admin-login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+
+/* =====================================================
+   GET NAME
+===================================================== */
+
+function getName(
+    learner
+) {
+
+    return (
+        learner.full_name ||
+        learner.name ||
+        (
+            (learner.first_name || "") +
+            " " +
+            (learner.last_name || "")
+        ).trim() ||
+        "Unknown"
+    );
+
+}
+
+
+
+/* =====================================================
+   GET GRADE
+===================================================== */
+
+function getGrade(
+    learner
+) {
+
+    return (
+        learner.grade ||
+        learner.grade_level ||
+        learner.gradeLevel ||
+        "-"
+    );
+
+}
+
+
+
+/* =====================================================
+   GET PAYMENT STATUS
+===================================================== */
+
+function getPaymentStatus(
+    learner
+) {
+
+    return String(
+        learner.payment_status ||
+        "pending"
+    ).toLowerCase();
+
+}
+
+
+
+/* =====================================================
+   CHECK SUSPENDED
+===================================================== */
+
+function isSuspended(
+    learner
+) {
+
+    return (
+        getPaymentStatus(
+            learner
+        ) === "suspended"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOAD LEARNERS
+===================================================== */
+
+async function loadLearners() {
+
+    hideMessages();
+
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "block";
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("learners")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        error
+    ) {
+
+        console.error(
+            error
+        );
+
+
+        showError(
+            "Failed to load learners: " +
+            error.message
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    allLearners =
+        data || [];
+
+
+    updateSummary();
+
+
+    displayLearners(
+        allLearners
+    );
+
+}
+
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+function updateSummary() {
+
+    const suspended =
+        allLearners.filter(
+            learner =>
+                isSuspended(
+                    learner
+                )
+        ).length;
+
+
+    const paid =
+        allLearners.filter(
+            learner =>
+                getPaymentStatus(
+                    learner
+                ) === "paid"
+        ).length;
+
+
+    document.getElementById(
+        "suspendedCount"
+    ).innerText =
+        suspended;
+
+
+    document.getElementById(
+        "totalCount"
+    ).innerText =
+        allLearners.length;
+
+
+    document.getElementById(
+        "paidCount"
+    ).innerText =
+        paid;
+
+}
+
+
+
+/* =====================================================
+   DISPLAY
+===================================================== */
+
+function displayLearners(
+    learners
+) {
+
+    const table =
+        document.getElementById(
+            "learnerTable"
+        );
+
+
+    const body =
+        document.getElementById(
+            "learnerTableBody"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "emptyState"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    body.innerHTML = "";
+
+
+    loading.style.display =
+        "none";
+
+
+    if (
+        learners.length === 0
+    ) {
+
+        table.style.display =
+            "none";
+
+
+        empty.style.display =
+            "block";
+
+
+        return;
+
+    }
+
+
+    empty.style.display =
+        "none";
+
+
+    table.style.display =
+        "table";
+
+
+    learners.forEach(
+        learner => {
+
+
+            const name =
+                getName(
+                    learner
+                );
+
+
+            const email =
+                learner.email ||
+                "-";
+
+
+            const grade =
+                getGrade(
+                    learner
+                );
+
+
+            const payment =
+                getPaymentStatus(
+                    learner
+                );
+
+
+            const suspended =
+                isSuspended(
+                    learner
+                );
+
+
+            let badgeClass =
+                "status-pending";
+
+
+            if (
+                payment === "paid"
+            ) {
+
+                badgeClass =
+                    "status-paid";
+
+            }
+
+
+            if (
+                payment === "suspended"
+            ) {
+
+                badgeClass =
+                    "status-suspended";
+
+            }
+
+
+            const button =
+                suspended
+
+                ?
+
+                `
+                <button
+                    class="action-button reactivate-button"
+                    onclick="reactivateLearner('${learner.id}')">
+
+                    🔓 Reactivate
+
+                </button>
+                `
+
+                :
+
+                `
+                <button
+                    class="action-button suspend-button"
+                    onclick="suspendLearner('${learner.id}')">
+
+                    🔒 Suspend
+
+                </button>
+                `;
+
+
+
+            body.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHTML(name)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(email)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(grade)}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status-badge ${badgeClass}">
+
+                            ${escapeHTML(payment)}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${button}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function filterLearners() {
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        allLearners.filter(
+            learner => {
+
+
+                const name =
+                    getName(
+                        learner
+                    )
+                    .toLowerCase();
+
+
+                const email =
+                    String(
+                        learner.email || ""
+                    )
+                    .toLowerCase();
+
+
+                return (
+                    name.includes(search) ||
+                    email.includes(search)
+                );
+
+            }
+        );
+
+
+    displayLearners(
+        filtered
+    );
+
+}
+
+
+
+/* =====================================================
+   SUSPEND
+===================================================== */
+
+async function suspendLearner(
+    learnerId
+) {
+
+    const confirmed =
+        confirm(
+            "Suspend this learner?"
+        );
+
+
+    if (
+        !confirmed
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("learners")
+                .update({
+                    payment_status: "suspended"
+                })
+                .eq(
+                    "id",
+                    learnerId
+                );
+
+
+        if (
+            error
+        ) {
+
+            throw error;
+
+        }
+
+
+        showSuccess(
+            "Learner suspended successfully."
+        );
+
+
+        await loadLearners();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "SUSPEND ERROR:",
+            error
+        );
+
+
+        showError(
+            "Failed to suspend learner: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   REACTIVATE
+===================================================== */
+
+async function reactivateLearner(
+    learnerId
+) {
+
+    const confirmed =
+        confirm(
+            "Reactivate this learner?"
+        );
+
+
+    if (
+        !confirmed
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("learners")
+                .update({
+                    payment_status: "paid"
+                })
+                .eq(
+                    "id",
+                    learnerId
+                );
+
+
+        if (
+            error
+        ) {
+
+            throw error;
+
+        }
+
+
+        showSuccess(
+            "Learner reactivated successfully."
+        );
+
+
+        await loadLearners();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "REACTIVATE ERROR:",
+            error
+        );
+
+
+        showError(
+            "Failed to reactivate learner: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SUCCESS
+===================================================== */
+
+function showSuccess(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "successMessage"
+        );
+
+
+    box.innerText =
+        " " + message;
+
+
+    box.style.display =
+        "block";
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+
+
+    setTimeout(
+        () => {
+
+            box.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    box.innerText =
+        " " + message;
+
+
+    box.style.display =
+        "block";
+
+}
+
+
+
+/* =====================================================
+   HIDE MESSAGES
+===================================================== */
+
+function hideMessages() {
+
+    document.getElementById(
+        "successMessage"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "./admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const allowed =
+        await checkAdmin();
+
+
+    if (
+        allowed
+    ) {
+
+        await loadLearners();
+
+    }
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>
+```

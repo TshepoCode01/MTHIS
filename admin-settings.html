@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Website Settings</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+    <style>
+
+        .settings-card {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .settings-group {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-group:last-child {
+            border-bottom: none;
+        }
+
+        .settings-group h3 {
+            margin-bottom: 18px;
+        }
+
+        .settings-form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .settings-form input,
+        .settings-form textarea,
+        .settings-form select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        .settings-form textarea {
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+
+        .settings-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .status-message {
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         PAGE INTRO
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+
+        <h1>
+            Website Settings
+        </h1>
+
+
+        <p>
+            Manage the information and pricing used
+            throughout MTHIS Tutorials.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SETTINGS
+    ================================================== -->
+
+    <section>
+
+        <div class="auth-card settings-card">
+
+            <form
+                id="settingsForm"
+                class="settings-form"
+                onsubmit="saveSettings(event)">
+
+
+                <!-- =====================================
+                     WEBSITE INFORMATION
+                ====================================== -->
+
+                <div class="settings-group">
+
+                    <h3>
+                         Website Information
+                    </h3>
+
+
+                    <label for="siteName">
+                        Tutorial Centre Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="siteName"
+                        placeholder="MTHIS Tutorials"
+                        required>
+
+
+                    <label for="contactEmail">
+                        Contact Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        placeholder="example@email.com">
+
+
+                    <label for="contactPhone">
+                        Contact Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contactPhone"
+                        placeholder="Example: 071 234 5678">
+
+
+                    <label for="announcement">
+                        Website Announcement
+                    </label>
+
+                    <textarea
+                        id="announcement"
+                        rows="4"
+                        placeholder="Enter an important announcement..."></textarea>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     GRADES
+                ====================================== -->
+
+                <div class="settings-group">
+
+                    <h3>
+                         Available Grades
+                    </h3>
+
+
+                    <div class="checkbox-group">
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                id="grade11">
+
+                            Grade 11
+
+                        </label>
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                id="grade12">
+
+                            Grade 12
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     SUBJECTS
+                ====================================== -->
+
+                <div class="settings-group">
+
+                    <h3>
+                        Available Subjects
+                    </h3>
+
+
+                    <div class="checkbox-group">
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                id="mathematics">
+
+                            Mathematics
+
+                        </label>
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                id="physicalScience">
+
+                            Physical Science
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     PRICING
+                ====================================== -->
+
+                <div class="settings-group">
+
+                    <h3>
+                         Session Pricing
+                    </h3>
+
+
+                    <label for="groupPrice">
+                        Group Session Price (R)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="groupPrice"
+                        min="0"
+                        step="0.01"
+                        placeholder="200">
+
+
+                    <label for="oneOnOnePrice">
+                        1-on-1 Weekly Session Price (R)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="oneOnOnePrice"
+                        min="0"
+                        step="0.01"
+                        placeholder="250">
+
+                </div>
+
+
+
+                <!-- =====================================
+                     SAVE
+                ====================================== -->
+
+                <div class="settings-actions">
+
+                    <button
+                        type="submit"
+                        id="saveButton"
+                        class="dashboard-button">
+
+                        Save Settings
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="dashboard-button"
+                        onclick="loadSettings()">
+
+                        Reload
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="statusMessage"
+                class="status-message">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+
+    }
+
+
+    return user;
+
+}
+
+
+
+/* =====================================================
+   LOAD SETTINGS
+===================================================== */
+
+async function loadSettings() {
+
+    const message =
+        document.getElementById(
+            "statusMessage"
+        );
+
+
+    message.innerHTML = `
+
+        <div class="loading-box">
+
+            Loading settings...
+
+        </div>
+
+    `;
+
+
+    try {
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("website_settings")
+                .select("*")
+                .limit(1)
+                .maybeSingle();
+
+
+        if (
+            error
+        ) {
+
+            throw error;
+
+        }
+
+
+        if (
+            data
+        ) {
+
+            document.getElementById(
+                "siteName"
+            ).value =
+                data.site_name ||
+                "MTHIS Tutorials";
+
+
+            document.getElementById(
+                "contactEmail"
+            ).value =
+                data.contact_email ||
+                "";
+
+
+            document.getElementById(
+                "contactPhone"
+            ).value =
+                data.contact_phone ||
+                "";
+
+
+            document.getElementById(
+                "announcement"
+            ).value =
+                data.announcement ||
+                "";
+
+
+            document.getElementById(
+                "grade11"
+            ).checked =
+                data.grade11 !== false;
+
+
+            document.getElementById(
+                "grade12"
+            ).checked =
+                data.grade12 !== false;
+
+
+            document.getElementById(
+                "mathematics"
+            ).checked =
+                data.mathematics !== false;
+
+
+            document.getElementById(
+                "physicalScience"
+            ).checked =
+                data.physical_science !== false;
+
+
+            document.getElementById(
+                "groupPrice"
+            ).value =
+                data.group_price ??
+                200;
+
+
+            document.getElementById(
+                "oneOnOnePrice"
+            ).value =
+                data.one_on_one_price ??
+                250;
+
+        }
+
+
+        else {
+
+            setDefaultSettings();
+
+        }
+
+
+        message.innerHTML = "";
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "SETTINGS LOAD ERROR:",
+            error
+        );
+
+
+        /*
+           If the settings table has not been
+           created yet, load default values.
+        */
+
+        setDefaultSettings();
+
+
+        message.innerHTML = `
+
+            <div class="loading-box">
+
+                Default settings loaded.
+                Save the settings after creating
+                the database table.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DEFAULT SETTINGS
+===================================================== */
+
+function setDefaultSettings() {
+
+    document.getElementById(
+        "siteName"
+    ).value =
+        "MTHIS Tutorials";
+
+
+    document.getElementById(
+        "contactEmail"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "contactPhone"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "announcement"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "grade11"
+    ).checked =
+        true;
+
+
+    document.getElementById(
+        "grade12"
+    ).checked =
+        true;
+
+
+    document.getElementById(
+        "mathematics"
+    ).checked =
+        true;
+
+
+    document.getElementById(
+        "physicalScience"
+    ).checked =
+        true;
+
+
+    document.getElementById(
+        "groupPrice"
+    ).value =
+        200;
+
+
+    document.getElementById(
+        "oneOnOnePrice"
+    ).value =
+        250;
+
+}
+
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+async function saveSettings(
+    event
+) {
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "saveButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "statusMessage"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "⏳ Saving...";
+
+
+    try {
+
+
+        const user =
+            await checkAdmin();
+
+
+        if (
+            !user
+        ) {
+
+            return;
+
+        }
+
+
+
+        const settings = {
+
+            site_name:
+                document.getElementById(
+                    "siteName"
+                ).value.trim(),
+
+            contact_email:
+                document.getElementById(
+                    "contactEmail"
+                ).value.trim(),
+
+            contact_phone:
+                document.getElementById(
+                    "contactPhone"
+                ).value.trim(),
+
+            announcement:
+                document.getElementById(
+                    "announcement"
+                ).value.trim(),
+
+            grade11:
+                document.getElementById(
+                    "grade11"
+                ).checked,
+
+            grade12:
+                document.getElementById(
+                    "grade12"
+                ).checked,
+
+            mathematics:
+                document.getElementById(
+                    "mathematics"
+                ).checked,
+
+            physical_science:
+                document.getElementById(
+                    "physicalScience"
+                ).checked,
+
+            group_price:
+                Number(
+                    document.getElementById(
+                        "groupPrice"
+                    ).value
+                ) || 0,
+
+            one_on_one_price:
+                Number(
+                    document.getElementById(
+                        "oneOnOnePrice"
+                    ).value
+                ) || 0
+
+        };
+
+
+
+        /* =============================================
+           CHECK EXISTING SETTINGS
+        ============================================= */
+
+        const {
+            data: existing,
+            error: findError
+        } =
+            await supabaseClient
+                .from("website_settings")
+                .select("id")
+                .limit(1)
+                .maybeSingle();
+
+
+        if (
+            findError
+        ) {
+
+            throw findError;
+
+        }
+
+
+
+        /* =============================================
+           UPDATE
+        ============================================= */
+
+        if (
+            existing
+        ) {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from(
+                        "website_settings"
+                    )
+                    .update(
+                        settings
+                    )
+                    .eq(
+                        "id",
+                        existing.id
+                    );
+
+
+            if (
+                error
+            ) {
+
+                throw error;
+
+            }
+
+        }
+
+
+
+        /* =============================================
+           INSERT
+        ============================================= */
+
+        else {
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from(
+                        "website_settings"
+                    )
+                    .insert(
+                        settings
+                    );
+
+
+            if (
+                error
+            ) {
+
+                throw error;
+
+            }
+
+        }
+
+
+
+        message.innerHTML = `
+
+            <div class="success-box">
+
+                Website settings saved successfully.
+
+            </div>
+
+        `;
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "SETTINGS SAVE ERROR:",
+            error
+        );
+
+
+        message.innerHTML = `
+
+            <div class="error-box">
+
+                Failed to save settings.
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+
+    finally {
+
+        button.disabled = false;
+
+        button.innerText =
+            " Save Settings";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const user =
+        await checkAdmin();
+
+
+    if (
+        user
+    ) {
+
+        await loadSettings();
+
+    }
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>

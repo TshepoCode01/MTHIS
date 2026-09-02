@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Attendance</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1>
+            Manage Attendance
+        </h1>
+
+        <p>
+            Record and manage learner attendance
+            for MTHIS Tutorials classes.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SELECT CLASS
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                ATTENDANCE
+            </p>
+
+            <h2>
+                Select Class
+            </h2>
+
+        </div>
+
+
+        <div class="auth-card">
+
+
+            <label for="classDate">
+                Class Date
+            </label>
+
+
+            <input
+                type="date"
+                id="classDate"
+                required>
+
+
+
+            <label for="classSubject">
+                Subject
+            </label>
+
+
+            <select
+                id="classSubject">
+
+                <option value="">
+                    Select Subject
+                </option>
+
+                <option value="Mathematics">
+                    Mathematics
+                </option>
+
+                <option value="Physical Science">
+                    Physical Science
+                </option>
+
+            </select>
+
+
+
+            <label for="classGrade">
+                Grade
+            </label>
+
+
+            <select
+                id="classGrade">
+
+                <option value="">
+                    Select Grade
+                </option>
+
+                <option value="Grade 11">
+                    Grade 11
+                </option>
+
+                <option value="Grade 12">
+                    Grade 12
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                onclick="loadLearners()">
+
+                🔄 Load Learners
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LEARNERS
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                LEARNERS
+            </p>
+
+            <h2>
+                Class Attendance
+            </h2>
+
+            <p id="learnerCount">
+                Select a class to load learners.
+            </p>
+
+        </div>
+
+
+        <div
+            id="learnersList"
+            class="dashboard-grid">
+
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    👨‍🎓
+                </div>
+
+                <h3>
+                    No Class Selected
+                </h3>
+
+                <p>
+                    Select the date, grade and subject
+                    above, then click Load Learners.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SAVE ATTENDANCE
+    ================================================== -->
+
+    <section
+        class="support-section"
+        id="saveSection"
+        style="display:none;">
+
+
+        <button
+            type="button"
+            class="dashboard-button"
+            onclick="saveAttendance()">
+
+            ✅ Save Attendance
+
+        </button>
+
+
+        <div
+            id="attendanceMessage">
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let learners = [];
+
+let attendanceRecords = [];
+
+
+
+/* =====================================================
+   CHECK ADMIN LOGIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+
+    }
+
+
+    return user;
+
+}
+
+
+
+/* =====================================================
+   LOAD LEARNERS
+===================================================== */
+
+async function loadLearners() {
+
+    const date =
+        document.getElementById(
+            "classDate"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "classSubject"
+        ).value;
+
+
+    const grade =
+        document.getElementById(
+            "classGrade"
+        ).value;
+
+
+    const list =
+        document.getElementById(
+            "learnersList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "learnerCount"
+        );
+
+
+    const saveSection =
+        document.getElementById(
+            "saveSection"
+        );
+
+
+    if (
+        !date ||
+        !subject ||
+        !grade
+    ) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Complete All Fields
+                </h3>
+
+                <p>
+                    Select the date, subject and grade.
+                </p>
+
+            </div>
+
+        `;
+
+        saveSection.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+
+    list.innerHTML = `
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Loading Learners
+            </h3>
+
+            <p>
+                Please wait...
+            </p>
+
+        </div>
+
+    `;
+
+
+
+    try {
+
+
+        /* =============================================
+           GET LEARNERS
+        ============================================== */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("learners")
+                .select("*")
+                .eq(
+                    "grade",
+                    grade
+                );
+
+
+        if (
+            error
+        ) {
+
+            throw error;
+
+        }
+
+
+        learners =
+            data || [];
+
+
+
+        /* =============================================
+           FILTER SUBJECT
+        ============================================== */
+
+        learners =
+            learners.filter(
+                learner => {
+
+                    if (
+                        learner.subject ===
+                        "Both"
+                    ) {
+
+                        return true;
+
+                    }
+
+
+                    return (
+                        learner.subject ===
+                        subject
+                    );
+
+                }
+            );
+
+
+
+        count.innerText =
+            learners.length +
+            (
+                learners.length === 1
+                    ? " learner found."
+                    : " learners found."
+            );
+
+
+
+        /* =============================================
+           LOAD EXISTING ATTENDANCE
+        ============================================== */
+
+        const {
+            data:
+            existingAttendance,
+            error:
+            attendanceError
+        } =
+            await supabaseClient
+                .from("attendance")
+                .select("*")
+                .eq(
+                    "attendance_date",
+                    date
+                )
+                .eq(
+                    "subject",
+                    subject
+                )
+                .eq(
+                    "grade",
+                    grade
+                );
+
+
+        if (
+            attendanceError
+        ) {
+
+            console.warn(
+                "Previous attendance could not be loaded:",
+                attendanceError
+            );
+
+            attendanceRecords = [];
+
+        }
+
+        else {
+
+            attendanceRecords =
+                existingAttendance || [];
+
+        }
+
+
+
+        displayLearners();
+
+
+        saveSection.style.display =
+            "block";
+
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "LOAD LEARNERS ERROR:",
+            error
+        );
+
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ❌
+                </div>
+
+                <h3>
+                    Unable to Load Learners
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+        saveSection.style.display =
+            "none";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISPLAY LEARNERS
+===================================================== */
+
+function displayLearners() {
+
+    const list =
+        document.getElementById(
+            "learnersList"
+        );
+
+
+    if (
+        learners.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    
+                </div>
+
+                <h3>
+                    No Learners Found
+                </h3>
+
+                <p>
+                    There are no learners registered
+                    for this grade and subject.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    list.innerHTML = "";
+
+
+
+    learners.forEach(
+        learner => {
+
+
+            const existing =
+                attendanceRecords.find(
+                    record =>
+                        record.learner_id ===
+                        learner.id
+                );
+
+
+            const status =
+                existing
+                    ? existing.status
+                    : "Present";
+
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "dashboard-card";
+
+
+
+            card.innerHTML = `
+
+                <div class="card-icon">
+                    👨‍🎓
+                </div>
+
+
+                <h3>
+
+                    ${escapeHTML(
+                        (learner.name || "") +
+                        " " +
+                        (learner.surname || "")
+                    )}
+
+                </h3>
+
+
+                <p>
+
+                    ${escapeHTML(
+                        learner.email || ""
+                    )}
+
+                </p>
+
+
+                <div class="schedule-info">
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Grade
+                        </strong>
+
+                        <span>
+
+                            ${escapeHTML(
+                                learner.grade || ""
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Subject
+                        </strong>
+
+                        <span>
+
+                            ${escapeHTML(
+                                learner.subject || ""
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ATTENDANCE STATUS -->
+
+                <div
+                    style="
+                        margin-top:20px;
+                        padding-top:15px;
+                        border-top:1px solid #ddd;
+                    ">
+
+
+                    <label
+                        for="attendance-${escapeHTML(
+                            learner.id
+                        )}">
+
+                        <strong>
+                            Attendance Status
+                        </strong>
+
+                    </label>
+
+
+                    <select
+                        id="attendance-${escapeHTML(
+                            learner.id
+                        )}"
+                        class="attendance-status"
+                        data-learner-id="${escapeHTML(
+                            learner.id
+                        )}"
+                        style="
+                            width:100%;
+                            padding:12px;
+                            margin-top:8px;
+                            border-radius:8px;
+                            cursor:pointer;
+                        ">
+
+
+                        <option
+                            value="Present"
+                            ${
+                                status ===
+                                "Present"
+                                    ? "selected"
+                                    : ""
+                            }>
+
+                             Present
+
+                        </option>
+
+
+                        <option
+                            value="Absent"
+                            ${
+                                status ===
+                                "Absent"
+                                    ? "selected"
+                                    : ""
+                            }>
+
+                             Absent
+
+                        </option>
+
+
+                        <option
+                            value="Late"
+                            ${
+                                status ===
+                                "Late"
+                                    ? "selected"
+                                    : ""
+                            }>
+
+                             Late
+
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SAVE ATTENDANCE
+===================================================== */
+
+async function saveAttendance() {
+
+    const date =
+        document.getElementById(
+            "classDate"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "classSubject"
+        ).value;
+
+
+    const grade =
+        document.getElementById(
+            "classGrade"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "attendanceMessage"
+        );
+
+
+
+    if (
+        !date ||
+        !subject ||
+        !grade
+    ) {
+
+        message.innerHTML = `
+
+            <div class="error-box">
+
+                 Please select the date,
+                subject and grade.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        const user =
+            await checkAdmin();
+
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+
+        message.innerHTML = `
+
+            <div class="loading-box">
+
+                 Saving attendance...
+
+            </div>
+
+        `;
+
+
+
+        const selects =
+            document.querySelectorAll(
+                ".attendance-status"
+            );
+
+
+        let saved = 0;
+
+        let failed = 0;
+
+
+
+        for (
+            const select of selects
+        ) {
+
+
+            const learnerId =
+                select.dataset.learnerId;
+
+
+            const status =
+                select.value;
+
+
+
+            /* =========================================
+               FIND EXISTING RECORD
+            ========================================== */
+
+            const {
+                data:
+                existing,
+                error:
+                findError
+            } =
+                await supabaseClient
+                    .from("attendance")
+                    .select("id")
+                    .eq(
+                        "learner_id",
+                        learnerId
+                    )
+                    .eq(
+                        "attendance_date",
+                        date
+                    )
+                    .eq(
+                        "subject",
+                        subject
+                    )
+                    .eq(
+                        "grade",
+                        grade
+                    )
+                    .maybeSingle();
+
+
+
+            if (
+                findError &&
+                findError.code !==
+                "PGRST116"
+            ) {
+
+                console.error(
+                    "Find attendance error:",
+                    findError
+                );
+
+                failed++;
+
+                continue;
+
+            }
+
+
+
+            /* =========================================
+               UPDATE EXISTING
+            ========================================== */
+
+            if (
+                existing
+            ) {
+
+
+                const {
+                    error:
+                    updateError
+                } =
+                    await supabaseClient
+                        .from("attendance")
+                        .update({
+
+                            status:
+                                status
+
+                        })
+                        .eq(
+                            "id",
+                            existing.id
+                        );
+
+
+                if (
+                    updateError
+                ) {
+
+                    console.error(
+                        "Update error:",
+                        updateError
+                    );
+
+                    failed++;
+
+                }
+
+                else {
+
+                    saved++;
+
+                }
+
+
+                continue;
+
+            }
+
+
+
+            /* =========================================
+               INSERT NEW
+            ========================================== */
+
+            const {
+                error:
+                insertError
+            } =
+                await supabaseClient
+                    .from("attendance")
+                    .insert({
+
+                        learner_id:
+                            learnerId,
+
+                        attendance_date:
+                            date,
+
+                        subject:
+                            subject,
+
+                        grade:
+                            grade,
+
+                        status:
+                            status
+
+                    });
+
+
+
+            if (
+                insertError
+            ) {
+
+                console.error(
+                    "Insert attendance error:",
+                    insertError
+                );
+
+                failed++;
+
+            }
+
+            else {
+
+                saved++;
+
+            }
+
+        }
+
+
+
+        /* =============================================
+           RESULT
+        ============================================== */
+
+        if (
+            failed === 0
+        ) {
+
+            message.innerHTML = `
+
+                <div class="success-box">
+
+                     Attendance saved successfully.
+
+                    <br><br>
+
+                    ${saved}
+                    learner(s) updated.
+
+                </div>
+
+            `;
+
+        }
+
+        else {
+
+            message.innerHTML = `
+
+                <div class="error-box">
+
+                    ⚠️
+                    ${saved}
+                    learner(s) saved.
+
+                    <br><br>
+
+                    ❌
+                    ${failed}
+                    learner(s) failed.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "SAVE ATTENDANCE ERROR:",
+            error
+        );
+
+
+        message.innerHTML = `
+
+            <div class="error-box">
+
+                 Failed to save attendance:
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const user =
+        await checkAdmin();
+
+
+    if (
+        !user
+    ) {
+
+        return;
+
+    }
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>

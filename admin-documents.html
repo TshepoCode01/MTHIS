@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Manage Documents</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1>
+            Manage Documents
+        </h1>
+
+        <p>
+            Upload and manage learning material
+            for MTHIS Tutorials learners.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         UPLOAD SECTION
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                UPLOAD
+            </p>
+
+            <h2>
+                Upload Learning Documents
+            </h2>
+
+            <p>
+                Upload one or multiple learning documents.
+            </p>
+
+        </div>
+
+
+        <div class="auth-card admin-upload-card">
+
+            <form
+                id="uploadForm"
+                onsubmit="uploadDocuments(event)">
+
+
+                <!-- TITLE -->
+
+                <label for="title">
+                    Document Title
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Example: Mathematics Paper 1 2025"
+                    required>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="Enter a short description"
+                    rows="4"></textarea>
+
+
+
+                <!-- GRADE -->
+
+                <label for="grade">
+                    Grade
+                </label>
+
+                <select
+                    id="grade"
+                    required>
+
+                    <option value="">
+                        Select Grade
+                    </option>
+
+                    <option value="Grade 11">
+                        Grade 11
+                    </option>
+
+                    <option value="Grade 12">
+                        Grade 12
+                    </option>
+
+                </select>
+
+
+
+                <!-- SUBJECT -->
+
+                <label for="subject">
+                    Subject
+                </label>
+
+                <select
+                    id="subject"
+                    required>
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                    <option value="Mathematics">
+                        Mathematics
+                    </option>
+
+                    <option value="Physical Science">
+                        Physical Science
+                    </option>
+
+                </select>
+
+
+
+                <!-- FILE -->
+
+                <label for="documentFiles">
+                    Select Documents
+                </label>
+
+                <input
+                    type="file"
+                    id="documentFiles"
+                    accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
+                    multiple
+                    required>
+
+                <small>
+                    You can select multiple files at once.
+                </small>
+
+
+
+                <!-- SELECTED FILES -->
+
+                <div
+                    id="selectedFiles"
+                    class="selected-files">
+                </div>
+
+
+
+                <!-- UPLOAD -->
+
+                <button
+                    type="submit"
+                    id="uploadButton">
+
+                    Upload Documents
+
+                </button>
+
+
+            </form>
+
+
+            <div id="uploadMessage"></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         DOCUMENT LIBRARY
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                DOCUMENT LIBRARY
+            </p>
+
+            <h2>
+                Uploaded Documents
+            </h2>
+
+            <p id="documentCount">
+                Loading documents...
+            </p>
+
+        </div>
+
+
+
+        <!-- FILTERS -->
+
+        <div class="schedule-filter">
+
+            <select
+                id="adminGradeFilter"
+                onchange="filterAdminDocuments()">
+
+                <option value="All">
+                    All Grades
+                </option>
+
+                <option value="Grade 11">
+                    Grade 11
+                </option>
+
+                <option value="Grade 12">
+                    Grade 12
+                </option>
+
+            </select>
+
+
+
+            <select
+                id="adminSubjectFilter"
+                onchange="filterAdminDocuments()">
+
+                <option value="All">
+                    All Subjects
+                </option>
+
+                <option value="Mathematics">
+                    Mathematics
+                </option>
+
+                <option value="Physical Science">
+                    Physical Science
+                </option>
+
+            </select>
+
+
+
+            <button
+                type="button"
+                onclick="loadAdminDocuments()">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+
+
+        <!-- DOCUMENT LIST -->
+
+        <div
+            id="adminDocumentsList"
+            class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ...
+                </div>
+
+                <h3>
+                    Loading Documents
+                </h3>
+
+                <p>
+                    Please wait...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="admin.html"
+            class="dashboard-button">
+
+            Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     POPUP
+===================================================== -->
+
+<div
+    id="popup"
+    class="popup">
+
+    <div class="popup-box">
+
+        <button
+            class="popup-close"
+            onclick="closePopup()">
+
+            ×
+
+        </button>
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <p id="popupMessage"></p>
+
+        <button
+            type="button"
+            onclick="closePopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const DOCUMENT_BUCKET =
+    "documents";
+
+
+const ADMIN_EMAIL =
+    "mthimunyenkosinathi504@gmail.com";
+
+
+let allAdminDocuments = [];
+
+
+
+/* =====================================================
+   CHECK LOGGED-IN USER
+===================================================== */
+
+async function getCurrentUser() {
+
+    try {
+
+        const result =
+            await supabaseClient
+                .auth
+                .getUser();
+
+        if (result.error) {
+
+            console.error(
+                "AUTH ERROR:",
+                result.error
+            );
+
+            return null;
+
+        }
+
+        return result.data.user || null;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "AUTH EXCEPTION:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const user =
+        await getCurrentUser();
+
+
+    if (!user) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+
+    }
+
+
+    console.log(
+        "Logged in user:",
+        user.email
+    );
+
+
+    /*
+       ONLY THIS EMAIL IS ADMIN
+    */
+
+    if (
+        user.email.toLowerCase() !==
+        ADMIN_EMAIL.toLowerCase()
+    ) {
+
+        alert(
+            "You are not authorized to access the administrator portal."
+        );
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+
+    }
+
+
+    return user;
+
+}
+
+
+
+/* =====================================================
+   SHOW SELECTED FILES
+===================================================== */
+
+document
+    .getElementById("documentFiles")
+    .addEventListener(
+        "change",
+        showSelectedFiles
+    );
+
+
+
+function showSelectedFiles() {
+
+    const input =
+        document.getElementById(
+            "documentFiles"
+        );
+
+
+    const container =
+        document.getElementById(
+            "selectedFiles"
+        );
+
+
+    const files =
+        Array.from(
+            input.files
+        );
+
+
+    if (files.length === 0) {
+
+        container.innerHTML = "";
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="selected-files-box">
+
+            <strong>
+                ${files.length} file(s) selected
+            </strong>
+
+            <ul>
+
+                ${files.map(
+                    file => `
+
+                    <li>
+                        ${escapeHTML(file.name)}
+                        —
+                        ${formatFileSize(file.size)}
+                    </li>
+
+                `
+                ).join("")}
+
+            </ul>
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   UPLOAD DOCUMENTS
+===================================================== */
+
+async function uploadDocuments(event) {
+
+    event.preventDefault();
+
+
+    const title =
+        document
+            .getElementById("title")
+            .value
+            .trim();
+
+
+    const description =
+        document
+            .getElementById("description")
+            .value
+            .trim();
+
+
+    const grade =
+        document
+            .getElementById("grade")
+            .value;
+
+
+    const subject =
+        document
+            .getElementById("subject")
+            .value;
+
+
+    const fileInput =
+        document.getElementById(
+            "documentFiles"
+        );
+
+
+    const files =
+        Array.from(
+            fileInput.files
+        );
+
+
+    const button =
+        document.getElementById(
+            "uploadButton"
+        );
+
+
+    const message =
+        document.getElementById(
+            "uploadMessage"
+        );
+
+
+    if (!files.length) {
+
+        message.innerHTML = `
+
+            <div class="error-box">
+
+                Please select at least one document.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+       CHECK ADMIN
+    */
+
+    const user =
+        await checkAdmin();
+
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Uploading...";
+
+
+    message.innerHTML = `
+
+        <div class="loading-box">
+
+            Uploading ${files.length}
+            document(s)...
+
+        </div>
+
+    `;
+
+
+    let successful = 0;
+
+    let failed = 0;
+
+    const failedFiles = [];
+
+
+
+    try {
+
+
+        for (
+            const file of files
+        ) {
+
+
+            try {
+
+
+                /*
+                   CLEAN FILE NAME
+                */
+
+                const cleanFileName =
+                    file.name.replace(
+                        /[^a-zA-Z0-9._-]/g,
+                        "_"
+                    );
+
+
+                /*
+                   UNIQUE STORAGE PATH
+                */
+
+                const timestamp =
+                    Date.now();
+
+
+                const random =
+                    Math.floor(
+                        Math.random() * 1000000
+                    );
+
+
+                const filePath =
+                    `${grade}/${subject}/${timestamp}_${random}_${cleanFileName}`;
+
+
+                console.log(
+                    "Uploading:",
+                    filePath
+                );
+
+
+
+                /*
+                   STORAGE UPLOAD
+                */
+
+                const uploadResult =
+                    await supabaseClient
+                        .storage
+                        .from(
+                            DOCUMENT_BUCKET
+                        )
+                        .upload(
+                            filePath,
+                            file,
+                            {
+                                cacheControl:
+                                    "3600",
+                                upsert:
+                                    false
+                            }
+                        );
+
+
+                if (
+                    uploadResult.error
+                ) {
+
+                    throw new Error(
+                        "Storage upload failed: " +
+                        uploadResult.error.message
+                    );
+
+                }
+
+
+
+                /*
+                   GET PUBLIC URL
+                */
+
+                const publicResult =
+                    supabaseClient
+                        .storage
+                        .from(
+                            DOCUMENT_BUCKET
+                        )
+                        .getPublicUrl(
+                            filePath
+                        );
+
+
+                const publicUrl =
+                    publicResult
+                        .data
+                        .publicUrl;
+
+
+                if (!publicUrl) {
+
+                    throw new Error(
+                        "Could not create document URL."
+                    );
+
+                }
+
+
+
+                /*
+                   IMPORTANT:
+                   YOUR DATABASE HAS ONLY 7 COLUMNS.
+
+                   Therefore we ONLY insert:
+
+                   title
+                   subject
+                   grade
+                   file_url
+                   description
+                */
+
+                const databaseResult =
+                    await supabaseClient
+                        .from(
+                            "documents"
+                        )
+                        .insert({
+
+                            title:
+                                title,
+
+                            subject:
+                                subject,
+
+                            grade:
+                                grade,
+
+                            file_url:
+                                publicUrl,
+
+                            description:
+                                description
+
+                        });
+
+
+                if (
+                    databaseResult.error
+                ) {
+
+
+                    /*
+                       DATABASE INSERT FAILED.
+
+                       REMOVE THE FILE FROM STORAGE.
+                    */
+
+                    await supabaseClient
+                        .storage
+                        .from(
+                            DOCUMENT_BUCKET
+                        )
+                        .remove([
+                            filePath
+                        ]);
+
+
+                    throw new Error(
+                        "Database error: " +
+                        databaseResult.error.message
+                    );
+
+                }
+
+
+                successful++;
+
+            }
+
+
+            catch (fileError) {
+
+                console.error(
+                    "FAILED FILE:",
+                    file.name,
+                    fileError
+                );
+
+
+                failed++;
+
+
+                failedFiles.push(
+                    file.name +
+                    " — " +
+                    fileError.message
+                );
+
+            }
+
+        }
+
+
+
+        /*
+           SHOW RESULT
+        */
+
+        let resultHTML = "";
+
+
+        if (successful > 0) {
+
+            resultHTML += `
+
+                <div class="success-box">
+
+                    ${successful}
+                    document(s) uploaded successfully.
+
+                </div>
+
+            `;
+
+        }
+
+
+        if (failed > 0) {
+
+            resultHTML += `
+
+                <div class="error-box">
+
+                    ${failed}
+                    document(s) failed.
+
+                    <br><br>
+
+                    <strong>
+                        Failed files:
+                    </strong>
+
+                    <ul>
+
+                        ${failedFiles.map(
+                            name => `
+                                <li>
+                                    ${escapeHTML(name)}
+                                </li>
+                            `
+                        ).join("")}
+
+                    </ul>
+
+                </div>
+
+            `;
+
+        }
+
+
+        message.innerHTML =
+            resultHTML;
+
+
+
+        /*
+           RESET AFTER SUCCESS
+        */
+
+        if (successful > 0) {
+
+            document
+                .getElementById(
+                    "uploadForm"
+                )
+                .reset();
+
+
+            document
+                .getElementById(
+                    "selectedFiles"
+                )
+                .innerHTML = "";
+
+        }
+
+
+        /*
+           RELOAD
+        */
+
+        await loadAdminDocuments();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "UPLOAD ERROR:",
+            error
+        );
+
+
+        message.innerHTML = `
+
+            <div class="error-box">
+
+                Upload failed:
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+
+    finally {
+
+        button.disabled = false;
+
+        button.innerText =
+            "Upload Documents";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD DOCUMENTS
+===================================================== */
+
+async function loadAdminDocuments() {
+
+    const list =
+        document.getElementById(
+            "adminDocumentsList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "documentCount"
+        );
+
+
+    list.innerHTML = `
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ...
+            </div>
+
+            <h3>
+                Loading Documents
+            </h3>
+
+            <p>
+                Connecting to database...
+            </p>
+
+        </div>
+
+    `;
+
+
+    count.innerText =
+        "Loading documents...";
+
+
+
+    /*
+       CHECK ADMIN FIRST
+    */
+
+    const user =
+        await getCurrentUser();
+
+
+    if (!user) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <h3>
+                    Session Expired
+                </h3>
+
+                <p>
+                    Please log in again.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+       SECURITY CHECK
+    */
+
+    if (
+        user.email.toLowerCase() !==
+        ADMIN_EMAIL.toLowerCase()
+    ) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <h3>
+                    Access Denied
+                </h3>
+
+                <p>
+                    You are not authorized
+                    to manage documents.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        console.log(
+            "Loading documents from Supabase..."
+        );
+
+
+        /*
+           ONLY SELECT COLUMNS THAT ACTUALLY EXIST
+        */
+
+        const query =
+            supabaseClient
+                .from("documents")
+                .select(
+                    "id,title,subject,grade,file_url,created_at,description"
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        /*
+           TIMEOUT PROTECTION
+        */
+
+        const timeout =
+            new Promise(
+                (_, reject) => {
+
+                    setTimeout(
+                        () => {
+
+                            reject(
+                                new Error(
+                                    "Database request timed out after 10 seconds. Check your Supabase RLS SELECT policy."
+                                )
+                            );
+
+                        },
+                        10000
+                    );
+
+                }
+            );
+
+
+        const result =
+            await Promise.race([
+                query,
+                timeout
+            ]);
+
+
+        console.log(
+            "DOCUMENT QUERY RESULT:",
+            result
+        );
+
+
+        if (result.error) {
+
+            throw result.error;
+
+        }
+
+
+        allAdminDocuments =
+            result.data || [];
+
+
+        console.log(
+            "Documents loaded:",
+            allAdminDocuments.length
+        );
+
+
+        filterAdminDocuments();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "LOAD DOCUMENT ERROR:",
+            error
+        );
+
+
+        count.innerText =
+            "Unable to load documents";
+
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    !
+                </div>
+
+                <h3>
+                    Unable to Load Documents
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+                <br>
+
+                <p>
+                    Open the browser console
+                    with F12 for more details.
+                </p>
+
+                <br>
+
+                <button
+                    type="button"
+                    onclick="loadAdminDocuments()">
+
+                    Try Again
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILTER DOCUMENTS
+===================================================== */
+
+function filterAdminDocuments() {
+
+    const grade =
+        document
+            .getElementById(
+                "adminGradeFilter"
+            )
+            .value;
+
+
+    const subject =
+        document
+            .getElementById(
+                "adminSubjectFilter"
+            )
+            .value;
+
+
+    let documents =
+        [...allAdminDocuments];
+
+
+    if (grade !== "All") {
+
+        documents =
+            documents.filter(
+                doc =>
+                    doc.grade === grade
+            );
+
+    }
+
+
+    if (subject !== "All") {
+
+        documents =
+            documents.filter(
+                doc =>
+                    doc.subject === subject
+            );
+
+    }
+
+
+    displayAdminDocuments(
+        documents
+    );
+
+}
+
+
+
+/* =====================================================
+   DISPLAY DOCUMENTS
+===================================================== */
+
+function displayAdminDocuments(
+    documents
+) {
+
+    const list =
+        document.getElementById(
+            "adminDocumentsList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "documentCount"
+        );
+
+
+    count.innerText =
+        documents.length +
+        (
+            documents.length === 1
+                ? " document"
+                : " documents"
+        );
+
+
+
+    if (!documents.length) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    -
+                </div>
+
+                <h3>
+                    No Documents
+                </h3>
+
+                <p>
+                    No documents have been uploaded
+                    or no documents match your filters.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    list.innerHTML = "";
+
+
+
+    documents.forEach(
+        doc => {
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "dashboard-card";
+
+
+            const fileUrl =
+                doc.file_url || "";
+
+
+            const title =
+                doc.title ||
+                "Learning Document";
+
+
+            const description =
+                doc.description ||
+                "No description.";
+
+
+            const grade =
+                doc.grade ||
+                "Not specified";
+
+
+            const subject =
+                doc.subject ||
+                "Not specified";
+
+
+
+            card.innerHTML = `
+
+                <div class="card-icon">
+                    PDF
+                </div>
+
+
+                <h3>
+                    ${escapeHTML(title)}
+                </h3>
+
+
+                <p>
+                    ${escapeHTML(description)}
+                </p>
+
+
+                <div class="schedule-info">
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Grade
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(grade)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Subject
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(subject)}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="document-actions">
+
+
+                    ${
+                        fileUrl
+                        ?
+                        `
+
+                        <a
+                            href="${escapeHTML(fileUrl)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="dashboard-button">
+
+                            View Document
+
+                        </a>
+
+                        `
+                        :
+                        `
+                        <span>
+                            No file available
+                        </span>
+                        `
+                    }
+
+
+                    <button
+                        type="button"
+                        class="delete-button"
+                        onclick="deleteDocument('${escapeJS(doc.id)}')">
+
+                        Delete
+
+                    </button>
+
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   DELETE DOCUMENT
+===================================================== */
+
+async function deleteDocument(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this document?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const user =
+            await checkAdmin();
+
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+
+        /*
+           DELETE DATABASE RECORD
+        */
+
+        const result =
+            await supabaseClient
+                .from("documents")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if (result.error) {
+
+            throw result.error;
+
+        }
+
+
+        showMessage(
+            "Document deleted successfully."
+        );
+
+
+        await loadAdminDocuments();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "DELETE ERROR:",
+            error
+        );
+
+
+        showMessage(
+            "Delete failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showMessage(message) {
+
+    document.getElementById(
+        "popupMessage"
+    ).innerText =
+        message;
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+function escapeJS(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+
+    .replace(
+        /'/g,
+        "\\'"
+    )
+
+    .replace(
+        /"/g,
+        '\\"'
+    );
+
+}
+
+
+
+/* =====================================================
+   FILE SIZE
+===================================================== */
+
+function formatFileSize(bytes) {
+
+    if (!bytes) {
+
+        return "0 Bytes";
+
+    }
+
+
+    const units = [
+        "Bytes",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+
+    const index =
+        Math.floor(
+            Math.log(bytes) /
+            Math.log(1024)
+        );
+
+
+    return (
+        bytes /
+        Math.pow(
+            1024,
+            index
+        )
+    )
+        .toFixed(2)
+        +
+        " " +
+        units[index];
+
+}
+
+
+
+/* =====================================================
+   START PAGE
+===================================================== */
+
+async function startPage() {
+
+    console.log(
+        "MTHIS Admin Documents starting..."
+    );
+
+
+    const user =
+        await checkAdmin();
+
+
+    if (user) {
+
+        console.log(
+            "Admin verified:",
+            user.email
+        );
+
+
+        await loadAdminDocuments();
+
+    }
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>

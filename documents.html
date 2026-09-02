@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Learning Documents</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>MTHIS Tutorials</h2>
+
+        <span>Learner Portal</span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<main class="dashboard">
+
+
+    <!-- INTRO -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            LEARNING MATERIAL
+        </p>
+
+        <h1>
+            My Documents
+        </h1>
+
+        <p>
+            Access notes, worksheets, tests and
+            other learning materials for your subjects.
+        </p>
+
+    </section>
+
+
+
+    <!-- LEARNER INFORMATION -->
+
+    <section class="learner-profile">
+
+        <div class="section-title">
+
+            <p class="small-title">
+                MY ACCOUNT
+            </p>
+
+            <h2>
+                My Learning Details
+            </h2>
+
+        </div>
+
+
+        <div id="learnerInfo"
+             class="profile-info">
+
+            <div class="loading-box">
+                Loading your information...
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- DOCUMENT HEADER -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                AVAILABLE MATERIAL
+            </p>
+
+            <h2>
+                Learning Documents
+            </h2>
+
+            <p id="documentCount">
+                Loading documents...
+            </p>
+
+        </div>
+
+
+        <div class="schedule-filter">
+
+            <select
+                id="subjectFilter"
+                onchange="filterDocuments()">
+
+                <option value="All">
+                    All Subjects
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                onclick="loadDocuments()">
+
+                🔄 Refresh
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- DOCUMENT LIST -->
+
+    <section>
+
+        <div id="documentList"
+             class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading Documents
+                </h3>
+
+                <p>
+                    Please wait while your learning
+                    materials are loaded.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- BACK -->
+
+    <section class="support-section">
+
+        <a href="dashboard.html"
+           class="dashboard-button">
+
+            ← Back to Learner Dashboard
+
+        </a>
+
+    </section>
+
+</main>
+
+
+
+<!-- POPUP -->
+
+<div id="popup"
+     class="popup">
+
+    <div class="popup-box">
+
+        <button
+            class="popup-close"
+            onclick="closePopup()">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+
+        <p id="popupMessage"></p>
+
+
+        <button
+            type="button"
+            onclick="closePopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentLearner = null;
+
+let allDocuments = [];
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startDocumentsPage() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error: authError
+        } =
+            await supabaseClient.auth.getUser();
+
+
+        if (
+            authError ||
+            !user
+        ) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+
+        /* GET LEARNER */
+
+        const {
+            data: learner,
+            error: learnerError
+        } =
+            await supabaseClient
+                .from("learners")
+                .select("*")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+        if (learnerError) {
+
+            throw learnerError;
+
+        }
+
+
+        if (!learner) {
+
+            document.getElementById(
+                "learnerInfo"
+            ).innerHTML = `
+
+                <div class="error-box">
+
+                    ❌ Learner profile
+                    could not be found.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        currentLearner =
+            learner;
+
+
+
+        displayLearner(
+            learner,
+            user
+        );
+
+
+        createSubjectFilter(
+            learner
+        );
+
+
+        await loadDocuments();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "DOCUMENT PAGE ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "documentList"
+        ).innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ❌
+                </div>
+
+                <h3>
+                    Something went wrong
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISPLAY LEARNER
+===================================================== */
+
+function displayLearner(
+    learner,
+    user
+) {
+
+    let subject =
+        learner.subject ||
+        "Not selected";
+
+
+    if (
+        subject === "Both"
+    ) {
+
+        subject =
+            "Mathematics & Physical Science";
+
+    }
+
+
+    document.getElementById(
+        "learnerInfo"
+    ).innerHTML = `
+
+        <div class="profile-row">
+
+            <strong>
+                Learner
+            </strong>
+
+            <span>
+                ${escapeHTML(
+                    learner.name || ""
+                )}
+                ${escapeHTML(
+                    learner.surname || ""
+                )}
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <strong>
+                Grade
+            </strong>
+
+            <span>
+                ${escapeHTML(
+                    learner.grade ||
+                    "Not selected"
+                )}
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <strong>
+                Subjects
+            </strong>
+
+            <span>
+                ${escapeHTML(
+                    subject
+                )}
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <strong>
+                Email
+            </strong>
+
+            <span>
+                ${escapeHTML(
+                    learner.email ||
+                    user.email ||
+                    ""
+                )}
+            </span>
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   SUBJECT FILTER
+===================================================== */
+
+function createSubjectFilter(
+    learner
+) {
+
+    const filter =
+        document.getElementById(
+            "subjectFilter"
+        );
+
+
+    filter.innerHTML = `
+
+        <option value="All">
+            All Subjects
+        </option>
+
+    `;
+
+
+    if (
+        learner.subject === "Both"
+    ) {
+
+        filter.innerHTML += `
+
+            <option value="Mathematics">
+                Mathematics
+            </option>
+
+            <option value="Physical Science">
+                Physical Science
+            </option>
+
+        `;
+
+    }
+
+    else if (
+        learner.subject
+    ) {
+
+        filter.innerHTML += `
+
+            <option value="${escapeHTML(
+                learner.subject
+            )}">
+
+                ${escapeHTML(
+                    learner.subject
+                )}
+
+            </option>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD DOCUMENTS
+===================================================== */
+
+async function loadDocuments() {
+
+    const list =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    list.innerHTML = `
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Loading Documents
+            </h3>
+
+            <p>
+                Please wait...
+            </p>
+
+        </div>
+
+    `;
+
+
+    if (!currentLearner) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            data: documentsData,
+            error
+        } =
+            await supabaseClient
+                .from("documents")
+                .select("*")
+                .eq(
+                    "grade",
+                    currentLearner.grade
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+
+        /* ALLOWED SUBJECTS */
+
+        let allowedSubjects = [];
+
+
+        if (
+            currentLearner.subject === "Both"
+        ) {
+
+            allowedSubjects = [
+
+                "Mathematics",
+
+                "Physical Science"
+
+            ];
+
+        }
+
+        else if (
+            currentLearner.subject
+        ) {
+
+            allowedSubjects = [
+
+                currentLearner.subject
+
+            ];
+
+        }
+
+
+
+        /* FILTER */
+
+        allDocuments =
+            (documentsData || [])
+                .filter(
+                    doc =>
+                        allowedSubjects.includes(
+                            doc.subject
+                        )
+                );
+
+
+        filterDocuments();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "DOCUMENT ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "documentCount"
+        ).innerText =
+            "Unable to load documents.";
+
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ❌
+                </div>
+
+                <h3>
+                    Unable to Load Documents
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILTER DOCUMENTS
+===================================================== */
+
+function filterDocuments() {
+
+    const filter =
+        document.getElementById(
+            "subjectFilter"
+        );
+
+
+    const selected =
+        filter.value;
+
+
+    let documents =
+        allDocuments;
+
+
+    if (
+        selected !== "All"
+    ) {
+
+        documents =
+            allDocuments.filter(
+                doc =>
+                    doc.subject === selected
+            );
+
+    }
+
+
+    displayDocuments(
+        documents
+    );
+
+}
+
+
+
+/* =====================================================
+   DISPLAY DOCUMENTS
+===================================================== */
+
+function displayDocuments(
+    documentsData
+) {
+
+    const list =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "documentCount"
+        );
+
+
+    count.innerText =
+        documentsData.length +
+        (
+            documentsData.length === 1
+                ? " learning document available for you."
+                : " learning documents available for you."
+        );
+
+
+
+    /* NO DOCUMENTS */
+
+    if (
+        documentsData.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📄
+                </div>
+
+                <h3>
+                    No Documents Available
+                </h3>
+
+                <p>
+                    There are currently no learning
+                    documents available for your
+                    grade and subject.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    list.innerHTML = "";
+
+
+
+    documentsData.forEach(
+        doc => {
+
+            const card =
+                window.document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "dashboard-card";
+
+
+
+            const fileName =
+                doc.file_name ||
+                doc.name ||
+                "Learning Document";
+
+
+            const title =
+                doc.title ||
+                fileName;
+
+
+            const description =
+                doc.description ||
+                "Learning material provided by MTHIS Tutorials.";
+
+
+            const filePath =
+                doc.file_path ||
+                doc.path ||
+                "";
+
+
+            const fileUrl =
+                doc.file_url ||
+                doc.url ||
+                "";
+
+
+
+            /* =========================================
+               CREATE FILE URL
+            ========================================= */
+
+            let openLink =
+                fileUrl;
+
+
+            if (
+                !openLink &&
+                filePath
+            ) {
+
+                const {
+                    data
+                } =
+                    supabaseClient
+                        .storage
+                        .from("documents")
+                        .getPublicUrl(
+                            filePath
+                        );
+
+
+                openLink =
+                    data.publicUrl;
+
+            }
+
+
+
+            /* =========================================
+               CARD
+            ========================================= */
+
+            card.innerHTML = `
+
+                <div class="card-icon">
+                    📄
+                </div>
+
+
+                <h3>
+                    ${escapeHTML(
+                        title
+                    )}
+                </h3>
+
+
+                <p>
+                    ${escapeHTML(
+                        description
+                    )}
+                </p>
+
+
+                <div class="schedule-info">
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Grade
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                doc.grade ||
+                                "Not specified"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Subject
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                doc.subject ||
+                                "Not specified"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            File
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                fileName
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                ${
+                    openLink
+                        ? `
+
+                            <div class="document-actions">
+
+                                <a
+                                    href="${escapeHTML(
+                                        openLink
+                                    )}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="dashboard-button">
+
+                                    📖 Open Document
+
+                                </a>
+
+                            </div>
+
+                        `
+                        : `
+
+                            <p class="no-link">
+
+                                ⚠️ Document link
+                                unavailable.
+
+                            </p>
+
+                        `
+
+                }
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout() {
+
+    try {
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOGOUT ERROR:",
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showMessage(
+    message
+) {
+
+    document.getElementById(
+        "popupMessage"
+    ).innerText =
+        message;
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+startDocumentsPage();
+
+</script>
+
+
+</body>
+
+</html>

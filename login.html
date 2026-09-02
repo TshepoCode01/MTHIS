@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Learner Login</title>
+
+    <meta name="description"
+          content="Login to the MTHIS Tutorials learner portal.">
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(0, 214, 160, 0.18),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom left,
+                    rgba(0, 184, 148, 0.12),
+                    transparent 35%
+                ),
+                #06162d;
+
+            color: #172033;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            position: relative;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           BACKGROUND DECORATION
+        ===================================================== */
+
+        .background-circle {
+
+            position: fixed;
+
+            border-radius: 50%;
+
+            filter: blur(2px);
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+
+        .circle-one {
+
+            width: 300px;
+            height: 300px;
+
+            background: rgba(0, 214, 160, 0.08);
+
+            top: -100px;
+            right: -80px;
+        }
+
+
+        .circle-two {
+
+            width: 250px;
+            height: 250px;
+
+            background: rgba(0, 184, 148, 0.08);
+
+            bottom: -80px;
+            left: -70px;
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
+
+        .login-wrapper {
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            min-height: 650px;
+
+            background: white;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.35);
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           LEFT BRANDING
+        ===================================================== */
+
+        .branding {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #071a33,
+                    #092b4c
+                );
+
+            color: white;
+
+            padding: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .branding::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0, 214, 160, 0.08);
+
+            top: -150px;
+            right: -150px;
+        }
+
+
+        .branding::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0, 184, 148, 0.06);
+
+            bottom: -120px;
+            left: -100px;
+        }
+
+
+        .brand-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
+
+        .logo-container {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .logo {
+
+            width: 70px;
+            height: 70px;
+
+            border-radius: 16px;
+
+            background: #00b894;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 10px 25px rgba(0, 184, 148, 0.25);
+        }
+
+
+        .logo img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            background: white;
+        }
+
+
+        .logo-text {
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+        }
+
+
+        .logo-text span {
+
+            color: #00d6a0;
+        }
+
+
+        /* =====================================================
+           BRANDING TEXT
+        ===================================================== */
+
+        .branding h1 {
+
+            font-size: 46px;
+
+            line-height: 1.1;
+
+            margin-bottom: 20px;
+
+            letter-spacing: -1px;
+        }
+
+
+        .branding h1 span {
+
+            color: #00d6a0;
+        }
+
+
+        .branding-description {
+
+            color: #c9d6e5;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            max-width: 430px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+
+        .features {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        .feature {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #dbe5ef;
+
+            font-size: 15px;
+        }
+
+
+        .feature-icon {
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0, 214, 160, 0.15);
+
+            color: #00d6a0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           LOGIN AREA
+        ===================================================== */
+
+        .login-area {
+
+            background: white;
+
+            padding: 55px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .login-box {
+
+            width: 100%;
+
+            max-width: 400px;
+        }
+
+
+        .login-heading {
+
+            margin-bottom: 35px;
+        }
+
+
+        .login-heading .small-title {
+
+            color: #00a383;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .login-heading h2 {
+
+            color: #071a33;
+
+            font-size: 36px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .login-heading p {
+
+            color: #667085;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #172033;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #8995a5;
+
+            font-size: 18px;
+
+            pointer-events: none;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            height: 52px;
+
+            padding:
+                0 45px;
+
+            border: 1px solid #d9e0e8;
+
+            border-radius: 10px;
+
+            background: #f9fafb;
+
+            color: #172033;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #00b894;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(0, 184, 148, 0.10);
+        }
+
+
+        .form-group input::placeholder {
+
+            color: #9aa5b4;
+        }
+
+
+        /* =====================================================
+           PASSWORD BUTTON
+        ===================================================== */
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 12px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #667085;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            padding: 7px;
+        }
+
+
+        .password-toggle:hover {
+
+            color: #00a383;
+        }
+
+
+        /* =====================================================
+           LOGIN OPTIONS
+        ===================================================== */
+
+        .login-options {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            font-size: 13px;
+        }
+
+
+        .remember {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #667085;
+
+            cursor: pointer;
+        }
+
+
+        .remember input {
+
+            accent-color: #00b894;
+
+            cursor: pointer;
+        }
+
+
+        .forgot {
+
+            color: #00a383;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .forgot:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+        ===================================================== */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 54px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #00b894,
+                    #00a383
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+            box-shadow:
+                0 8px 20px rgba(0, 184, 148, 0.20);
+        }
+
+
+        .login-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(0, 184, 148, 0.30);
+        }
+
+
+        .login-button:active {
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           STATUS MESSAGE
+        ===================================================== */
+
+        #loginMessage {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        #loginMessage.error {
+
+            display: block;
+
+            background: #fff1f1;
+
+            border: 1px solid #ffd2d2;
+
+            color: #c62828;
+        }
+
+
+        #loginMessage.success {
+
+            display: block;
+
+            background: #edfff8;
+
+            border: 1px solid #bcefe0;
+
+            color: #087f5b;
+        }
+
+
+        /* =====================================================
+           REGISTER
+        ===================================================== */
+
+        .register-text {
+
+            text-align: center;
+
+            margin-top: 28px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #e9edf2;
+
+            color: #667085;
+
+            font-size: 14px;
+        }
+
+
+        .register-text a {
+
+            color: #00a383;
+
+            font-weight: 800;
+
+            text-decoration: none;
+        }
+
+
+        .register-text a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           BACK HOME
+        ===================================================== */
+
+        .back-home {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #667085;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+
+        .back-home:hover {
+
+            color: #00a383;
+        }
+
+
+        /* =====================================================
+           FOOTER TEXT
+        ===================================================== */
+
+        .copyright {
+
+            text-align: center;
+
+            color: #9aa5b4;
+
+            font-size: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        .login-button.loading {
+
+            pointer-events: none;
+
+            opacity: 0.75;
+        }
+
+
+        .login-button.loading::after {
+
+            content: "  Please wait...";
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .login-wrapper {
+
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+
+                max-width: 500px;
+
+            }
+
+
+            .branding {
+
+                padding: 40px 30px;
+
+                text-align: center;
+
+            }
+
+
+            .logo-container {
+
+                justify-content: center;
+
+            }
+
+
+            .branding h1 {
+
+                font-size: 36px;
+
+            }
+
+
+            .branding-description {
+
+                margin-left: auto;
+
+                margin-right: auto;
+
+            }
+
+
+            .features {
+
+                align-items: flex-start;
+
+                max-width: 300px;
+
+                margin: auto;
+
+                text-align: left;
+
+            }
+
+
+            .login-area {
+
+                padding: 40px 30px;
+
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            body {
+
+                padding: 0;
+
+            }
+
+
+            .login-wrapper {
+
+                border-radius: 0;
+
+                min-height: 100vh;
+
+            }
+
+
+            .branding {
+
+                padding: 35px 25px;
+
+            }
+
+
+            .branding h1 {
+
+                font-size: 31px;
+
+            }
+
+
+            .login-area {
+
+                padding: 35px 25px;
+
+            }
+
+
+            .login-heading h2 {
+
+                font-size: 30px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
+
+<div class="background-circle circle-one"></div>
+
+<div class="background-circle circle-two"></div>
+
+
+
+<!-- =====================================================
+     LOGIN WRAPPER
+===================================================== -->
+
+<div class="login-wrapper">
+
+
+    <!-- =================================================
+         BRANDING
+    ================================================== -->
+
+    <div class="branding">
+
+        <div class="brand-content">
+
+
+            <!-- LOGO -->
+
+            <div class="logo-container">
+
+                <div class="logo">
+
+                    <!--
+                    PUT YOUR LOGO FILE IN THE SAME FOLDER
+                    AS login.html AND NAME IT:
+
+                    logo.png
+                    -->
+
+                    <img
+                        src="logo.png"
+                        alt="MTHIS Tutorials Logo"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='MT';">
+
+                </div>
+
+
+                <div class="logo-text">
+
+                    MTHIS
+                    <span>Tutorials</span>
+
+                </div>
+
+            </div>
+
+
+
+            <h1>
+
+                Welcome
+                <span>Back.</span>
+
+            </h1>
+
+
+            <p class="branding-description">
+
+                Access your MTHIS Tutorials learner
+                portal and continue your learning journey.
+
+                View your classes, learning materials,
+                videos, schedule and payment information
+                in one place.
+
+            </p>
+
+
+
+            <!-- FEATURES -->
+
+            <div class="features">
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <span>
+                        Access your learning materials
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <span>
+                        View your class schedule
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <span>
+                        Watch class videos
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <span>
+                        Manage your learner account
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         LOGIN
+    ================================================== -->
+
+    <div class="login-area">
+
+        <div class="login-box">
+
+
+            <div class="login-heading">
+
+                <div class="small-title">
+                    LEARNER PORTAL
+                </div>
+
+                <h2>
+                    Learner Login
+                </h2>
+
+                <p>
+                    Sign in to access your MTHIS Tutorials
+                    account.
+                </p>
+
+            </div>
+
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                id="loginForm"
+                onsubmit="loginLearner(event)">
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            onclick="togglePassword()">
+
+                            Show
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- OPTIONS -->
+
+                <div class="login-options">
+
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe">
+
+                        Remember me
+
+                    </label>
+
+
+                    <a
+                        href="mailto:mthimunyenkosinathi504@gmail.com?subject=MTHIS%20Tutorials%20Password%20Reset">
+
+                        Forgot password?
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- LOGIN -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton">
+
+                    Login to Learner Portal
+
+                </button>
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="loginMessage">
+                </div>
+
+
+            </form>
+
+
+
+            <!-- REGISTER -->
+
+            <div class="register-text">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Register here
+                </a>
+
+            </div>
+
+
+
+            <!-- HOME -->
+
+            <a
+                href="index.html"
+                class="back-home">
+
+                ← Back to MTHIS Tutorials
+
+            </a>
+
+
+            <div class="copyright">
+
+                © 2026 MTHIS Tutorials.
+                All Rights Reserved.
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+
+<script>
+
+    /* =====================================================
+       SUPABASE CONFIG
+    ===================================================== */
+
+    const SUPABASE_URL =
+        "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+    const SUPABASE_ANON_KEY =
+        "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+
+
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+    async function loginLearner(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        const button =
+            document.getElementById(
+                "loginButton"
+            );
+
+
+        button.classList.add("loading");
+
+        button.innerText = "Signing in";
+
+
+        showMessage("", "");
+
+
+        try {
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .auth
+                    .signInWithPassword({
+
+                        email: email,
+
+                        password: password
+
+                    });
+
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+
+            showMessage(
+                "Login successful. Opening your learner dashboard...",
+                "success"
+            );
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },
+                800
+            );
+
+
+        }
+
+
+        catch (error) {
+
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+
+            let message =
+                "Unable to login. Please check your email and password.";
+
+
+            if (
+                error.message
+                    .toLowerCase()
+                    .includes("invalid login credentials")
+            ) {
+
+                message =
+                    "Incorrect email or password.";
+
+            }
+
+
+            if (
+                error.message
+                    .toLowerCase()
+                    .includes("email not confirmed")
+            ) {
+
+                message =
+                    "Please confirm your email address before logging in.";
+
+            }
+
+
+            showMessage(
+                message,
+                "error"
+            );
+
+
+            button.classList.remove(
+                "loading"
+            );
+
+
+            button.innerText =
+                "Login to Learner Portal";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       SHOW MESSAGE
+    ===================================================== */
+
+    function showMessage(
+        message,
+        type
+    ) {
+
+        const box =
+            document.getElementById(
+                "loginMessage"
+            );
+
+
+        box.innerText =
+            message;
+
+
+        box.className =
+            type || "";
+
+    }
+
+
+
+    /* =====================================================
+       SHOW / HIDE PASSWORD
+    ===================================================== */
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById(
+                "password"
+            );
+
+
+        const button =
+            document.getElementById(
+                "passwordToggle"
+            );
+
+
+        if (
+            password.type === "password"
+        ) {
+
+            password.type =
+                "text";
+
+            button.innerText =
+                "Hide";
+
+        }
+
+        else {
+
+            password.type =
+                "password";
+
+            button.innerText =
+                "Show";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       REMEMBER ME
+    ===================================================== */
+
+    const rememberMe =
+        document.getElementById(
+            "rememberMe"
+        );
+
+
+    const savedEmail =
+        localStorage.getItem(
+            "mthisRememberedEmail"
+        );
+
+
+    if (savedEmail) {
+
+        document.getElementById(
+            "email"
+        ).value =
+            savedEmail;
+
+        rememberMe.checked =
+            true;
+
+    }
+
+
+    document.getElementById(
+        "loginForm"
+    ).addEventListener(
+        "submit",
+        function() {
+
+            if (
+                rememberMe.checked
+            ) {
+
+                localStorage.setItem(
+                    "mthisRememberedEmail",
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim()
+                );
+
+            }
+
+            else {
+
+                localStorage.removeItem(
+                    "mthisRememberedEmail"
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

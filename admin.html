@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Admin Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>MTHIS Tutorials</h2>
+
+        <span>Administrator Portal</span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         WELCOME
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1 id="adminWelcome">
+            Welcome, Administrator
+        </h1>
+
+        <p>
+            Manage learners, tutors, documents, videos,
+            classes, attendance, payments, reports,
+            emails and website settings.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         OVERVIEW
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                OVERVIEW
+            </p>
+
+            <h2>
+                Dashboard
+            </h2>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+            <!-- LEARNERS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    👨‍🎓
+                </div>
+
+                <h3>
+                    Learners
+                </h3>
+
+                <p>
+                    View and manage all registered
+                    MTHIS Tutorials learners.
+                </p>
+
+                <a
+                    href="./admin-learners.html"
+                    class="dashboard-button">
+
+                    👨‍🎓 Manage Learners
+
+                </a>
+
+            </div>
+
+
+
+            <!-- TUTORS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    👨‍🏫
+                </div>
+
+                <h3>
+                    Tutors
+                </h3>
+
+                <p>
+                    Manage tutors and their
+                    teaching responsibilities.
+                </p>
+
+                <a
+                    href="./admin-tutors.html"
+                    class="dashboard-button">
+
+                    👨‍🏫 Manage Tutors
+
+                </a>
+
+            </div>
+
+
+
+            <!-- PAYMENTS -->
+
+            <div class="dashboard-card payment-card">
+
+                <div class="card-icon">
+                    💳
+                </div>
+
+                <h3>
+                    Payments
+                </h3>
+
+                <p>
+                    Review learner payments and
+                    payment status.
+                </p>
+
+                <a
+                    href="./admin-payments.html"
+                    class="dashboard-button">
+
+                    💳 Manage Payments
+
+                </a>
+
+            </div>
+
+
+
+            <!-- REPORTS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Reports
+                </h3>
+
+                <p>
+                    View registrations, attendance,
+                    payments and statistics.
+                </p>
+
+                <a
+                    href="./admin-reports.html"
+                    class="dashboard-button">
+
+                    📊 View Reports
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LEARNING MANAGEMENT
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                LEARNING MANAGEMENT
+            </p>
+
+            <h2>
+                Learning Resources
+            </h2>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Manage Documents
+                </h3>
+
+                <p>
+                    Upload notes, worksheets,
+                    tests and learning materials.
+                </p>
+
+                <a
+                    href="./admin-documents.html"
+                    class="dashboard-button">
+
+                    📄 Manage Documents
+
+                </a>
+
+            </div>
+
+
+
+            <!-- VIDEOS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    🎥
+                </div>
+
+                <h3>
+                    Manage Videos
+                </h3>
+
+                <p>
+                    Upload and manage recorded
+                    online lessons.
+                </p>
+
+                <a
+                    href="./admin-videos.html"
+                    class="dashboard-button">
+
+                    🎥 Manage Videos
+
+                </a>
+
+            </div>
+
+
+
+            <!-- SCHEDULE -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Manage Schedule
+                </h3>
+
+                <p>
+                    Create classes, set dates and
+                    times, and add Microsoft Teams links.
+                </p>
+
+                <a
+                    href="./admin-schedule.html"
+                    class="dashboard-button">
+
+                    📅 Manage Schedule
+
+                </a>
+
+            </div>
+
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ✅
+                </div>
+
+                <h3>
+                    Attendance
+                </h3>
+
+                <p>
+                    Mark and manage learner attendance
+                    for scheduled classes.
+                </p>
+
+                <a
+                    href="./admin-attendance.html"
+                    class="dashboard-button">
+
+                    ✅ Manage Attendance
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ADMINISTRATION
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                ADMINISTRATION
+            </p>
+
+            <h2>
+                System Management
+            </h2>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+            <!-- EMAIL -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📧
+                </div>
+
+                <h3>
+                    Email Learners
+                </h3>
+
+                <p>
+                    Send important announcements,
+                    payment notices and class information.
+                </p>
+
+                <a
+                    href="./admin-email.html"
+                    class="dashboard-button">
+
+                    📧 Email Learners
+
+                </a>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 WEBSITE SETTINGS
+            ================================================== -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ⚙️
+                </div>
+
+                <h3>
+                    Website Settings
+                </h3>
+
+                <p>
+                    Manage MTHIS Tutorials website
+                    information, pricing and announcements.
+                </p>
+
+                <a
+                    href="./admin-settings.html"
+                    class="dashboard-button">
+
+                    ⚙️ Open Website Settings
+
+                </a>
+
+            </div>
+
+
+
+            <!-- EXPORT REPORTS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📥
+                </div>
+
+                <h3>
+                    Export Reports
+                </h3>
+
+                <p>
+                    Export learner, attendance
+                    and payment information.
+                </p>
+
+                <a
+                    href="./admin-reports.html"
+                    class="dashboard-button">
+
+                    📥 Export Reports
+
+                </a>
+
+            </div>
+
+
+
+            <!-- SUSPENSIONS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    🔒
+                </div>
+
+                <h3>
+                    Suspended Learners
+                </h3>
+
+                <p>
+                    Manage learners whose
+                    payments are overdue.
+                </p>
+
+                <a
+                    href="./admin-suspensions.html"
+                    class="dashboard-button">
+
+                    🔒 Manage Suspensions
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         QUICK LINKS
+    ================================================== -->
+
+    <section class="support-section">
+
+        <h2>
+            Quick Links
+        </h2>
+
+        <p>
+            Quickly access the learner portal
+            or return to the main website.
+        </p>
+
+
+        <div class="support-buttons">
+
+            <a href="./index.html">
+
+                🏠 Main Website
+
+            </a>
+
+
+            <a href="./dashboard.html">
+
+                👨‍🎓 Learner Dashboard
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     POPUP
+===================================================== -->
+
+<div
+    id="popup"
+    class="popup">
+
+    <div class="popup-box">
+
+        <button
+            class="popup-close"
+            onclick="closePopup()">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+
+        <p id="popupMessage"></p>
+
+
+        <button
+            type="button"
+            onclick="closePopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   CHECK ADMIN LOGIN
+===================================================== */
+
+async function checkAdmin() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
+
+
+        if (
+            error ||
+            !user
+        ) {
+
+            window.location.href =
+                "./admin-login.html";
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "adminWelcome"
+        ).innerText =
+            "Welcome, Administrator";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "ADMIN CHECK ERROR:",
+            error
+        );
+
+
+        window.location.href =
+            "./admin-login.html";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    try {
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOGOUT ERROR:",
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "./admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showMessage(message) {
+
+    document.getElementById(
+        "popupMessage"
+    ).innerText =
+        message;
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkAdmin();
+
+</script>
+
+
+</body>
+
+</html>
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        const allowed =
+            await checkAdminAccess();
+
+
+        if (!allowed) {
+
+            return;
+
+        }
+
+
+        console.log(
+            "Administrator page unlocked."
+        );
+
+    }
+);
+
+</script>

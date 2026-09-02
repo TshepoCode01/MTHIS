@@ -1,0 +1,1946 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Class Schedule</title>
+
+    <link rel="stylesheet"
+          href="./style.css">
+
+    <style>
+
+        .form-section,
+        .search-section,
+        .schedule-section {
+
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+
+        }
+
+
+        .form-grid {
+
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 15px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+            flex-direction: column;
+
+        }
+
+
+        .form-group label {
+
+            font-weight: 600;
+            margin-bottom: 7px;
+
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+
+        }
+
+
+        .form-buttons {
+
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+
+        }
+
+
+        .form-button {
+
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+
+        }
+
+
+        .save-button {
+
+            background: #111827;
+            color: white;
+
+        }
+
+
+        .cancel-button {
+
+            background: #eeeeee;
+            color: #222;
+
+        }
+
+
+        .message {
+
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            white-space: pre-wrap;
+
+        }
+
+
+        .success-message {
+
+            background: #e7f8ed;
+            color: #155724;
+
+        }
+
+
+        .error-message {
+
+            background: #ffe5e5;
+            color: #721c24;
+
+        }
+
+
+        .table-wrapper {
+
+            overflow-x: auto;
+
+        }
+
+
+        .schedule-table {
+
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+
+        }
+
+
+        .schedule-table th,
+        .schedule-table td {
+
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+
+        }
+
+
+        .badge {
+
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 13px;
+
+        }
+
+
+        .grade-badge {
+
+            background: #e8f0ff;
+
+        }
+
+
+        .subject-badge {
+
+            background: #f2e8ff;
+
+        }
+
+
+        .table-button {
+
+            border: none;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 5px;
+
+        }
+
+
+        .edit-button {
+
+            background: #e8f0ff;
+
+        }
+
+
+        .delete-button {
+
+            background: #ffe5e5;
+
+        }
+
+
+        .teams-button {
+
+            background: #e7f8ed;
+            color: #111;
+            text-decoration: none;
+            display: inline-block;
+
+        }
+
+
+        .loading {
+
+            text-align: center;
+            padding: 30px;
+
+        }
+
+
+        .empty-state {
+
+            text-align: center;
+            padding: 40px;
+
+        }
+
+
+        .database-note {
+
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         WELCOME
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            CLASS MANAGEMENT
+        </p>
+
+        <h1>
+            Manage Class Schedule
+        </h1>
+
+        <p>
+            Create classes, assign tutors,
+            set dates and add Microsoft Teams links.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MESSAGES
+    ================================================== -->
+
+    <div
+        id="successMessage"
+        class="message success-message">
+    </div>
+
+
+    <div
+        id="errorMessage"
+        class="message error-message">
+    </div>
+
+
+
+    <!-- =================================================
+         CREATE CLASS
+    ================================================== -->
+
+    <section class="form-section">
+
+        <h2 id="formTitle">
+            ➕ Create New Class
+        </h2>
+
+
+        <form
+            id="classForm">
+
+
+            <input
+                type="hidden"
+                id="classId">
+
+
+            <div class="form-grid">
+
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Class Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="classTitle"
+                        placeholder="e.g. Grade 11 Mathematics"
+                        required>
+
+                </div>
+
+
+
+                <!-- TUTOR -->
+
+                <div class="form-group">
+
+                    <label>
+                        Tutor
+                    </label>
+
+                    <select
+                        id="tutorId"
+                        required>
+
+                        <option value="">
+                            Loading tutors...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- GRADE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Grade
+                    </label>
+
+                    <select
+                        id="grade"
+                        required>
+
+                        <option value="">
+                            Select Grade
+                        </option>
+
+                        <option value="Grade 11">
+                            Grade 11
+                        </option>
+
+                        <option value="Grade 12">
+                            Grade 12
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <select
+                        id="subject"
+                        required>
+
+                        <option value="">
+                            Select Subject
+                        </option>
+
+                        <option value="Mathematics">
+                            Mathematics
+                        </option>
+
+                        <option value="Physical Science">
+                            Physical Science
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Class Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="classDate"
+                        required>
+
+                </div>
+
+
+
+                <!-- START -->
+
+                <div class="form-group">
+
+                    <label>
+                        Start Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="startTime"
+                        required>
+
+                </div>
+
+
+
+                <!-- END -->
+
+                <div class="form-group">
+
+                    <label>
+                        End Time
+                    </label>
+
+                    <input
+                        type="time"
+                        id="endTime">
+
+                </div>
+
+
+
+                <!-- TEAMS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Microsoft Teams Link
+                    </label>
+
+                    <input
+                        type="url"
+                        id="teamsLink"
+                        placeholder="https://teams.microsoft.com/...">
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    id="saveButton"
+                    class="form-button save-button">
+
+                    ➕ Create Class
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="cancelButton"
+                    class="form-button cancel-button"
+                    onclick="cancelEdit()"
+                    style="display:none;">
+
+                    Cancel
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <div class="database-note">
+
+            <strong>Connected tables:</strong>
+
+            tutors → classes
+
+            <br>
+
+            The class title is saved to both
+            <strong>title</strong> and
+            <strong>class_title</strong>
+            to match your current database.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="search-section">
+
+        <h3>
+            🔍 Search Classes
+        </h3>
+
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by class, tutor, grade or subject..."
+            style="
+                width:100%;
+                max-width:550px;
+                padding:12px;
+                border:1px solid #ddd;
+                border-radius:8px;
+                box-sizing:border-box;
+            ">
+
+    </section>
+
+
+
+    <!-- =================================================
+         CLASSES
+    ================================================== -->
+
+    <section class="schedule-section">
+
+        <h2>
+            📅 Scheduled Classes
+        </h2>
+
+
+        <div
+            id="loading"
+            class="loading">
+
+            Loading classes...
+
+        </div>
+
+
+        <div
+            id="tableWrapper"
+            class="table-wrapper"
+            style="display:none;">
+
+            <table
+                class="schedule-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Class
+                        </th>
+
+                        <th>
+                            Tutor
+                        </th>
+
+                        <th>
+                            Grade
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Teams
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="classTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h3>
+                No classes scheduled
+            </h3>
+
+            <p>
+                Create your first class above.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="./admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let allClasses = [];
+
+let allTutors = [];
+
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
+
+
+        if (
+            error ||
+            !user
+        ) {
+
+            window.location.href =
+                "./admin-login.html";
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "ADMIN CHECK ERROR:",
+            error
+        );
+
+
+        window.location.href =
+            "./admin-login.html";
+
+        return false;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD TUTORS
+===================================================== */
+
+async function loadTutors() {
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("tutors")
+                .select(
+                    "id,name,subject,status"
+                )
+                .order(
+                    "name",
+                    {
+                        ascending:true
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        allTutors =
+            data || [];
+
+
+        const select =
+            document.getElementById(
+                "tutorId"
+            );
+
+
+        select.innerHTML =
+            '<option value="">Select Tutor</option>';
+
+
+        allTutors
+            .filter(
+                tutor =>
+                    String(
+                        tutor.status ||
+                        "active"
+                    ).toLowerCase()
+                    === "active"
+            )
+            .forEach(
+                tutor => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        tutor.id;
+
+
+                    option.textContent =
+                        `${tutor.name} — ${tutor.subject || "Tutor"}`;
+
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOAD TUTORS ERROR:",
+            error
+        );
+
+
+        showError(
+            "❌ Failed to load tutors.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD CLASSES
+===================================================== */
+
+async function loadClasses() {
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "tableWrapper"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "none";
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("classes")
+                .select(`
+                    *,
+                    tutors (
+                        id,
+                        name,
+                        subject
+                    )
+                `)
+                .order(
+                    "class_date",
+                    {
+                        ascending:true
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        allClasses =
+            data || [];
+
+
+        displayClasses(
+            allClasses
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOAD CLASSES ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        showError(
+            "❌ Failed to load classes.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISPLAY CLASSES
+===================================================== */
+
+function displayClasses(
+    classes
+) {
+
+    const body =
+        document.getElementById(
+            "classTableBody"
+        );
+
+
+    body.innerHTML =
+        "";
+
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+
+    if (
+        classes.length === 0
+    ) {
+
+        document.getElementById(
+            "tableWrapper"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "emptyState"
+        ).style.display =
+            "block";
+
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "tableWrapper"
+    ).style.display =
+        "block";
+
+
+    classes.forEach(
+        item => {
+
+
+            const tutorName =
+                item.tutors
+                    ? item.tutors.name
+                    : "No tutor";
+
+
+            const title =
+                item.title ||
+                item.class_title ||
+                "Untitled Class";
+
+
+            const date =
+                item.class_date
+                    ? new Date(
+                        item.class_date +
+                        "T00:00:00"
+                    ).toLocaleDateString()
+                    : "-";
+
+
+            const teams =
+                item.teams_link
+                    ? `
+                        <a
+                            href="${escapeHTML(item.teams_link)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="table-button teams-button">
+
+                            🔗 Join Teams
+
+                        </a>
+                    `
+                    : "—";
+
+
+            body.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHTML(title)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(tutorName)}
+                    </td>
+
+                    <td>
+
+                        <span class="badge grade-badge">
+
+                            ${escapeHTML(
+                                item.grade || "-"
+                            )}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <span class="badge subject-badge">
+
+                            ${escapeHTML(
+                                item.subject || "-"
+                            )}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${date}
+                    </td>
+
+                    <td>
+
+                        ${escapeHTML(
+                            item.start_time || ""
+                        )}
+
+                        ${
+                            item.end_time
+                                ? " - " +
+                                  escapeHTML(
+                                      item.end_time
+                                  )
+                                : ""
+                        }
+
+                    </td>
+
+                    <td>
+                        ${teams}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="table-button edit-button"
+                            onclick="editClass('${item.id}')">
+
+                             Edit
+
+                        </button>
+
+
+                        <button
+                            class="table-button delete-button"
+                            onclick="deleteClass('${item.id}')">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SAVE CLASS
+===================================================== */
+
+async function saveClass(
+    event
+) {
+
+    event.preventDefault();
+
+
+    hideMessages();
+
+
+    const id =
+        document.getElementById(
+            "classId"
+        ).value;
+
+
+    const classTitle =
+        document.getElementById(
+            "classTitle"
+        ).value.trim();
+
+
+    const tutorId =
+        document.getElementById(
+            "tutorId"
+        ).value;
+
+
+    const grade =
+        document.getElementById(
+            "grade"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value;
+
+
+    const classDate =
+        document.getElementById(
+            "classDate"
+        ).value;
+
+
+    const startTime =
+        document.getElementById(
+            "startTime"
+        ).value;
+
+
+    const endTime =
+        document.getElementById(
+            "endTime"
+        ).value;
+
+
+    const teamsLink =
+        document.getElementById(
+            "teamsLink"
+        ).value.trim();
+
+
+    if (
+        !classTitle ||
+        !tutorId ||
+        !grade ||
+        !subject ||
+        !classDate ||
+        !startTime
+    ) {
+
+        showError(
+            "Please complete all required fields."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       IMPORTANT:
+       Your existing Supabase table has a
+       required column named "title".
+
+       Therefore we save the class title
+       to BOTH title and class_title.
+    */
+
+    const classData = {
+
+        title:
+            classTitle,
+
+        class_title:
+            classTitle,
+
+        tutor_id:
+            tutorId,
+
+        grade:
+            grade,
+
+        subject:
+            subject,
+
+        class_date:
+            classDate,
+
+        start_time:
+            startTime,
+
+        end_time:
+            endTime || null,
+
+        teams_link:
+            teamsLink || null
+
+    };
+
+
+    console.log(
+        "CLASS DATA:",
+        classData
+    );
+
+
+    const button =
+        document.getElementById(
+            "saveButton"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.innerText =
+        id
+            ? "Updating..."
+            : "Creating...";
+
+
+    try {
+
+        let result;
+
+
+        if (id) {
+
+            result =
+                await supabaseClient
+                    .from("classes")
+                    .update(
+                        classData
+                    )
+                    .eq(
+                        "id",
+                        id
+                    )
+                    .select();
+
+        }
+
+        else {
+
+            result =
+                await supabaseClient
+                    .from("classes")
+                    .insert([
+                        classData
+                    ])
+                    .select();
+
+        }
+
+
+        console.log(
+            "SUPABASE RESULT:",
+            result
+        );
+
+
+        if (
+            result.error
+        ) {
+
+            throw result.error;
+
+        }
+
+
+        showSuccess(
+            id
+                ? " Class updated successfully."
+                : " Class created successfully."
+        );
+
+
+        cancelEdit();
+
+
+        await loadClasses();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "SAVE CLASS ERROR:",
+            error
+        );
+
+
+        showError(
+            " Failed to save class.\n\n" +
+            "Supabase says:\n" +
+            error.message
+        );
+
+    }
+
+    finally {
+
+        button.disabled =
+            false;
+
+
+        button.innerText =
+            id
+                ? " Update Class"
+                : "➕ Create Class";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   EDIT CLASS
+===================================================== */
+
+function editClass(
+    id
+) {
+
+    const item =
+        allClasses.find(
+            classItem =>
+                String(
+                    classItem.id
+                ) ===
+                String(id)
+        );
+
+
+    if (!item) {
+
+        showError(
+            "Class not found."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "classId"
+    ).value =
+        item.id;
+
+
+    document.getElementById(
+        "classTitle"
+    ).value =
+        item.title ||
+        item.class_title ||
+        "";
+
+
+    document.getElementById(
+        "tutorId"
+    ).value =
+        item.tutor_id ||
+        "";
+
+
+    document.getElementById(
+        "grade"
+    ).value =
+        item.grade ||
+        "";
+
+
+    document.getElementById(
+        "subject"
+    ).value =
+        item.subject ||
+        "";
+
+
+    document.getElementById(
+        "classDate"
+    ).value =
+        item.class_date ||
+        "";
+
+
+    document.getElementById(
+        "startTime"
+    ).value =
+        item.start_time ||
+        "";
+
+
+    document.getElementById(
+        "endTime"
+    ).value =
+        item.end_time ||
+        "";
+
+
+    document.getElementById(
+        "teamsLink"
+    ).value =
+        item.teams_link ||
+        "";
+
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        "✏️ Edit Class";
+
+
+    document.getElementById(
+        "saveButton"
+    ).innerText =
+        "💾 Update Class";
+
+
+    document.getElementById(
+        "cancelButton"
+    ).style.display =
+        "inline-block";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+/* =====================================================
+   CANCEL EDIT
+===================================================== */
+
+function cancelEdit() {
+
+    document.getElementById(
+        "classForm"
+    ).reset();
+
+
+    document.getElementById(
+        "classId"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        "➕ Create New Class";
+
+
+    document.getElementById(
+        "saveButton"
+    ).innerText =
+        "➕ Create Class";
+
+
+    document.getElementById(
+        "cancelButton"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   DELETE CLASS
+===================================================== */
+
+async function deleteClass(
+    id
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this class?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("classes")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        showSuccess(
+            " Class deleted successfully."
+        );
+
+
+        await loadClasses();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "DELETE CLASS ERROR:",
+            error
+        );
+
+
+        showError(
+            " Failed to delete class.\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    function() {
+
+        const search =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            allClasses.filter(
+                item => {
+
+
+                    const tutorName =
+                        item.tutors
+                            ? item.tutors.name
+                            : "";
+
+
+                    const title =
+                        item.title ||
+                        item.class_title ||
+                        "";
+
+
+                    return (
+
+                        String(title)
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(tutorName)
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(
+                            item.grade || ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                        ||
+
+                        String(
+                            item.subject || ""
+                        )
+                            .toLowerCase()
+                            .includes(search)
+
+                    );
+
+                }
+            );
+
+
+        displayClasses(
+            filtered
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+document.getElementById(
+    "classForm"
+).addEventListener(
+    "submit",
+    saveClass
+);
+
+
+
+/* =====================================================
+   SUCCESS
+===================================================== */
+
+function showSuccess(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "successMessage"
+        );
+
+
+    box.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    box.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
+
+
+    document.getElementById(
+        "successMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   HIDE MESSAGES
+===================================================== */
+
+function hideMessages() {
+
+    document.getElementById(
+        "successMessage"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    try {
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOGOUT ERROR:",
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "./admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const allowed =
+        await checkAdmin();
+
+
+    if (!allowed) {
+
+        return;
+
+    }
+
+
+    await loadTutors();
+
+    await loadClasses();
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>
+```

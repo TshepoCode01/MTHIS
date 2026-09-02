@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Manage Videos</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <div>
+
+        <a
+            href="admin.html"
+            class="back-button">
+
+            ← Admin Dashboard
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         WELCOME
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            LEARNING MANAGEMENT
+        </p>
+
+        <h1>
+            Manage Class Videos
+        </h1>
+
+        <p>
+            Upload and manage MTHIS Tutorials
+            class recordings.
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         UPLOAD VIDEO
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                VIDEO UPLOAD
+            </p>
+
+            <h2>
+                Upload New Class Video
+            </h2>
+
+            <p>
+                Videos must be 50 MB or smaller.
+            </p>
+
+        </div>
+
+
+
+        <div class="dashboard-card">
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="videoTitle">
+                    Video Title
+                </label>
+
+                <input
+                    type="text"
+                    id="videoTitle"
+                    placeholder="e.g. Grade 11 Algebra Lesson 1">
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="videoDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="videoDescription"
+                    rows="5"
+                    placeholder="Enter a short description of the lesson"></textarea>
+
+            </div>
+
+
+
+            <!-- GRADE -->
+
+            <div class="form-group">
+
+                <label for="videoGrade">
+                    Grade
+                </label>
+
+                <select
+                    id="videoGrade">
+
+                    <option value="">
+                        Select Grade
+                    </option>
+
+                    <option value="Grade 11">
+                        Grade 11
+                    </option>
+
+                    <option value="Grade 12">
+                        Grade 12
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-group">
+
+                <label for="videoSubject">
+                    Subject
+                </label>
+
+                <select
+                    id="videoSubject">
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                    <option value="Mathematics">
+                        Mathematics
+                    </option>
+
+                    <option value="Physical Science">
+                        Physical Science
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- VIDEO -->
+
+            <div class="form-group">
+
+                <label for="videoFile">
+                    Video File
+                </label>
+
+                <input
+                    type="file"
+                    id="videoFile"
+                    accept="video/*">
+
+                <p id="fileInfo">
+                    Maximum file size: 50 MB
+                </p>
+
+            </div>
+
+
+
+            <!-- PROGRESS -->
+
+            <div
+                id="uploadProgressContainer"
+                style="
+                    display:none;
+                    margin-top:20px;
+                ">
+
+                <p id="uploadProgressText">
+                    Uploading...
+                </p>
+
+
+                <div
+                    style="
+                        width:100%;
+                        height:10px;
+                        background:#ddd;
+                        border-radius:10px;
+                        overflow:hidden;
+                    ">
+
+                    <div
+                        id="uploadProgress"
+                        style="
+                            width:0%;
+                            height:100%;
+                            background:#333;
+                        ">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="uploadMessage"
+                style="margin-top:20px;">
+            </div>
+
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="button"
+                id="uploadButton"
+                onclick="uploadVideo()">
+
+                🎥 Upload Video
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         EXISTING VIDEOS
+    ================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                VIDEO LIBRARY
+            </p>
+
+            <h2>
+                Uploaded Videos
+            </h2>
+
+            <p id="videoCount">
+                Loading videos...
+            </p>
+
+        </div>
+
+
+
+        <div
+            id="videoList"
+            class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading Videos
+                </h3>
+
+                <p>
+                    Please wait...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   CONSTANTS
+===================================================== */
+
+const VIDEO_BUCKET =
+    "class-videos";
+
+
+const MAX_FILE_SIZE =
+    50 * 1024 * 1024;
+
+
+
+/* =====================================================
+   CHECK ADMIN LOGIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+
+/* =====================================================
+   SHOW MESSAGE
+===================================================== */
+
+function showMessage(
+    message,
+    type = "success"
+) {
+
+    const box =
+        document.getElementById(
+            "uploadMessage"
+        );
+
+
+    if (
+        type === "error"
+    ) {
+
+        box.innerHTML = `
+
+            <div class="error-box">
+
+                ❌ ${escapeHTML(message)}
+
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+        box.innerHTML = `
+
+            <div class="success-box">
+
+                ✅ ${escapeHTML(message)}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILE SELECTED
+===================================================== */
+
+document
+    .getElementById("videoFile")
+    .addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+
+                document.getElementById(
+                    "fileInfo"
+                ).innerText =
+                    "Maximum file size: 50 MB";
+
+                return;
+
+            }
+
+
+            const sizeMB =
+                file.size /
+                (1024 * 1024);
+
+
+            document.getElementById(
+                "fileInfo"
+            ).innerText =
+                "Selected: " +
+                file.name +
+                " (" +
+                sizeMB.toFixed(2) +
+                " MB)";
+
+        }
+    );
+
+
+
+/* =====================================================
+   UPLOAD VIDEO
+===================================================== */
+
+async function uploadVideo() {
+
+    const button =
+        document.getElementById(
+            "uploadButton"
+        );
+
+
+    const title =
+        document.getElementById(
+            "videoTitle"
+        ).value.trim();
+
+
+    const description =
+        document.getElementById(
+            "videoDescription"
+        ).value.trim();
+
+
+    const grade =
+        document.getElementById(
+            "videoGrade"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "videoSubject"
+        ).value;
+
+
+    const fileInput =
+        document.getElementById(
+            "videoFile"
+        );
+
+
+    const file =
+        fileInput.files[0];
+
+
+
+    /* =============================================
+       VALIDATION
+    ============================================= */
+
+    if (!title) {
+
+        showMessage(
+            "Please enter a video title.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!grade) {
+
+        showMessage(
+            "Please select a grade.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!subject) {
+
+        showMessage(
+            "Please select a subject.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!file) {
+
+        showMessage(
+            "Please select a video file.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (
+        file.size >
+        MAX_FILE_SIZE
+    ) {
+
+        showMessage(
+            "The video is larger than 50 MB. Please compress it and try again.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !file.type.startsWith(
+            "video/"
+        )
+    ) {
+
+        showMessage(
+            "Please select a valid video file.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+
+    try {
+
+        button.disabled =
+            true;
+
+        button.innerText =
+            "Uploading...";
+
+
+        document.getElementById(
+            "uploadProgressContainer"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "uploadProgress"
+        ).style.width =
+            "20%";
+
+
+        document.getElementById(
+            "uploadProgressText"
+        ).innerText =
+            "Uploading video to Supabase Storage...";
+
+
+
+        /* =========================================
+           CHECK ADMIN LOGIN
+        ========================================= */
+
+        const adminOK =
+            await checkAdmin();
+
+
+        if (!adminOK) {
+
+            return;
+
+        }
+
+
+
+        /* =========================================
+           CREATE SAFE FILE NAME
+        ========================================= */
+
+        const extension =
+            file.name.includes(".")
+                ? file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase()
+                : "mp4";
+
+
+        const safeTitle =
+            title
+                .toLowerCase()
+                .replace(
+                    /[^a-z0-9]+/g,
+                    "-"
+                )
+                .replace(
+                    /^-+|-+$/g,
+                    ""
+                );
+
+
+        const uniqueName =
+            Date.now() +
+            "-" +
+            safeTitle +
+            "." +
+            extension;
+
+
+        const filePath =
+            grade
+            .toLowerCase()
+            .replace(
+                /\s+/g,
+                "-"
+            ) +
+            "/" +
+            subject
+            .toLowerCase()
+            .replace(
+                /\s+/g,
+                "-"
+            ) +
+            "/" +
+            uniqueName;
+
+
+
+        /* =========================================
+           UPLOAD TO STORAGE
+        ========================================= */
+
+        const {
+            data: storageData,
+            error: storageError
+        } =
+            await supabaseClient
+                .storage
+                .from(
+                    VIDEO_BUCKET
+                )
+                .upload(
+                    filePath,
+                    file,
+                    {
+                        cacheControl:
+                            "3600",
+
+                        upsert:
+                            false,
+
+                        contentType:
+                            file.type
+                    }
+                );
+
+
+        if (
+            storageError
+        ) {
+
+            throw storageError;
+
+        }
+
+
+        document.getElementById(
+            "uploadProgress"
+        ).style.width =
+            "70%";
+
+
+        document.getElementById(
+            "uploadProgressText"
+        ).innerText =
+            "Saving video information...";
+
+
+
+        /* =========================================
+           GET PUBLIC URL
+        ========================================= */
+
+        const {
+            data: publicURLData
+        } =
+            supabaseClient
+                .storage
+                .from(
+                    VIDEO_BUCKET
+                )
+                .getPublicUrl(
+                    storageData.path
+                );
+
+
+        const videoURL =
+            publicURLData.publicUrl;
+
+
+
+        /* =========================================
+           SAVE DATABASE RECORD
+        ========================================= */
+
+        const {
+            error: databaseError
+        } =
+            await supabaseClient
+                .from("videos")
+                .insert({
+
+                    title:
+                        title,
+
+                    description:
+                        description,
+
+                    grade:
+                        grade,
+
+                    subject:
+                        subject,
+
+                    video_url:
+                        videoURL
+
+                });
+
+
+        if (
+            databaseError
+        ) {
+
+            /* =====================================
+               DELETE UPLOADED FILE IF DATABASE FAILS
+            ===================================== */
+
+            await supabaseClient
+                .storage
+                .from(
+                    VIDEO_BUCKET
+                )
+                .remove([
+                    storageData.path
+                ]);
+
+
+            throw databaseError;
+
+        }
+
+
+
+        /* =========================================
+           COMPLETE
+        ========================================= */
+
+        document.getElementById(
+            "uploadProgress"
+        ).style.width =
+            "100%";
+
+
+        document.getElementById(
+            "uploadProgressText"
+        ).innerText =
+            "Upload complete!";
+
+
+        showMessage(
+            "Video uploaded successfully."
+        );
+
+
+        /* =========================================
+           CLEAR FORM
+        ========================================= */
+
+        document.getElementById(
+            "videoTitle"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoDescription"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoGrade"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoSubject"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoFile"
+        ).value = "";
+
+
+        document.getElementById(
+            "fileInfo"
+        ).innerText =
+            "Maximum file size: 50 MB";
+
+
+        await loadVideos();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "VIDEO UPLOAD ERROR:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Video upload failed.",
+            "error"
+        );
+
+    }
+
+
+    finally {
+
+        button.disabled =
+            false;
+
+        button.innerText =
+            "🎥 Upload Video";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD VIDEOS
+===================================================== */
+
+async function loadVideos() {
+
+    const container =
+        document.getElementById(
+            "videoList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "videoCount"
+        );
+
+
+    container.innerHTML = `
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ⏳
+            </div>
+
+            <h3>
+                Loading Videos
+            </h3>
+
+            <p>
+                Please wait...
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("videos")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (
+            error
+        ) {
+
+            throw error;
+
+        }
+
+
+        count.innerText =
+            data.length +
+            (
+                data.length === 1
+                    ? " video uploaded."
+                    : " videos uploaded."
+            );
+
+
+        if (
+            data.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        🎥
+                    </div>
+
+                    <h3>
+                        No Videos Yet
+                    </h3>
+
+                    <p>
+                        No class videos have
+                        been uploaded.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            "";
+
+
+        data.forEach(
+            video => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "dashboard-card";
+
+
+                card.innerHTML = `
+
+                    <div class="card-icon">
+                        🎥
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            video.title
+                        )}
+                    </h3>
+
+
+                    <p>
+                        ${escapeHTML(
+                            video.description ||
+                            "No description."
+                        )}
+                    </p>
+
+
+                    <div class="schedule-info">
+
+
+                        <div class="schedule-item">
+
+                            <strong>
+                                Grade
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    video.grade
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="schedule-item">
+
+                            <strong>
+                                Subject
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    video.subject
+                                )}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div
+                        style="
+                            margin-top:20px;
+                        ">
+
+                        <button
+                            type="button"
+                            onclick="deleteVideo(
+                                '${video.id}',
+                                '${escapeJS(
+                                    video.video_url ||
+                                    ""
+                                )}'
+                            )">
+
+                            🗑️ Delete Video
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ❌
+                </div>
+
+                <h3>
+                    Unable to Load Videos
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DELETE VIDEO
+===================================================== */
+
+async function deleteVideo(
+    videoID,
+    videoURL
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this video?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        /* =========================================
+           EXTRACT STORAGE PATH
+        ========================================= */
+
+        let storagePath =
+            "";
+
+
+        if (
+            videoURL
+        ) {
+
+            const marker =
+                "/storage/v1/object/public/" +
+                VIDEO_BUCKET +
+                "/";
+
+
+            const index =
+                videoURL.indexOf(
+                    marker
+                );
+
+
+            if (
+                index !== -1
+            ) {
+
+                storagePath =
+                    decodeURIComponent(
+                        videoURL.substring(
+                            index +
+                            marker.length
+                        )
+                    );
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           DELETE STORAGE FILE
+        ========================================= */
+
+        if (
+            storagePath
+        ) {
+
+            const {
+                error:
+                    storageDeleteError
+            } =
+                await supabaseClient
+                    .storage
+                    .from(
+                        VIDEO_BUCKET
+                    )
+                    .remove([
+                        storagePath
+                    ]);
+
+
+            if (
+                storageDeleteError
+            ) {
+
+                throw storageDeleteError;
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           DELETE DATABASE RECORD
+        ========================================= */
+
+        const {
+            error:
+                databaseError
+        } =
+            await supabaseClient
+                .from("videos")
+                .delete()
+                .eq(
+                    "id",
+                    videoID
+                );
+
+
+        if (
+            databaseError
+        ) {
+
+            throw databaseError;
+
+        }
+
+
+        alert(
+            "Video deleted successfully."
+        );
+
+
+        await loadVideos();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "DELETE VIDEO ERROR:",
+            error
+        );
+
+
+        alert(
+            "Could not delete video: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   ESCAPE JAVASCRIPT
+===================================================== */
+
+function escapeJS(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /"/g,
+        '\\"'
+    )
+    .replace(
+        /\r?\n/g,
+        "\\n"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+(async function () {
+
+    const adminOK =
+        await checkAdmin();
+
+
+    if (
+        adminOK
+    ) {
+
+        await loadVideos();
+
+    }
+
+})();
+
+</script>
+
+
+</body>
+
+</html>

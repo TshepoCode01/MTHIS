@@ -1,0 +1,442 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Admin Login</title>
+
+    <link rel="stylesheet" href="admin-login.css">
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <div class="login-card">
+
+            <!-- LOGO -->
+            <div class="logo-area">
+
+                <!--
+                If you have a logo image, put it in the same folder
+                and change "logo.png" to your logo filename.
+                -->
+
+                <img src="logo.png"
+                     alt="MTHIS Tutorials Logo"
+                     class="logo-image"
+                     onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+
+                <div class="logo-fallback" id="logoFallback">
+                    MT
+                </div>
+
+                <h1>
+                    MTHIS <span>Tutorials</span>
+                </h1>
+
+                <p>
+                    Administrator Portal
+                </p>
+
+            </div>
+
+
+            <!-- LOGIN -->
+            <div class="login-content">
+
+                <div class="login-heading">
+
+                    <h2>
+                        Admin Login
+                    </h2>
+
+                    <p>
+                        Sign in to access the MTHIS Tutorials
+                        administration dashboard.
+                    </p>
+
+                </div>
+
+
+                <form id="adminLoginForm"
+                      onsubmit="adminLogin(event)">
+
+                    <div class="form-group">
+
+                        <label for="adminEmail">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                
+                            </span>
+
+                            <input
+                                type="email"
+                                id="adminEmail"
+                                placeholder="Enter admin email"
+                                autocomplete="email"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="adminPassword">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                
+                            </span>
+
+                            <input
+                                type="password"
+                                id="adminPassword"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword()"
+                                aria-label="Show password">
+
+                                👁
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="loginMessage"
+                         class="login-message">
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                        id="loginButton">
+
+                        <span id="loginButtonText">
+                            Login to Admin Dashboard
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <div class="back-link">
+
+                    <a href="index.html">
+                        ← Back to MTHIS Tutorials
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="login-footer">
+
+                <span>
+                    © 2026 MTHIS Tutorials
+                </span>
+
+                <span>
+                    Secure Administrator Access
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        /* =========================================
+           SUPABASE
+        ========================================= */
+
+        const SUPABASE_URL =
+            "https://bcpxdigpblgolreftfjx.supabase.co";
+
+        const SUPABASE_ANON_KEY =
+            "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
+
+
+        /* =========================================
+           TOGGLE PASSWORD
+        ========================================= */
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("adminPassword");
+
+            const button =
+                document.querySelector(".password-toggle");
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.innerText = "";
+
+            } else {
+
+                password.type = "password";
+
+                button.innerText = "";
+
+            }
+
+        }
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        function showMessage(message, type) {
+
+            const messageBox =
+                document.getElementById("loginMessage");
+
+            messageBox.innerText = message;
+
+            messageBox.className =
+                "login-message " + type;
+
+        }
+
+
+        /* =========================================
+           ADMIN LOGIN
+        ========================================= */
+
+        async function adminLogin(event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document.getElementById("adminEmail")
+                    .value
+                    .trim();
+
+            const password =
+                document.getElementById("adminPassword")
+                    .value;
+
+
+            const button =
+                document.getElementById("loginButton");
+
+            const buttonText =
+                document.getElementById("loginButtonText");
+
+
+            if (!email || !password) {
+
+                showMessage(
+                    "Please enter your email address and password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            button.disabled = true;
+
+            buttonText.innerText =
+                "Signing in...";
+
+
+            showMessage(
+                "",
+                ""
+            );
+
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signInWithPassword({
+                            email: email,
+                            password: password
+                        });
+
+
+                if (error) {
+
+                    console.error(
+                        "ADMIN LOGIN ERROR:",
+                        error
+                    );
+
+                    showMessage(
+                        error.message ||
+                        "Invalid email or password.",
+                        "error"
+                    );
+
+                    button.disabled = false;
+
+                    buttonText.innerText =
+                        "Login to Admin Dashboard";
+
+                    return;
+
+                }
+
+
+                if (!data.user) {
+
+                    showMessage(
+                        "Login failed. Please try again.",
+                        "error"
+                    );
+
+                    button.disabled = false;
+
+                    buttonText.innerText =
+                        "Login to Admin Dashboard";
+
+                    return;
+
+                }
+
+
+                showMessage(
+                    "Login successful. Opening dashboard...",
+                    "success"
+                );
+
+
+                setTimeout(function () {
+
+                    window.location.href = "admin.html";
+
+                }, 700);
+
+
+            } catch (error) {
+
+                console.error(
+                    "ADMIN LOGIN ERROR:",
+                    error
+                );
+
+
+                showMessage(
+                    "Something went wrong. Please try again.",
+                    "error"
+                );
+
+
+                button.disabled = false;
+
+                buttonText.innerText =
+                    "Login to Admin Dashboard";
+
+            }
+
+        }
+
+
+        /* =========================================
+           CHECK EXISTING SESSION
+        ========================================= */
+
+        async function checkExistingSession() {
+
+            try {
+
+                const {
+                    data: {
+                        session
+                    }
+                } =
+                    await supabaseClient
+                        .auth
+                        .getSession();
+
+
+                if (session) {
+
+                    window.location.href =
+                        "admin.html";
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "SESSION CHECK ERROR:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        checkExistingSession();
+
+    </script>
+
+</body>
+
+</html>
+```
+<!-- ADMIN ACCESS -->
+<a href="./admin-login.html" class="admin-access" aria-label="Admin Login">
+    <span class="person-icon">
+        <span class="person-head"></span>
+        <span class="person-body"></span>
+    </span>
+
+    <span class="admin-text">Admin</span>
+</a>

@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Learner Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="dashboard-brand">
+
+        <div class="brand-logo">
+            MT
+        </div>
+
+        <div class="brand-text">
+            <strong>MTHIS</strong>
+            <span>Tutorials</span>
+        </div>
+
+    </div>
+
+
+    <nav class="dashboard-nav">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="dashboard.html" class="active">
+            Dashboard
+        </a>
+
+        <a href="schedule.html">
+            Classes
+        </a>
+
+        <a href="videos.html">
+            Videos
+        </a>
+
+        <a href="documents.html">
+            Documents
+        </a>
+
+    </nav>
+
+
+    <div class="dashboard-actions">
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard-page">
+
+
+    <!-- =================================================
+         HERO
+    ================================================= -->
+
+    <section class="dashboard-hero">
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                LEARNER PORTAL
+            </span>
+
+            <h1 id="welcome">
+                Welcome!
+            </h1>
+
+            <p>
+                Manage your classes, learning materials,
+                schedule and academic information from
+                your MTHIS Tutorials dashboard.
+            </p>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="hero-card-top">
+
+                <span>
+                    YOUR ACCOUNT
+                </span>
+
+                <div class="online-status">
+                    <span></span>
+                    Online
+                </div>
+
+            </div>
+
+
+            <h3 id="heroStudentName">
+                Learner
+            </h3>
+
+            <p>
+                MTHIS Tutorials Learner
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PROFILE
+    ================================================= -->
+
+    <section class="dashboard-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span>
+                    MY ACCOUNT
+                </span>
+
+                <h2>
+                    Learner Information
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="learnerInfo"
+            class="profile-card">
+
+            <div class="loading-box">
+
+                <div class="loader"></div>
+
+                <p>
+                    Loading profile...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CLASSES
+    ================================================= -->
+
+    <section class="dashboard-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span>
+                    MY CLASSES
+                </span>
+
+                <h2>
+                    Scheduled Classes
+                </h2>
+
+                <p>
+                    Your upcoming MTHIS Tutorials classes.
+                </p>
+
+            </div>
+
+
+            <a
+                href="schedule.html"
+                class="section-button">
+
+                View Schedule
+
+            </a>
+
+        </div>
+
+
+        <!-- Loading -->
+
+        <div
+            id="classesLoading"
+            class="loading-card">
+
+            <div class="loader"></div>
+
+            <h3>
+                Loading classes
+            </h3>
+
+            <p>
+                Please wait while we load your schedule.
+            </p>
+
+        </div>
+
+
+        <!-- Error -->
+
+        <div
+            id="classesError"
+            class="error-card"
+            style="display:none;">
+
+        </div>
+
+
+        <!-- Classes -->
+
+        <div
+            id="classesContainer"
+            class="classes-grid"
+            style="display:none;">
+
+        </div>
+
+
+        <!-- No classes -->
+
+        <div
+            id="noClasses"
+            class="empty-card"
+            style="display:none;">
+
+            <div class="empty-icon">
+                CAL
+            </div>
+
+            <h3>
+                No Classes Scheduled
+            </h3>
+
+            <p>
+                There are currently no classes available
+                for your account.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LEARNING
+    ================================================= -->
+
+    <section class="dashboard-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span>
+                    LEARNING
+                </span>
+
+                <h2>
+                    My Learning
+                </h2>
+
+                <p>
+                    Everything you need for your studies.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="learning-grid">
+
+
+            <!-- SUBJECTS -->
+
+            <article class="learning-card">
+
+                <div class="learning-icon">
+                    SUB
+                </div>
+
+                <h3>
+                    My Subjects
+                </h3>
+
+                <p>
+                    View the subjects you are registered
+                    for at MTHIS Tutorials.
+                </p>
+
+                <button
+                    onclick="showSubjects()"
+                    class="card-button">
+
+                    View Subjects
+
+                </button>
+
+            </article>
+
+
+
+            <!-- VIDEOS -->
+
+            <article class="learning-card">
+
+                <div class="learning-icon">
+                    VID
+                </div>
+
+                <h3>
+                    Class Videos
+                </h3>
+
+                <p>
+                    Watch recordings and revision videos
+                    from your online lessons.
+                </p>
+
+                <a
+                    href="videos.html"
+                    class="card-button">
+
+                    Watch Videos
+
+                </a>
+
+            </article>
+
+
+
+            <!-- DOCUMENTS -->
+
+            <article class="learning-card">
+
+                <div class="learning-icon">
+                    DOC
+                </div>
+
+                <h3>
+                    Learning Documents
+                </h3>
+
+                <p>
+                    Access notes, worksheets and other
+                    learning materials.
+                </p>
+
+                <a
+                    href="documents.html"
+                    class="card-button">
+
+                    View Documents
+
+                </a>
+
+            </article>
+
+
+
+            <!-- TEAMS -->
+
+            <article class="learning-card">
+
+                <div class="learning-icon">
+                    TEA
+                </div>
+
+                <h3>
+                    Microsoft Teams
+                </h3>
+
+                <p>
+                    Join your scheduled online classes
+                    through Microsoft Teams.
+                </p>
+
+                <a
+                    href="schedule.html"
+                    class="card-button">
+
+                    Join Class
+
+                </a>
+
+            </article>
+
+
+
+            <!-- SCHEDULE -->
+
+            <article class="learning-card">
+
+                <div class="learning-icon">
+                    SCH
+                </div>
+
+                <h3>
+                    Class Schedule
+                </h3>
+
+                <p>
+                    Check your Mathematics and Physical
+                    Science class schedule.
+                </p>
+
+                <a
+                    href="schedule.html"
+                    class="card-button">
+
+                    View Schedule
+
+                </a>
+
+            </article>
+
+
+
+            <!-- PAYMENTS -->
+
+            <article class="learning-card">
+
+                <div class="learning-icon">
+                    PAY
+                </div>
+
+                <h3>
+                    Payments
+                </h3>
+
+                <p>
+                    View your tutorial fees and payment
+                    information.
+                </p>
+
+                <button
+                    onclick="showPayments()"
+                    class="card-button">
+
+                    View Payments
+
+                </button>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SUPPORT
+    ================================================= -->
+
+    <section class="support-card">
+
+        <div>
+
+            <span>
+                MTHIS SUPPORT
+            </span>
+
+            <h2>
+                Need help with your learning?
+            </h2>
+
+            <p>
+                Contact MTHIS Tutorials if you need
+                assistance with your classes or account.
+            </p>
+
+        </div>
+
+
+        <div class="support-buttons">
+
+            <a
+                href="mailto:mthimunyenkosinathi504@gmail.com">
+
+                Email Us
+
+            </a>
+
+
+            <a
+                href="https://wa.me/27818646502"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                WhatsApp
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     POPUP
+===================================================== -->
+
+<div
+    id="popup"
+    class="popup">
+
+    <div class="popup-box">
+
+        <button
+            class="popup-close"
+            onclick="closePopup()">
+
+            ×
+
+        </button>
+
+
+        <div class="popup-logo">
+            MT
+        </div>
+
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+
+        <p id="popupMessage">
+        </p>
+
+
+        <button
+            class="popup-button"
+            onclick="closePopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   CURRENT LEARNER
+===================================================== */
+
+let currentLearner = null;
+
+
+
+/* =====================================================
+   START DASHBOARD
+===================================================== */
+
+async function startDashboard() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error: authError
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
+
+
+        if (
+            authError ||
+            !user
+        ) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        /* =============================================
+           LOAD LEARNER
+        ============================================= */
+
+        const {
+            data: learner,
+            error: learnerError
+        } =
+            await supabaseClient
+                .from("learners")
+                .select("*")
+                .eq(
+                    "id",
+                    user.id
+                )
+                .maybeSingle();
+
+
+        if (learnerError) {
+
+            showProfileError(
+                learnerError.message
+            );
+
+            return;
+
+        }
+
+
+        if (!learner) {
+
+            showProfileError(
+                "Learner profile was not found."
+            );
+
+            return;
+
+        }
+
+
+        currentLearner =
+            learner;
+
+
+        /* =============================================
+           NAME
+        ============================================= */
+
+        const fullName =
+            (
+                learner.name || ""
+            ) +
+            " " +
+            (
+                learner.surname || ""
+            );
+
+
+        const cleanName =
+            fullName.trim();
+
+
+        document.getElementById(
+            "welcome"
+        ).textContent =
+            "Welcome, " +
+            cleanName +
+            "!";
+
+
+        document.getElementById(
+            "heroStudentName"
+        ).textContent =
+            cleanName || "Learner";
+
+
+
+        /* =============================================
+           SUBJECT
+        ============================================= */
+
+        let subject =
+            learner.subject ||
+            "Not selected";
+
+
+        if (
+            String(
+                subject
+            ).toLowerCase() === "both"
+        ) {
+
+            subject =
+                "Mathematics & Physical Science";
+
+        }
+
+
+
+        /* =============================================
+           PROFILE
+        ============================================= */
+
+        document.getElementById(
+            "learnerInfo"
+        ).innerHTML = `
+
+            <div class="profile-item">
+
+                <span>
+                    Full Name
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        cleanName
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <span>
+                    Email Address
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        learner.email ||
+                        user.email ||
+                        ""
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <span>
+                    Grade
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        learner.grade ||
+                        "Not selected"
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <span>
+                    Subject
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        subject
+                    )}
+                </strong>
+
+            </div>
+
+        `;
+
+
+
+        /* =============================================
+           LOAD CLASSES
+        ============================================= */
+
+        await loadLearnerClasses();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+        showProfileError(
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   PROFILE ERROR
+===================================================== */
+
+function showProfileError(
+    message
+) {
+
+    document.getElementById(
+        "learnerInfo"
+    ).innerHTML = `
+
+        <div class="profile-error">
+
+            <strong>
+                Unable to load profile
+            </strong>
+
+            <p>
+                ${escapeHTML(
+                    message
+                )}
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   LOAD CLASSES
+===================================================== */
+
+async function loadLearnerClasses() {
+
+    const loading =
+        document.getElementById(
+            "classesLoading"
+        );
+
+    const container =
+        document.getElementById(
+            "classesContainer"
+        );
+
+    const noClasses =
+        document.getElementById(
+            "noClasses"
+        );
+
+    const errorBox =
+        document.getElementById(
+            "classesError"
+        );
+
+
+    try {
+
+        const {
+            data: classes,
+            error
+        } =
+            await supabaseClient
+                .from("classes")
+                .select("*")
+                .order(
+                    "class_date",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        loading.style.display =
+            "none";
+
+
+        if (
+            !classes ||
+            classes.length === 0
+        ) {
+
+            noClasses.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            "";
+
+
+        classes.forEach(
+            classItem => {
+
+                container.innerHTML +=
+                    createClassCard(
+                        classItem
+                    );
+
+            }
+        );
+
+
+        container.style.display =
+            "grid";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        errorBox.style.display =
+            "block";
+
+
+        errorBox.innerHTML = `
+
+            <strong>
+                Unable to load classes
+            </strong>
+
+            <p>
+                ${escapeHTML(
+                    error.message
+                )}
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CLASS CARD
+===================================================== */
+
+function createClassCard(
+    classItem
+) {
+
+    const title =
+        classItem.title ||
+        "MTHIS Class";
+
+
+    const subject =
+        classItem.subject ||
+        "Not specified";
+
+
+    const grade =
+        classItem.grade ||
+        "Not specified";
+
+
+    const tutor =
+        classItem.tutor_name ||
+        classItem.tutor ||
+        "MTHIS Tutor";
+
+
+    const date =
+        formatClassDate(
+            classItem.class_date
+        );
+
+
+    const startTime =
+        formatTime(
+            classItem.start_time
+        );
+
+
+    const endTime =
+        formatTime(
+            classItem.end_time
+        );
+
+
+    const teamsButton =
+        classItem.teams_link
+
+        ? `
+
+            <a
+                href="${escapeHTML(
+                    classItem.teams_link
+                )}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="join-class-button">
+
+                Join Microsoft Teams
+
+            </a>
+
+        `
+
+        : `
+
+            <div
+                class="join-class-button disabled-button">
+
+                Teams link unavailable
+
+            </div>
+
+        `;
+
+
+    return `
+
+        <article class="class-card">
+
+            <div class="class-card-top">
+
+                <span class="class-category">
+                    MTHIS CLASS
+                </span>
+
+                <span class="class-status">
+                    Upcoming
+                </span>
+
+            </div>
+
+
+            <h3>
+                ${escapeHTML(
+                    title
+                )}
+            </h3>
+
+
+            <div class="class-information">
+
+                <div>
+
+                    <span>
+                        SUBJECT
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            subject
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        GRADE
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            grade
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TUTOR
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            tutor
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        DATE
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            date
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        TIME
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            startTime
+                        )}
+
+                        ${
+                            endTime
+                                ? " - " +
+                                  escapeHTML(
+                                      endTime
+                                  )
+                                : ""
+                        }
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            ${teamsButton}
+
+        </article>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatClassDate(
+    dateString
+) {
+
+    if (!dateString) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return dateString;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-ZA",
+        {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   TIME
+===================================================== */
+
+function formatTime(
+    time
+) {
+
+    if (!time) {
+
+        return "";
+
+    }
+
+
+    const parts =
+        String(time).split(":");
+
+
+    if (
+        parts.length < 2
+    ) {
+
+        return time;
+
+    }
+
+
+    let hour =
+        parseInt(
+            parts[0],
+            10
+        );
+
+
+    const minute =
+        parts[1];
+
+
+    if (
+        isNaN(hour)
+    ) {
+
+        return time;
+
+    }
+
+
+    const period =
+        hour >= 12
+            ? "PM"
+            : "AM";
+
+
+    hour =
+        hour % 12 || 12;
+
+
+    return (
+        hour +
+        ":" +
+        minute +
+        " " +
+        period
+    );
+
+}
+
+
+
+/* =====================================================
+   SUBJECTS
+===================================================== */
+
+function showSubjects() {
+
+    if (!currentLearner) {
+
+        showMessage(
+            "Your learner information is still loading."
+        );
+
+        return;
+
+    }
+
+
+    let subject =
+        currentLearner.subject ||
+        "No subject selected";
+
+
+    if (
+        String(subject).toLowerCase() ===
+        "both"
+    ) {
+
+        subject =
+            "Mathematics & Physical Science";
+
+    }
+
+
+    showMessage(
+        "Your registered subject:\n\n" +
+        subject
+    );
+
+}
+
+
+
+/* =====================================================
+   PAYMENTS
+===================================================== */
+
+function showPayments() {
+
+    showMessage(
+        "Your payment information will be available here."
+    );
+
+}
+
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showMessage(
+    message
+) {
+
+    document.getElementById(
+        "popupMessage"
+    ).textContent =
+        message;
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout() {
+
+    try {
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    startDashboard
+);
+
+</script>
+
+</body>
+
+</html>

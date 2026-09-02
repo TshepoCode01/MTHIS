@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Admin Reports</title>
+
+    <link
+        rel="stylesheet"
+        href="./style.css">
+
+    <style>
+
+        .reports-container {
+            width: 100%;
+        }
+
+        .report-filters {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .report-filters select,
+        .report-filters input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .stat-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .stat-card p {
+            margin-top: 7px;
+        }
+
+        .report-section {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .report-section h2 {
+            margin-top: 0;
+        }
+
+        .report-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .report-table th {
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .status-paid {
+            background: #e7f8ed;
+        }
+
+        .status-pending {
+            background: #fff5d9;
+        }
+
+        .status-suspended {
+            background: #ffe5e5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .error-message {
+            background: #ffe5e5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .report-button {
+            display: inline-block;
+            padding: 11px 17px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font: inherit;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <span>
+            Administrator Portal
+        </span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="dashboard">
+
+
+    <!-- =================================================
+         INTRO
+    ================================================== -->
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+
+        <h1>
+            Reports
+        </h1>
+
+
+        <p>
+            View learner registrations, payments,
+            attendance and account statistics.
+        </p>
+
+    </section>
+
+
+
+    <div
+        id="errorMessage"
+        class="error-message"
+        style="display:none;">
+    </div>
+
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================== -->
+
+    <section class="report-filters">
+
+        <h3>
+            Report Filters
+        </h3>
+
+
+        <label>
+            Grade:
+        </label>
+
+
+        <select id="gradeFilter">
+
+            <option value="all">
+                All Grades
+            </option>
+
+            <option value="11">
+                Grade 11
+            </option>
+
+            <option value="12">
+                Grade 12
+            </option>
+
+        </select>
+
+
+
+        <label>
+            Payment:
+        </label>
+
+
+        <select id="paymentFilter">
+
+            <option value="all">
+                All Payments
+            </option>
+
+            <option value="paid">
+                Paid
+            </option>
+
+            <option value="pending">
+                Pending
+            </option>
+
+            <option value="suspended">
+                Suspended
+            </option>
+
+        </select>
+
+
+
+        <button
+            class="report-button dashboard-button"
+            onclick="loadReports()">
+
+            🔄 Apply Filters
+
+        </button>
+
+    </section>
+
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section>
+
+        <div class="stats-grid">
+
+
+            <!-- TOTAL LEARNERS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="totalLearners">
+                    0
+                </h3>
+
+                <p>
+                    Registered Learners
+                </p>
+
+            </div>
+
+
+
+            <!-- PAID -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="paidLearners">
+                    0
+                </h3>
+
+                <p>
+                    Paid Learners
+                </p>
+
+            </div>
+
+
+
+            <!-- PENDING -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="pendingLearners">
+                    0
+                </h3>
+
+                <p>
+                    Pending Payments
+                </p>
+
+            </div>
+
+
+
+            <!-- SUSPENDED -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="suspendedLearners">
+                    0
+                </h3>
+
+                <p>
+                    Suspended Learners
+                </p>
+
+            </div>
+
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="attendanceCount">
+                    0
+                </h3>
+
+                <p>
+                    Attendance Records
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LEARNER REPORT
+    ================================================== -->
+
+    <section class="report-section">
+
+        <h2>
+            Learner Report
+        </h2>
+
+
+        <div
+            id="learnerLoading"
+            class="loading">
+
+            Loading learners...
+
+        </div>
+
+
+        <div
+            class="report-table-wrapper"
+            id="learnerTableContainer"
+            style="display:none;">
+
+            <table class="report-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Grade
+                        </th>
+
+                        <th>
+                            Payment
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="learnerTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ATTENDANCE REPORT
+    ================================================== -->
+
+    <section class="report-section">
+
+        <h2>
+             Attendance Summary
+        </h2>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="presentCount">
+                    0
+                </h3>
+
+                <p>
+                    Present
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="absentCount">
+                    0
+                </h3>
+
+                <p>
+                    Absent
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    
+                </div>
+
+                <h3 id="lateCount">
+                    0
+                </h3>
+
+                <p>
+                    Late
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         EXPORT
+    ================================================== -->
+
+    <section class="report-section">
+
+        <h2>
+            📥 Export
+        </h2>
+
+
+        <p>
+            Download the currently displayed learner
+            report as a CSV file.
+        </p>
+
+
+        <div class="report-actions">
+
+            <button
+                class="report-button dashboard-button"
+                onclick="exportCSV()">
+
+                 Export Learner Report
+
+            </button>
+
+
+            <button
+                class="report-button dashboard-button"
+                onclick="window.print()">
+
+                 Print Report
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <section class="support-section">
+
+        <a
+            href="./admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let allLearners = [];
+
+let allAttendance = [];
+
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
+
+
+        if (
+            error ||
+            !user
+        ) {
+
+            window.location.href =
+                "./admin-login.html";
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "ADMIN CHECK ERROR:",
+            error
+        );
+
+
+        window.location.href =
+            "./admin-login.html";
+
+        return false;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SHOW ERROR
+===================================================== */
+
+function showError(
+    message
+) {
+
+    const box =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    box.innerHTML =
+        "❌ " +
+        escapeHTML(message);
+
+
+    box.style.display =
+        "block";
+
+}
+
+
+
+/* =====================================================
+   HIDE ERROR
+===================================================== */
+
+function hideError() {
+
+    document.getElementById(
+        "errorMessage"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   LOAD LEARNERS
+===================================================== */
+
+async function loadLearners() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("learners")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        error
+    ) {
+
+        throw error;
+
+    }
+
+
+    allLearners =
+        data || [];
+
+}
+
+
+
+/* =====================================================
+   LOAD ATTENDANCE
+===================================================== */
+
+async function loadAttendance() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("attendance")
+            .select("*");
+
+
+    if (
+        error
+    ) {
+
+        /*
+           Attendance may not exist yet.
+           Keep the report working.
+        */
+
+        console.warn(
+            "Attendance could not be loaded:",
+            error.message
+        );
+
+
+        allAttendance =
+            [];
+
+
+        return;
+
+    }
+
+
+    allAttendance =
+        data || [];
+
+}
+
+
+
+/* =====================================================
+   PAYMENT STATUS
+===================================================== */
+
+function getPaymentStatus(
+    learner
+) {
+
+    const value =
+        String(
+            learner.payment_status ||
+            learner.paymentStatus ||
+            learner.payment ||
+            "pending"
+        )
+        .toLowerCase();
+
+
+    if (
+        value.includes("paid") ||
+        value.includes("approved")
+    ) {
+
+        return "paid";
+
+    }
+
+
+    if (
+        value.includes("suspend")
+    ) {
+
+        return "suspended";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+
+/* =====================================================
+   LEARNER STATUS
+===================================================== */
+
+function getLearnerStatus(
+    learner
+) {
+
+    return (
+        learner.status ||
+        learner.account_status ||
+        "active"
+    );
+
+}
+
+
+
+/* =====================================================
+   GRADE
+===================================================== */
+
+function getGrade(
+    learner
+) {
+
+    return String(
+        learner.grade ||
+        learner.grade_level ||
+        learner.gradeLevel ||
+        ""
+    );
+
+}
+
+
+
+/* =====================================================
+   FILTER LEARNERS
+===================================================== */
+
+function getFilteredLearners() {
+
+    const grade =
+        document.getElementById(
+            "gradeFilter"
+        ).value;
+
+
+    const payment =
+        document.getElementById(
+            "paymentFilter"
+        ).value;
+
+
+    return allLearners.filter(
+        learner => {
+
+
+            const learnerGrade =
+                getGrade(
+                    learner
+                );
+
+
+            const learnerPayment =
+                getPaymentStatus(
+                    learner
+                );
+
+
+            const gradeMatches =
+                grade === "all" ||
+                learnerGrade === grade;
+
+
+            const paymentMatches =
+                payment === "all" ||
+                learnerPayment === payment;
+
+
+            return (
+                gradeMatches &&
+                paymentMatches
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   UPDATE STATISTICS
+===================================================== */
+
+function updateStatistics(
+    learners
+) {
+
+    const paid =
+        learners.filter(
+            learner =>
+                getPaymentStatus(
+                    learner
+                ) === "paid"
+        ).length;
+
+
+    const pending =
+        learners.filter(
+            learner =>
+                getPaymentStatus(
+                    learner
+                ) === "pending"
+        ).length;
+
+
+    const suspended =
+        learners.filter(
+            learner =>
+                getPaymentStatus(
+                    learner
+                ) === "suspended" ||
+                String(
+                    getLearnerStatus(
+                        learner
+                    )
+                ).toLowerCase()
+                .includes("suspend")
+        ).length;
+
+
+
+    document.getElementById(
+        "totalLearners"
+    ).innerText =
+        learners.length;
+
+
+    document.getElementById(
+        "paidLearners"
+    ).innerText =
+        paid;
+
+
+    document.getElementById(
+        "pendingLearners"
+    ).innerText =
+        pending;
+
+
+    document.getElementById(
+        "suspendedLearners"
+    ).innerText =
+        suspended;
+
+
+    document.getElementById(
+        "attendanceCount"
+    ).innerText =
+        allAttendance.length;
+
+}
+
+
+
+/* =====================================================
+   DISPLAY LEARNERS
+===================================================== */
+
+function displayLearners(
+    learners
+) {
+
+    const loading =
+        document.getElementById(
+            "learnerLoading"
+        );
+
+
+    const container =
+        document.getElementById(
+            "learnerTableContainer"
+        );
+
+
+    const tbody =
+        document.getElementById(
+            "learnerTableBody"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    if (
+        learners.length === 0
+    ) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    style="text-align:center;">
+
+                    No learners found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    learners.forEach(
+        learner => {
+
+
+            const name =
+                learner.full_name ||
+                learner.name ||
+                (
+                    (learner.first_name || "") +
+                    " " +
+                    (learner.last_name || "")
+                ).trim() ||
+                "Unknown";
+
+
+            const email =
+                learner.email ||
+                "-";
+
+
+            const grade =
+                getGrade(
+                    learner
+                ) ||
+                "-";
+
+
+            const payment =
+                getPaymentStatus(
+                    learner
+                );
+
+
+            const status =
+                getLearnerStatus(
+                    learner
+                );
+
+
+            let paymentClass =
+                "status-pending";
+
+
+            if (
+                payment === "paid"
+            ) {
+
+                paymentClass =
+                    "status-paid";
+
+            }
+
+
+            if (
+                payment === "suspended"
+            ) {
+
+                paymentClass =
+                    "status-suspended";
+
+            }
+
+
+            tbody.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHTML(name)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(email)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(grade)}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status ${paymentClass}">
+
+                            ${escapeHTML(
+                                payment
+                            )}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHTML(
+                            status
+                        )}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    loading.style.display =
+        "none";
+
+
+    container.style.display =
+        "block";
+
+}
+
+
+
+/* =====================================================
+   ATTENDANCE STATISTICS
+===================================================== */
+
+function updateAttendanceStatistics() {
+
+    let present = 0;
+
+    let absent = 0;
+
+    let late = 0;
+
+
+    allAttendance.forEach(
+        record => {
+
+
+            const status =
+                String(
+                    record.status ||
+                    record.attendance_status ||
+                    ""
+                )
+                .toLowerCase();
+
+
+            if (
+                status === "present"
+            ) {
+
+                present++;
+
+            }
+
+            else if (
+                status === "absent"
+            ) {
+
+                absent++;
+
+            }
+
+            else if (
+                status === "late"
+            ) {
+
+                late++;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "presentCount"
+    ).innerText =
+        present;
+
+
+    document.getElementById(
+        "absentCount"
+    ).innerText =
+        absent;
+
+
+    document.getElementById(
+        "lateCount"
+    ).innerText =
+        late;
+
+}
+
+
+
+/* =====================================================
+   LOAD REPORTS
+===================================================== */
+
+async function loadReports() {
+
+    hideError();
+
+
+    document.getElementById(
+        "learnerLoading"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "learnerTableContainer"
+    ).style.display =
+        "none";
+
+
+    try {
+
+        await loadLearners();
+
+        await loadAttendance();
+
+
+        const filteredLearners =
+            getFilteredLearners();
+
+
+        updateStatistics(
+            filteredLearners
+        );
+
+
+        displayLearners(
+            filteredLearners
+        );
+
+
+        updateAttendanceStatistics();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "REPORT ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "learnerLoading"
+        ).style.display =
+            "none";
+
+
+        showError(
+            error.message ||
+            "Failed to load reports."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   EXPORT CSV
+===================================================== */
+
+function exportCSV() {
+
+    const learners =
+        getFilteredLearners();
+
+
+    if (
+        learners.length === 0
+    ) {
+
+        alert(
+            "There are no learners to export."
+        );
+
+        return;
+
+    }
+
+
+    let csv =
+        "Name,Email,Grade,Payment,Status\n";
+
+
+    learners.forEach(
+        learner => {
+
+
+            const name =
+                learner.full_name ||
+                learner.name ||
+                (
+                    (learner.first_name || "") +
+                    " " +
+                    (learner.last_name || "")
+                ).trim() ||
+                "Unknown";
+
+
+            const email =
+                learner.email ||
+                "";
+
+
+            const grade =
+                getGrade(
+                    learner
+                );
+
+
+            const payment =
+                getPaymentStatus(
+                    learner
+                );
+
+
+            const status =
+                getLearnerStatus(
+                    learner
+                );
+
+
+            csv +=
+                `"${csvSafe(name)}",` +
+                `"${csvSafe(email)}",` +
+                `"${csvSafe(grade)}",` +
+                `"${csvSafe(payment)}",` +
+                `"${csvSafe(status)}"\n`;
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "mthis-learner-report.csv";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+        link
+    );
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+
+/* =====================================================
+   CSV SAFE
+===================================================== */
+
+function csvSafe(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /"/g,
+        '""'
+    );
+
+}
+
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "./admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const allowed =
+        await checkAdmin();
+
+
+    if (
+        allowed
+    ) {
+
+        await loadReports();
+
+    }
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>

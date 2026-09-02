@@ -1,0 +1,1327 @@
+/* =========================================================
+   MTHIS TUTORIALS
+   ADMIN DASHBOARD — PREMIUM CSS
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: #041326;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172033;
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(0, 214, 160, 0.10),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 184, 148, 0.08),
+            transparent 30%
+        ),
+        #f4f7fb;
+
+    overflow-x: hidden;
+    animation: pageEnter 0.8s ease forwards;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 184, 148, 0.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 184, 148, 0.035) 1px,
+            transparent 1px
+        );
+
+    background-size: 50px 50px;
+
+    pointer-events: none;
+    z-index: -2;
+
+    animation: backgroundMove 20s linear infinite;
+}
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    right: -180px;
+    top: 120px;
+
+    border: 1px solid rgba(0, 184, 148, 0.15);
+    border-radius: 50%;
+
+    pointer-events: none;
+    z-index: -1;
+
+    animation: orbit 15s linear infinite;
+}
+
+@keyframes backgroundMove {
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: 50px 50px, 50px 50px;
+    }
+}
+
+@keyframes orbit {
+    from {
+        transform: rotate(0deg) translateX(20px);
+    }
+
+    to {
+        transform: rotate(360deg) translateX(20px);
+    }
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   PAGE EXIT
+========================================================= */
+
+.page-leaving {
+    animation: pageLeave 0.3s ease forwards;
+}
+
+@keyframes pageLeave {
+    to {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.99);
+    }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.dashboard-header {
+    width: 100%;
+    min-height: 80px;
+
+    padding: 0 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    background: rgba(4, 19, 38, 0.94);
+
+    border-bottom: 1px solid rgba(0, 214, 160, 0.15);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 10px 35px rgba(4, 19, 38, 0.15);
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+
+    background: linear-gradient(
+        135deg,
+        #00d6a0,
+        #00a883
+    );
+
+    color: #071a33;
+
+    font-size: 20px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 25px rgba(0, 214, 160, 0.25);
+
+    animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-4px) rotate(2deg);
+    }
+}
+
+.brand h2 {
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.brand span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8fa1b7;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   LOGOUT BUTTON
+========================================================= */
+
+.logout-btn {
+    border: 1px solid rgba(0, 214, 160, 0.55);
+
+    background: transparent;
+
+    color: white;
+
+    padding: 10px 19px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #00b894;
+
+    color: #071a33;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 184, 148, 0.25);
+}
+
+/* =========================================================
+   MAIN DASHBOARD
+========================================================= */
+
+.dashboard {
+    width: min(1200px, 92%);
+
+    margin: auto;
+
+    padding:
+        60px
+        0
+        100px;
+}
+
+/* =========================================================
+   WELCOME PANEL
+========================================================= */
+
+.dashboard-welcome {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 50px;
+
+    margin-bottom: 70px;
+
+    border-radius: 25px;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(0, 214, 160, 0.30),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #071a33,
+            #0c2949
+        );
+
+    box-shadow:
+        0 25px 70px rgba(4, 19, 38, 0.18);
+}
+
+.dashboard-welcome::before {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -150px;
+    top: -170px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(
+            0,
+            214,
+            160,
+            0.18
+        );
+
+    animation:
+        welcomeCircle 12s linear infinite;
+}
+
+.dashboard-welcome::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: 70px;
+    bottom: -110px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            0,
+            214,
+            160,
+            0.06
+        );
+}
+
+@keyframes welcomeCircle {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.small-title {
+    position: relative;
+    z-index: 2;
+
+    margin-bottom: 8px;
+
+    color: #00d6a0;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.dashboard-welcome h1 {
+    position: relative;
+    z-index: 2;
+
+    margin-bottom: 15px;
+
+    font-size: clamp(
+        32px,
+        5vw,
+        54px
+    );
+
+    line-height: 1.1;
+}
+
+.dashboard-welcome > p:last-child {
+    position: relative;
+    z-index: 2;
+
+    max-width: 760px;
+
+    color: #ccd8e6;
+
+    font-size: 15px;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section {
+    margin-bottom: 75px;
+}
+
+.section-heading {
+    margin-bottom: 27px;
+}
+
+.section-heading h2 {
+    color: #071a33;
+
+    font-size: 34px;
+
+    line-height: 1.2;
+}
+
+/* =========================================================
+   DASHBOARD GRID
+========================================================= */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 22px;
+}
+
+/* =========================================================
+   DASHBOARD CARD
+========================================================= */
+
+.dashboard-card {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 28px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.94
+        );
+
+    border:
+        1px solid
+        rgba(
+            7,
+            26,
+            51,
+            0.07
+        );
+
+    box-shadow:
+        0 10px 35px
+        rgba(
+            7,
+            26,
+            51,
+            0.06
+        );
+
+    animation:
+        cardAppear
+        0.7s
+        ease
+        both;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.dashboard-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.dashboard-card:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.dashboard-card:nth-child(3) {
+    animation-delay: 0.19s;
+}
+
+.dashboard-card:nth-child(4) {
+    animation-delay: 0.26s;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform:
+            translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
+}
+
+/* =========================================================
+   CARD GLOW
+========================================================= */
+
+.dashboard-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    right: -65px;
+    top: -65px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            0,
+            184,
+            148,
+            0.07
+        );
+
+    transition:
+        transform 0.45s ease;
+}
+
+.dashboard-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 2px;
+    height: 80px;
+
+    left: 0;
+    top: 30px;
+
+    background:
+        linear-gradient(
+            transparent,
+            #00b894,
+            transparent
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform:
+        translateY(-9px);
+
+    border-color:
+        rgba(
+            0,
+            184,
+            148,
+            0.25
+        );
+
+    box-shadow:
+        0 25px 55px
+        rgba(
+            7,
+            26,
+            51,
+            0.12
+        );
+}
+
+.dashboard-card:hover::before {
+    transform: scale(1.8);
+}
+
+.dashboard-card:hover::after {
+    opacity: 1;
+}
+
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.card-icon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e9fbf6,
+            #d9f6ee
+        );
+
+    border:
+        1px solid
+        rgba(
+            0,
+            184,
+            148,
+            0.16
+        );
+
+    color: #00a383;
+
+    font-size: 16px;
+
+    font-weight: 900;
+
+    transition:
+        transform 0.35s ease,
+        background 0.35s ease,
+        color 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.dashboard-card:hover .card-icon {
+    transform:
+        rotate(-6deg)
+        scale(1.08);
+
+    background:
+        linear-gradient(
+            135deg,
+            #00d6a0,
+            #00a883
+        );
+
+    color: #071a33;
+
+    box-shadow:
+        0 10px 25px
+        rgba(
+            0,
+            184,
+            148,
+            0.22
+        );
+}
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
+.dashboard-card h3 {
+    position: relative;
+    z-index: 2;
+
+    margin-bottom: 9px;
+
+    color: #071a33;
+
+    font-size: 20px;
+}
+
+.dashboard-card p {
+    position: relative;
+    z-index: 2;
+
+    min-height: 75px;
+
+    color: #68758a;
+
+    font-size: 14px;
+}
+
+/* =========================================================
+   DASHBOARD BUTTON
+========================================================= */
+
+.dashboard-button {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 44px;
+
+    margin-top: 18px;
+
+    padding: 10px 15px;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #071a33,
+            #0d2949
+        );
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.dashboard-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #00b894,
+            #00d6a0
+        );
+
+    color: #071a33;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(
+            0,
+            184,
+            148,
+            0.20
+        );
+}
+
+/* =========================================================
+   QUICK LINKS
+========================================================= */
+
+.support-section {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 45px;
+
+    text-align: center;
+
+    border-radius: 22px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #071a33,
+            #0c2949
+        );
+
+    box-shadow:
+        0 20px 55px
+        rgba(
+            4,
+            19,
+            38,
+            0.16
+        );
+}
+
+.support-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    left: -170px;
+    bottom: -180px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(
+            0,
+            214,
+            160,
+            0.18
+        );
+
+    animation:
+        orbit 12s linear infinite;
+}
+
+.support-section h2 {
+    position: relative;
+    z-index: 2;
+
+    margin-bottom: 7px;
+
+    font-size: 30px;
+}
+
+.support-section > p {
+    position: relative;
+    z-index: 2;
+
+    color: #c9d5e3;
+}
+
+.support-buttons {
+    position: relative;
+    z-index: 3;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+.support-link {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 190px;
+
+    padding: 12px 20px;
+
+    border-radius: 9px;
+
+    background:
+        #00b894;
+
+    color: #071a33;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+.support-link:hover {
+    background: #00d6a0;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(
+            0,
+            214,
+            160,
+            0.22
+        );
+}
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.popup {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 3000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.72
+        );
+}
+
+.popup.show {
+    display: flex;
+}
+
+.popup-box {
+    width: min(
+        500px,
+        100%
+    );
+
+    position: relative;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    background: white;
+
+    box-shadow:
+        0 30px 80px
+        rgba(
+            0,
+            0,
+            0,
+            0.35
+        );
+
+    animation:
+        popupIn
+        0.35s
+        ease
+        both;
+}
+
+@keyframes popupIn {
+    from {
+        opacity: 0;
+        transform:
+            translateY(15px)
+            scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+.popup-close {
+    position: absolute;
+
+    right: 15px;
+    top: 10px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #667085;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+.popup-box h2 {
+    margin-bottom: 15px;
+
+    color: #071a33;
+}
+
+.popup-box > button:last-child {
+    margin-top: 20px;
+
+    padding: 11px 20px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background:
+        #00b894;
+
+    color: #071a33;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .dashboard-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+
+    .dashboard-header {
+        min-height: 70px;
+
+        padding:
+            10px 5%;
+    }
+
+    .brand-mark {
+        width: 40px;
+        height: 40px;
+
+        font-size: 17px;
+    }
+
+    .brand h2 {
+        font-size: 16px;
+    }
+
+    .brand span {
+        font-size: 10px;
+    }
+
+    .logout-btn {
+        padding:
+            8px 13px;
+
+        font-size: 12px;
+    }
+
+    .dashboard {
+        width: 94%;
+
+        padding:
+            35px 0 70px;
+    }
+
+    .dashboard-welcome {
+        padding:
+            35px 25px;
+
+        border-radius: 20px;
+
+        margin-bottom: 50px;
+    }
+
+    .dashboard-welcome h1 {
+        font-size: 32px;
+    }
+
+    .section-heading h2 {
+        font-size: 28px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .dashboard-card {
+        padding: 25px;
+    }
+
+    .dashboard-card p {
+        min-height: auto;
+    }
+
+    .support-section {
+        padding:
+            35px 20px;
+    }
+
+    .support-buttons {
+        flex-direction: column;
+    }
+
+    .support-link {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline:
+        3px solid
+        rgba(
+            0,
+            184,
+            148,
+            0.35
+        );
+
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+/* =========================================================
+   ADMIN ACCESS BUTTON
+   ALWAYS VISIBLE ON PHONE
+========================================================= */
+
+.admin-access {
+    position: fixed;
+
+    right: 18px;
+    bottom: 18px;
+
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 13px 9px 9px;
+
+    background: rgba(7, 26, 51, 0.96);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(0, 214, 160, 0.35);
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* ADMIN ICON */
+
+.admin-icon {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00d6a0,
+            #00a383
+        );
+
+    color: #071a33;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 0 4px rgba(0, 214, 160, 0.08);
+
+    animation:
+        adminPulse 3s ease-in-out infinite;
+}
+
+/* TEXT */
+
+.admin-text {
+    line-height: 1;
+}
+
+/* HOVER */
+
+.admin-access:hover {
+    background: #00b894;
+
+    color: #071a33;
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 184, 148, 0.30);
+}
+
+/* ICON ANIMATION */
+
+@keyframes adminPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 4px
+            rgba(0, 214, 160, 0.08);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 8px
+            rgba(0, 214, 160, 0.02);
+    }
+}
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .admin-access {
+        display: flex !important;
+
+        visibility: visible !important;
+
+        opacity: 1 !important;
+
+        right: 14px;
+        bottom: 14px;
+
+        padding:
+            8px 12px 8px 8px;
+
+        min-height: 48px;
+
+        z-index: 999999;
+    }
+
+    .admin-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .admin-text {
+        display: inline;
+        font-size: 12px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .admin-access {
+        right: 10px;
+        bottom: 10px;
+
+        padding: 7px;
+    }
+
+    .admin-text {
+        display: none;
+    }
+
+    .admin-icon {
+        width: 34px;
+        height: 34px;
+    }
+}

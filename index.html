@@ -1,0 +1,4131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Grade 11 & 12</title>
+
+    <meta name="description"
+          content="MTHIS Tutorials provides online Mathematics and Physical Science lessons for Grade 11 and Grade 12 learners.">
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7fb;
+
+            color: #172033;
+
+            line-height: 1.6;
+
+            overflow-x: hidden;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+
+            width: 100%;
+
+            background:
+                rgba(2, 10, 25, 0.96);
+
+            color: white;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            box-shadow:
+                0 5px 30px
+                rgba(0, 0, 0, 0.35);
+
+            backdrop-filter: blur(12px);
+        }
+
+
+        .navbar {
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            min-height: 78px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 25px;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .logo-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0066ff,
+                    #00aaff
+                );
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+            color: white;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0, 102, 255, 0.4);
+
+            animation:
+                logoPulse 3s infinite;
+        }
+
+
+        .logo h2 {
+
+            font-size: 21px;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        .logo span {
+
+            color: #1687ff;
+        }
+
+
+        nav {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        nav a {
+
+            color: #dce7f7;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+
+            position: relative;
+        }
+
+
+        nav a:not(.nav-login):not(.nav-register)::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            bottom: -7px;
+
+            width: 0;
+
+            height: 2px;
+
+            background: #1687ff;
+
+            transition: 0.3s;
+        }
+
+
+        nav a:hover {
+
+            color: #1687ff;
+        }
+
+
+        nav a:hover::after {
+
+            width: 100%;
+        }
+
+
+        .nav-login {
+
+            border:
+                1px solid #1687ff;
+
+            padding: 9px 16px;
+
+            border-radius: 8px;
+
+            transition: 0.3s;
+        }
+
+
+        .nav-login:hover {
+
+            background: #1687ff;
+
+            color: white;
+        }
+
+
+        .nav-register {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0066ff,
+                    #0047b3
+                );
+
+            padding: 10px 17px;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 7px 20px
+                rgba(0, 102, 255, 0.3);
+
+            transition: 0.3s;
+        }
+
+
+        .nav-register:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 28px
+                rgba(0, 102, 255, 0.45);
+
+            color: white;
+        }
+
+
+        .menu-btn {
+
+            display: none;
+
+            font-size: 27px;
+
+            cursor: pointer;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+
+            min-height: 650px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(0, 102, 255, 0.35),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 20% 80%,
+                    rgba(0, 168, 255, 0.12),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020817,
+                    #061b3a 60%,
+                    #020817
+                );
+
+            display: flex;
+
+            align-items: center;
+        }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+
+            height: 500px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(0, 136, 255, 0.15);
+
+            right: -180px;
+
+            top: -180px;
+
+            animation:
+                heroCircle 10s linear infinite;
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+
+            height: 350px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(0, 136, 255, 0.1);
+
+            left: -150px;
+
+            bottom: -150px;
+
+            animation:
+                heroCircle 12s linear infinite reverse;
+        }
+
+
+        .hero-container {
+
+            width: 100%;
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding: 80px 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                1.2fr 0.8fr;
+
+            gap: 60px;
+
+            align-items: center;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .hero-text {
+
+            color: white;
+
+            animation:
+                heroText 0.8s ease;
+        }
+
+
+        .hero-label {
+
+            display: inline-block;
+
+            background:
+                rgba(0, 102, 255, 0.12);
+
+            border:
+                1px solid
+                rgba(45, 144, 255, 0.7);
+
+            color: #3da0ff;
+
+            padding: 8px 16px;
+
+            border-radius: 30px;
+
+            margin-bottom: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .hero h1 {
+
+            font-size:
+                clamp(40px, 6vw, 72px);
+
+            line-height: 1.04;
+
+            margin-bottom: 22px;
+
+            letter-spacing: -2px;
+        }
+
+
+        .hero h1 span {
+
+            color: #1687ff;
+
+            text-shadow:
+                0 0 30px
+                rgba(0, 119, 255, 0.45);
+        }
+
+
+        .hero p {
+
+            font-size: 18px;
+
+            max-width: 670px;
+
+            color: #c9d7ea;
+
+            margin-bottom: 30px;
+        }
+
+
+        .hero-buttons {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 14px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .btn {
+
+            border: none;
+
+            padding: 14px 22px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+            transition:
+                transform 0.3s,
+                box-shadow 0.3s,
+                background 0.3s;
+
+        }
+
+
+        .btn-primary {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0066ff,
+                    #0045a8
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0, 102, 255, 0.28);
+        }
+
+
+        .btn-primary:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 13px 32px
+                rgba(0, 102, 255, 0.4);
+        }
+
+
+        .btn-outline {
+
+            background: transparent;
+
+            color: white;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.5);
+        }
+
+
+        .btn-outline:hover {
+
+            background: white;
+
+            color: #061b3a;
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(255,255,255,0.15);
+        }
+
+
+        /* =====================================================
+           HERO CARD
+        ===================================================== */
+
+        .hero-card {
+
+            background:
+                rgba(255,255,255,0.97);
+
+            border-radius: 20px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,0.4);
+
+            animation:
+                heroCard 0.9s ease;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.7);
+        }
+
+
+        .hero-card h3 {
+
+            color: #061b3a;
+
+            margin-bottom: 20px;
+
+            font-size: 24px;
+        }
+
+
+        .price-card {
+
+            padding: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f9ff,
+                    #edf4ff
+                );
+
+            border-radius: 11px;
+
+            margin-bottom: 13px;
+
+            border-left:
+                4px solid #0066ff;
+
+            transition: 0.3s;
+        }
+
+
+        .price-card:hover {
+
+            transform:
+                translateX(5px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(0, 102, 255, 0.1);
+        }
+
+
+        .price-card strong {
+
+            display: block;
+
+            font-size: 19px;
+
+            color: #061b3a;
+        }
+
+
+        .price-card span {
+
+            color: #657084;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           SECTIONS
+        ===================================================== */
+
+        section {
+
+            padding: 90px 25px;
+        }
+
+
+        .container {
+
+            max-width: 1250px;
+
+            margin: auto;
+        }
+
+
+        .section-heading {
+
+            text-align: center;
+
+            margin-bottom: 52px;
+        }
+
+
+        .section-heading span {
+
+            color: #0066ff;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .section-heading h2 {
+
+            font-size: 40px;
+
+            color: #061b3a;
+
+            margin-top: 8px;
+        }
+
+
+        .section-heading p {
+
+            max-width: 680px;
+
+            margin: 10px auto;
+
+            color: #667085;
+        }
+
+
+        /* =====================================================
+           ABOUT
+        ===================================================== */
+
+        .about {
+
+            background: white;
+        }
+
+
+        .about-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 55px;
+
+            align-items: center;
+        }
+
+
+        .about-text h3 {
+
+            font-size: 30px;
+
+            margin-bottom: 15px;
+
+            color: #061b3a;
+        }
+
+
+        .about-text p {
+
+            margin-bottom: 15px;
+
+            color: #5c6675;
+        }
+
+
+        .features {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 17px;
+        }
+
+
+        .feature {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f6f9fd,
+                    #edf4fb
+                );
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid #e2e9f2;
+
+            box-shadow:
+                0 7px 25px
+                rgba(7, 26, 51, 0.06);
+
+            transition: 0.3s;
+        }
+
+
+        .feature:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(7, 26, 51, 0.1);
+        }
+
+
+        .feature strong {
+
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #061b3a;
+        }
+
+
+        /* =====================================================
+           SUBJECTS
+        ===================================================== */
+
+        .subjects-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 28px;
+        }
+
+
+        .subject-card {
+
+            background: white;
+
+            border-radius: 17px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(7, 26, 51, 0.08);
+
+            border-top:
+                5px solid #0066ff;
+
+            transition: 0.35s;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .subject-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            background:
+                rgba(0,102,255,0.05);
+
+            border-radius: 50%;
+
+            right: -90px;
+
+            top: -90px;
+        }
+
+
+        .subject-card:hover {
+
+            transform:
+                translateY(-8px);
+
+            box-shadow:
+                0 20px 50px
+                rgba(7, 26, 51, 0.14);
+        }
+
+
+        .subject-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e8f1ff,
+                    #d9e9ff
+                );
+
+            color: #0066ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(0,102,255,0.1);
+        }
+
+
+        .subject-card h3 {
+
+            font-size: 25px;
+
+            margin-bottom: 10px;
+
+            color: #061b3a;
+        }
+
+
+        .subject-card p {
+
+            color: #667085;
+        }
+
+
+        /* =====================================================
+           PRICING
+        ===================================================== */
+
+        .pricing {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef4fb,
+                    #f7f9fc
+                );
+        }
+
+
+        .pricing-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 28px;
+
+            max-width: 900px;
+
+            margin: auto;
+        }
+
+
+        .pricing-card {
+
+            background: white;
+
+            padding: 38px;
+
+            border-radius: 17px;
+
+            text-align: center;
+
+            box-shadow:
+                0 12px 35px
+                rgba(7,26,51,0.08);
+
+            border:
+                1px solid #e5ebf3;
+
+            transition: 0.3s;
+        }
+
+
+        .pricing-card:hover {
+
+            transform:
+                translateY(-7px);
+
+            box-shadow:
+                0 20px 50px
+                rgba(7,26,51,0.14);
+        }
+
+
+        .pricing-card h3 {
+
+            color: #061b3a;
+        }
+
+
+        .price {
+
+            font-size: 44px;
+
+            font-weight: bold;
+
+            color: #0066ff;
+
+            margin: 15px 0;
+        }
+
+
+        .pricing-card p {
+
+            color: #667085;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           CLASSES
+        ===================================================== */
+
+        .classes {
+
+            background: white;
+        }
+
+
+        .class-box {
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(0,102,255,0.3),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020817,
+                    #061b3a
+                );
+
+            color: white;
+
+            padding: 55px;
+
+            border-radius: 22px;
+
+            text-align: center;
+
+            box-shadow:
+                0 20px 55px
+                rgba(0,0,0,0.2);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .class-box h2 {
+
+            font-size: 34px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .class-box p {
+
+            color: #d6deea;
+
+            max-width: 700px;
+
+            margin:
+                0 auto 25px;
+        }
+
+
+        /* =====================================================
+           PORTAL
+        ===================================================== */
+
+        .portal {
+
+            background: #f4f7fb;
+        }
+
+
+        .portal-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+
+        .portal-card {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px
+                rgba(7,26,51,0.07);
+
+            transition: 0.3s;
+        }
+
+
+        .portal-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 40px
+                rgba(7,26,51,0.12);
+        }
+
+
+        .portal-card h3 {
+
+            margin: 15px 0 8px;
+
+            color: #061b3a;
+        }
+
+
+        .portal-card p {
+
+            color: #667085;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* =====================================================
+           CONTACT
+        ===================================================== */
+
+        .contact {
+
+            background: white;
+        }
+
+
+        .contact-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                0.8fr 1.2fr;
+
+            gap: 40px;
+        }
+
+
+        .contact-info {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #020817,
+                    #061b3a
+                );
+
+            color: white;
+
+            padding: 38px;
+
+            border-radius: 17px;
+
+            box-shadow:
+                0 18px 45px
+                rgba(0,0,0,0.18);
+        }
+
+
+        .contact-info h3 {
+
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .contact-item {
+
+            margin-top: 25px;
+        }
+
+
+        .contact-item strong {
+
+            display: block;
+
+            color: #3da0ff;
+
+            margin-bottom: 4px;
+        }
+
+
+        .contact-item a {
+
+            color: white;
+
+            word-break: break-word;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+
+            background: #020817;
+
+            color: white;
+
+            padding:
+                50px 25px 20px;
+        }
+
+
+        .footer-grid {
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr;
+
+            gap: 40px;
+        }
+
+
+        footer h3 {
+
+            margin-bottom: 10px;
+        }
+
+
+        footer p,
+        footer a {
+
+            color: #aebdd0;
+        }
+
+
+        footer a {
+
+            display: block;
+
+            margin: 7px 0;
+
+            transition: 0.3s;
+        }
+
+
+        footer a:hover {
+
+            color: #1687ff;
+
+            transform:
+                translateX(3px);
+        }
+
+
+        .copyright {
+
+            max-width: 1250px;
+
+            margin:
+                35px auto 0;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid #1c2b42;
+
+            text-align: center;
+
+            color: #718096;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           WHATSAPP
+        ===================================================== */
+
+        .whatsapp {
+
+            position: fixed;
+
+            right: 22px;
+
+            bottom: 22px;
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #020817
+                );
+
+            color: white;
+
+            border:
+                1px solid #1687ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+            z-index: 2000;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,0.3);
+
+            transition: 0.3s;
+        }
+
+
+        .whatsapp:hover {
+
+            transform:
+                translateY(-5px);
+
+            background: #0066ff;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,102,255,0.4);
+        }
+
+
+        /* =====================================================
+           ADMIN ACCESS
+        ===================================================== */
+
+        .admin-access {
+
+            position: fixed;
+
+            right: 22px;
+
+            bottom: 92px;
+
+            min-height: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            padding:
+                7px 14px 7px 7px;
+
+            background:
+                #020817;
+
+            color: white;
+
+            border:
+                1px solid #1687ff;
+
+            border-radius: 50px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            z-index: 2500;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,0.35);
+
+            transition: 0.3s;
+        }
+
+
+        .person-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            min-width: 36px;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0066ff,
+                    #00aaff
+                );
+
+            border-radius: 50%;
+        }
+
+
+        .person-head {
+
+            position: absolute;
+
+            width: 10px;
+
+            height: 10px;
+
+            top: 7px;
+
+            background: #020817;
+
+            border-radius: 50%;
+        }
+
+
+        .person-body {
+
+            position: absolute;
+
+            width: 19px;
+
+            height: 11px;
+
+            bottom: 6px;
+
+            background: #020817;
+
+            border-radius:
+                12px 12px 5px 5px;
+        }
+
+
+        .admin-access:hover {
+
+            background: #0066ff;
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(0,102,255,0.4);
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0,0,0,0.75);
+
+            z-index: 3000;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            backdrop-filter: blur(5px);
+        }
+
+
+        .modal.active {
+
+            display: flex;
+
+            animation:
+                modalBackground 0.25s ease;
+        }
+
+
+        .modal-content {
+
+            background: white;
+
+            width: 100%;
+
+            max-width: 550px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            border-radius: 18px;
+
+            padding: 32px;
+
+            position: relative;
+
+            box-shadow:
+                0 30px 80px
+                rgba(0,0,0,0.4);
+
+            animation:
+                modalOpen 0.3s ease;
+        }
+
+
+        .close {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 12px;
+
+            font-size: 30px;
+
+            cursor: pointer;
+
+            color: #667085;
+
+            transition: 0.2s;
+        }
+
+
+        .close:hover {
+
+            color: #0066ff;
+
+            transform:
+                rotate(90deg);
+        }
+
+
+        .modal-content h2 {
+
+            color: #061b3a;
+
+            margin-bottom: 20px;
+        }
+
+
+        .modal-message {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #edf5ff,
+                    #f7faff
+                );
+
+            border-left:
+                4px solid #0066ff;
+
+            padding: 15px;
+
+            border-radius: 6px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .status-message {
+
+            display: none;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-weight: bold;
+        }
+
+
+        .status-message.show {
+
+            display: block;
+        }
+
+
+        .status-success {
+
+            background: #e8f8f2;
+
+            color: #087f5b;
+        }
+
+
+        .status-error {
+
+            background: #fff0f0;
+
+            color: #c92a2a;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 17px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-weight: bold;
+
+            color: #172033;
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #d5dbe4;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            background: white;
+
+            transition: 0.2s;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #0066ff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(0,102,255,0.1);
+        }
+
+
+        .forgot-password {
+
+            text-align: right;
+
+            margin-top: -8px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .forgot-password a {
+
+            color: #0066ff;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .forgot-password a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        .loading {
+
+            opacity: 0.65;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           ANIMATIONS
+        ===================================================== */
+
+        @keyframes logoPulse {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 8px 25px
+                    rgba(0,102,255,0.35);
+            }
+
+            50% {
+                box-shadow:
+                    0 8px 35px
+                    rgba(0,102,255,0.65);
+            }
+        }
+
+
+        @keyframes heroCircle {
+
+            from {
+                transform:
+                    rotate(0deg);
+            }
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+        }
+
+
+        @keyframes heroText {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateX(0);
+            }
+        }
+
+
+        @keyframes heroCard {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateX(0);
+            }
+        }
+
+
+        @keyframes modalOpen {
+
+            from {
+                opacity: 0;
+                transform:
+                    scale(0.94)
+                    translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    scale(1)
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes modalBackground {
+
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media(max-width: 850px) {
+
+            nav {
+
+                display: none;
+
+                position: absolute;
+
+                top: 78px;
+
+                left: 0;
+
+                right: 0;
+
+                background:
+                    #020817;
+
+                flex-direction: column;
+
+                padding: 25px;
+
+                gap: 18px;
+
+                box-shadow:
+                    0 15px 30px
+                    rgba(0,0,0,0.35);
+            }
+
+
+            nav.active {
+
+                display: flex;
+            }
+
+
+            .menu-btn {
+
+                display: block;
+            }
+
+
+            .hero-container,
+            .about-grid,
+            .contact-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .subjects-grid,
+            .pricing-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .portal-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .footer-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .hero {
+
+                min-height: auto;
+            }
+
+
+            .hero-card {
+
+                margin-top: 10px;
+            }
+
+
+            .features {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .hero h1 {
+
+                letter-spacing: -1px;
+            }
+
+
+            .admin-access {
+
+                right: 14px;
+
+                bottom: 82px;
+
+                z-index: 99999;
+            }
+
+        }
+
+
+        /* =====================================================
+           VERY SMALL PHONES
+        ===================================================== */
+
+        @media(max-width: 380px) {
+
+            .admin-access {
+
+                right: 10px;
+
+                bottom: 78px;
+
+                width: 48px;
+
+                height: 48px;
+
+                min-height: 48px;
+
+                padding: 6px;
+
+                border-radius: 50%;
+            }
+
+
+            .admin-text {
+
+                display: none;
+            }
+
+
+            .person-icon {
+
+                width: 34px;
+
+                height: 34px;
+
+                min-width: 34px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                MT
+            </div>
+
+            <h2>
+                MTHIS <span>Tutorials</span>
+            </h2>
+
+        </div>
+
+
+        <div class="menu-btn"
+             onclick="toggleMenu()">
+
+            MENU
+
+        </div>
+
+
+        <nav id="mainNav">
+
+            <a href="#home"
+               onclick="closeMenu()">
+                Home
+            </a>
+
+            <a href="#about"
+               onclick="closeMenu()">
+                About Us
+            </a>
+
+            <a href="#subjects"
+               onclick="closeMenu()">
+                Subjects
+            </a>
+
+            <a href="#classes"
+               onclick="closeMenu()">
+                Classes
+            </a>
+
+            <a href="#pricing"
+               onclick="closeMenu()">
+                Pricing
+            </a>
+
+            <a href="#portal"
+               onclick="closeMenu()">
+                Learner Portal
+            </a>
+
+            <a href="#contact"
+               onclick="closeMenu()">
+                Contact
+            </a>
+
+            <a href="#"
+               class="nav-login"
+               onclick="
+                    openLogin();
+                    return false;
+               ">
+
+                Login
+
+            </a>
+
+            <a href="#"
+               class="nav-register"
+               onclick="
+                    openModal('registerModal');
+                    return false;
+               ">
+
+                Register
+
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero"
+         id="home">
+
+    <div class="hero-container">
+
+        <div class="hero-text">
+
+            <div class="hero-label">
+
+                GRADE 11 & 12 • ONLINE LEARNING
+
+            </div>
+
+            <h1>
+
+                Learn. Understand.
+                <span>Achieve.</span>
+
+            </h1>
+
+            <p>
+
+                MTHIS Tutorials provides focused online
+                Mathematics and Physical Science lessons
+                designed to help Grade 11 and Grade 12
+                learners understand their work and improve
+                their academic performance.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="btn btn-primary"
+                        onclick="
+                            openModal('registerModal')
+                        ">
+
+                    Register Now
+
+                </button>
+
+                <button class="btn btn-outline"
+                        onclick="openLogin()">
+
+                    Learner Login
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <h3>
+                Our Online Sessions
+            </h3>
+
+            <div class="price-card">
+
+                <strong>
+                    Group Session — R200
+                </strong>
+
+                <span>
+                    Online group learning session
+                </span>
+
+            </div>
+
+            <div class="price-card">
+
+                <strong>
+                    1-on-1 Session — R250
+                </strong>
+
+                <span>
+                    Weekly individual online session
+                </span>
+
+            </div>
+
+            <button class="btn btn-primary"
+                    style="width:100%; margin-top:10px;"
+                    onclick="
+                        openModal('paymentModal')
+                    ">
+
+                Make a Payment
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section class="about"
+         id="about">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                About MTHIS
+            </span>
+
+            <h2>
+                Helping Learners Understand
+            </h2>
+
+            <p>
+                We focus on teaching, understanding
+                and building confidence in Mathematics
+                and Physical Science.
+            </p>
+
+        </div>
+
+
+        <div class="about-grid">
+
+            <div class="about-text">
+
+                <h3>
+                    Education Beyond The Classroom
+                </h3>
+
+                <p>
+                    MTHIS Tutorials is an online learning
+                    platform designed specifically for
+                    Grade 11 and Grade 12 learners.
+                </p>
+
+                <p>
+                    Our lessons are conducted online,
+                    allowing learners to attend classes
+                    from wherever they are.
+                </p>
+
+                <p>
+                    Learners can also access learning
+                    documents and educational videos
+                    after their online classes.
+                </p>
+
+            </div>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <strong>
+                        Online Classes
+                    </strong>
+
+                    Microsoft Teams learning sessions.
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>
+                        Learning Materials
+                    </strong>
+
+                    Access class documents and notes.
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>
+                        Educational Videos
+                    </strong>
+
+                    Review lessons after class.
+
+                </div>
+
+
+                <div class="feature">
+
+                    <strong>
+                        Grade 11 & 12
+                    </strong>
+
+                    Focused on senior secondary learners.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SUBJECTS
+===================================================== -->
+
+<section id="subjects">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                What We Teach
+            </span>
+
+            <h2>
+                Our Subjects
+            </h2>
+
+            <p>
+                Choose Mathematics, Physical Science
+                or both.
+            </p>
+
+        </div>
+
+
+        <div class="subjects-grid">
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+                    M
+                </div>
+
+                <h3>
+                    Mathematics
+                </h3>
+
+                <p>
+                    Grade 11 and Grade 12 Mathematics
+                    lessons, explanations, revision
+                    and exam preparation.
+                </p>
+
+                <br>
+
+                <button class="btn btn-primary"
+                        onclick="
+                            openRegistrationSubject(
+                                'Mathematics'
+                            )
+                        ">
+
+                    Register for Mathematics
+
+                </button>
+
+            </div>
+
+
+            <div class="subject-card">
+
+                <div class="subject-icon">
+                    PS
+                </div>
+
+                <h3>
+                    Physical Science
+                </h3>
+
+                <p>
+                    Grade 11 and Grade 12 Physical Science
+                    lessons covering important concepts
+                    and exam preparation.
+                </p>
+
+                <br>
+
+                <button class="btn btn-primary"
+                        onclick="
+                            openRegistrationSubject(
+                                'Physical Science'
+                            )
+                        ">
+
+                    Register for Physical Science
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CLASSES
+===================================================== -->
+
+<section class="classes"
+         id="classes">
+
+    <div class="container">
+
+        <div class="class-box">
+
+            <h2>
+                Online Classes Through Microsoft Teams
+            </h2>
+
+            <p>
+                Registered learners will be able to join
+                scheduled online lessons through
+                Microsoft Teams.
+            </p>
+
+            <button class="btn btn-primary"
+                    onclick="openLogin()">
+
+                Learner Login
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRICING
+===================================================== -->
+
+<section class="pricing"
+         id="pricing">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                Affordable Learning
+            </span>
+
+            <h2>
+                Session Pricing
+            </h2>
+
+            <p>
+                Choose the learning option that works
+                best for you.
+            </p>
+
+        </div>
+
+
+        <div class="pricing-grid">
+
+            <div class="pricing-card">
+
+                <h3>
+                    Group Session
+                </h3>
+
+                <div class="price">
+                    R200
+                </div>
+
+                <p>
+                    Online group learning session.
+                </p>
+
+                <button class="btn btn-primary"
+                        onclick="
+                            openModal('paymentModal')
+                        ">
+
+                    Pay R200
+
+                </button>
+
+            </div>
+
+
+            <div class="pricing-card">
+
+                <h3>
+                    1-on-1 Session
+                </h3>
+
+                <div class="price">
+                    R250
+                </div>
+
+                <p>
+                    Weekly individual online session.
+                </p>
+
+                <button class="btn btn-primary"
+                        onclick="
+                            openModal('paymentModal')
+                        ">
+
+                    Pay R250
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LEARNER PORTAL
+===================================================== -->
+
+<section class="portal"
+         id="portal">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                Learner Area
+            </span>
+
+            <h2>
+                Learner Portal
+            </h2>
+
+            <p>
+                Login to access your learning resources,
+                videos and classes.
+            </p>
+
+        </div>
+
+
+        <div class="portal-grid">
+
+            <div class="portal-card">
+
+                <div class="subject-icon"
+                     style="margin:auto;">
+
+                    VIDEO
+
+                </div>
+
+                <h3>
+                    Class Videos
+                </h3>
+
+                <p>
+                    Watch educational videos from your lessons.
+                </p>
+
+                <button class="btn btn-primary"
+                        onclick="openLogin()">
+
+                    Login to Access
+
+                </button>
+
+            </div>
+
+
+            <div class="portal-card">
+
+                <div class="subject-icon"
+                     style="margin:auto;">
+
+                    PDF
+
+                </div>
+
+                <h3>
+                    Documents
+                </h3>
+
+                <p>
+                    Access notes, worksheets and learning material.
+                </p>
+
+                <button class="btn btn-primary"
+                        onclick="openLogin()">
+
+                    Login to Access
+
+                </button>
+
+            </div>
+
+
+            <div class="portal-card">
+
+                <div class="subject-icon"
+                     style="margin:auto;">
+
+                    MS
+
+                </div>
+
+                <h3>
+                    Microsoft Teams
+                </h3>
+
+                <p>
+                    Join your scheduled online classes.
+                </p>
+
+                <button class="btn btn-primary"
+                        onclick="openLogin()">
+
+                    Learner Login
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
+<section class="contact"
+         id="contact">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                Get In Touch
+            </span>
+
+            <h2>
+                Contact Us
+            </h2>
+
+            <p>
+                Have a question? Contact MTHIS Tutorials.
+            </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+            <div class="contact-info">
+
+                <h3>
+                    Let's Talk
+                </h3>
+
+                <p>
+                    We are available to assist learners
+                    and parents with registration and
+                    tutorial information.
+                </p>
+
+
+                <div class="contact-item">
+
+                    <strong>
+                        Email
+                    </strong>
+
+                    <a href="mailto:mthimunyenkosinathi504@gmail.com">
+
+                        mthimunyenkosinathi504@gmail.com
+
+                    </a>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <strong>
+                        WhatsApp
+                    </strong>
+
+                    <a href="https://wa.me/27818646502"
+                       target="_blank"
+                       rel="noopener">
+
+                        +27 81 864 6502
+
+                    </a>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <strong>
+                        Online Classes
+                    </strong>
+
+                    <span>
+                        Microsoft Teams
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <div>
+
+            <h3>
+                MTHIS Tutorials
+            </h3>
+
+            <p>
+                Grade 11 & 12 Mathematics and
+                Physical Science online tutorials.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Quick Links
+            </h3>
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#about">
+                About Us
+            </a>
+
+            <a href="#subjects">
+                Subjects
+            </a>
+
+            <a href="#pricing">
+                Pricing
+            </a>
+
+            <a href="#contact">
+                Contact
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Learners
+            </h3>
+
+            <a href="#"
+               onclick="
+                    openModal('registerModal');
+                    return false;
+               ">
+
+                Register
+
+            </a>
+
+            <a href="#"
+               onclick="
+                    openLogin();
+                    return false;
+               ">
+
+                Login
+
+            </a>
+
+            <a href="#"
+               onclick="
+                    openModal('paymentModal');
+                    return false;
+               ">
+
+                Make Payment
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 MTHIS Tutorials. All Rights Reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     WHATSAPP
+===================================================== -->
+
+<a class="whatsapp"
+   href="https://wa.me/27818646502"
+   target="_blank"
+   rel="noopener">
+
+    WA
+
+</a>
+
+
+<!-- =====================================================
+     ADMIN ACCESS
+===================================================== -->
+
+<a href="./admin-login.html"
+   class="admin-access"
+   aria-label="Admin Login">
+
+    <span class="person-icon">
+
+        <span class="person-head"></span>
+
+        <span class="person-body"></span>
+
+    </span>
+
+    <span class="admin-text">
+        Admin
+    </span>
+
+</a>
+
+
+<!-- =====================================================
+     REGISTRATION MODAL
+===================================================== -->
+
+<div class="modal"
+     id="registerModal">
+
+    <div class="modal-content">
+
+        <span class="close"
+              onclick="
+                  closeModal('registerModal')
+              ">
+
+            ×
+
+        </span>
+
+
+        <h2>
+            Learner Registration
+        </h2>
+
+
+        <div class="modal-message">
+
+            Create your MTHIS Tutorials learner account.
+
+        </div>
+
+
+        <div id="registerStatus"
+             class="status-message">
+        </div>
+
+
+        <form id="registrationForm">
+
+            <div class="form-group">
+
+                <label>
+                    Name *
+                </label>
+
+                <input type="text"
+                       id="regName"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Surname *
+                </label>
+
+                <input type="text"
+                       id="regSurname"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email Address *
+                </label>
+
+                <input type="email"
+                       id="regEmail"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Contact Number *
+                </label>
+
+                <input type="tel"
+                       id="regContact"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Grade *
+                </label>
+
+                <select id="regGrade"
+                        required>
+
+                    <option value="">
+                        Select Grade
+                    </option>
+
+                    <option value="Grade 11">
+                        Grade 11
+                    </option>
+
+                    <option value="Grade 12">
+                        Grade 12
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Subject *
+                </label>
+
+                <select id="regSubject"
+                        required>
+
+                    <option value="">
+                        Select Subject
+                    </option>
+
+                    <option value="Mathematics">
+                        Mathematics
+                    </option>
+
+                    <option value="Physical Science">
+                        Physical Science
+                    </option>
+
+                    <option value="Both">
+                        Mathematics & Physical Science
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password *
+                </label>
+
+                <input type="password"
+                       id="regPassword"
+                       minlength="6"
+                       required>
+
+                <small>
+                    Password must contain at least 6 characters.
+                </small>
+
+            </div>
+
+
+            <button class="btn btn-primary"
+                    id="registerButton"
+                    style="width:100%;"
+                    type="submit">
+
+                Create Learner Account
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
+
+<div class="modal"
+     id="loginModal">
+
+    <div class="modal-content">
+
+        <span class="close"
+              onclick="
+                  closeModal('loginModal')
+              ">
+
+            ×
+
+        </span>
+
+
+        <h2>
+            Learner Login
+        </h2>
+
+
+        <div id="loginStatus"
+             class="status-message">
+        </div>
+
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input type="email"
+                       id="loginEmail"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input type="password"
+                       id="loginPassword"
+                       required>
+
+            </div>
+
+
+            <div class="forgot-password">
+
+                <a href="#"
+                   onclick="
+                        openForgotPassword();
+                        return false;
+                   ">
+
+                    Forgot Password?
+
+                </a>
+
+            </div>
+
+
+            <button class="btn btn-primary"
+                    id="loginButton"
+                    style="width:100%;"
+                    type="submit">
+
+                Login
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FORGOT PASSWORD MODAL
+===================================================== -->
+
+<div class="modal"
+     id="forgotPasswordModal">
+
+    <div class="modal-content">
+
+        <span class="close"
+              onclick="
+                  closeModal('forgotPasswordModal')
+              ">
+
+            ×
+
+        </span>
+
+
+        <h2>
+            Reset Your Password
+        </h2>
+
+
+        <div id="forgotPasswordStatus"
+             class="status-message">
+        </div>
+
+
+        <p style="
+            margin-bottom:20px;
+            color:#667085;
+        ">
+
+            Enter the email address you used when
+            registering your learner account.
+
+        </p>
+
+
+        <form id="forgotPasswordForm">
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input type="email"
+                       id="forgotEmail"
+                       required
+                       placeholder="Enter your email address">
+
+            </div>
+
+
+            <button class="btn btn-primary"
+                    id="forgotPasswordButton"
+                    style="width:100%;"
+                    type="submit">
+
+                Send Reset Link
+
+            </button>
+
+        </form>
+
+
+        <div style="
+            text-align:center;
+            margin-top:18px;
+        ">
+
+            <a href="#"
+               onclick="
+                    closeModal('forgotPasswordModal');
+                    openLogin();
+                    return false;
+               "
+               style="
+                    color:#0066ff;
+                    font-weight:600;
+               ">
+
+                Back to Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PAYMENT MODAL
+===================================================== -->
+
+<div class="modal"
+     id="paymentModal">
+
+    <div class="modal-content">
+
+        <span class="close"
+              onclick="
+                  closeModal('paymentModal')
+              ">
+
+            ×
+
+        </span>
+
+
+        <h2>
+            Make Payment
+        </h2>
+
+
+        <p>
+
+            Use your Capitec app to make payment
+            to MTHIS Tutorials.
+
+        </p>
+
+
+        <br>
+
+
+        <div class="modal-message">
+
+            <strong>
+                Account Name:
+            </strong>
+
+            <br>
+
+            MTHIS Tutorials
+
+            <br><br>
+
+            <strong>
+                Reference:
+            </strong>
+
+            <br>
+
+            2569032200
+
+            <br><br>
+
+            <strong>
+                Group Session:
+            </strong>
+
+            R200
+
+            <br><br>
+
+            <strong>
+                1-on-1 Weekly Session:
+            </strong>
+
+            R250
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                style="width:100%;"
+                onclick="
+                    closeModal('paymentModal')
+                ">
+
+            I Understand
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIGURATION
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+function toggleMenu() {
+
+    document
+        .getElementById("mainNav")
+        .classList.toggle("active");
+
+}
+
+
+function closeMenu() {
+
+    document
+        .getElementById("mainNav")
+        .classList.remove("active");
+
+}
+
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+function openModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+    if (modal) {
+
+        modal.classList.add("active");
+
+    }
+
+}
+
+
+function closeModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+    if (modal) {
+
+        modal.classList.remove("active");
+
+    }
+
+}
+
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target.classList.contains("modal")
+        ) {
+
+            event.target.classList.remove("active");
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   REGISTRATION SUBJECT
+===================================================== */
+
+function openRegistrationSubject(subject) {
+
+    openModal("registerModal");
+
+    document.getElementById(
+        "regSubject"
+    ).value = subject;
+
+}
+
+
+/* =====================================================
+   REGISTER STATUS
+===================================================== */
+
+function showRegisterStatus(
+    message,
+    type
+) {
+
+    const status =
+        document.getElementById(
+            "registerStatus"
+        );
+
+    status.innerText =
+        message;
+
+    status.className =
+        "status-message show " +
+        (
+            type === "success"
+                ? "status-success"
+                : "status-error"
+        );
+
+}
+
+
+/* =====================================================
+   LOGIN STATUS
+===================================================== */
+
+function showLoginStatus(
+    message,
+    type
+) {
+
+    const status =
+        document.getElementById(
+            "loginStatus"
+        );
+
+    status.innerText =
+        message;
+
+    status.className =
+        "status-message show " +
+        (
+            type === "success"
+                ? "status-success"
+                : "status-error"
+        );
+
+}
+
+
+/* =====================================================
+   FORGOT PASSWORD STATUS
+===================================================== */
+
+function showForgotPasswordStatus(
+    message,
+    type
+) {
+
+    const status =
+        document.getElementById(
+            "forgotPasswordStatus"
+        );
+
+    status.innerText =
+        message;
+
+    status.className =
+        "status-message show " +
+        (
+            type === "success"
+                ? "status-success"
+                : "status-error"
+        );
+
+}
+
+
+/* =====================================================
+   OPEN LOGIN
+===================================================== */
+
+function openLogin() {
+
+    closeModal("forgotPasswordModal");
+
+    openModal("loginModal");
+
+}
+
+
+/* =====================================================
+   OPEN FORGOT PASSWORD
+===================================================== */
+
+function openForgotPassword() {
+
+    closeModal("loginModal");
+
+    openModal("forgotPasswordModal");
+
+}
+
+
+/* =====================================================
+   REGISTER LEARNER
+===================================================== */
+
+document
+    .getElementById("registrationForm")
+    .addEventListener(
+        "submit",
+        registerLearner
+    );
+
+
+async function registerLearner(event) {
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "registerButton"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Creating Account...";
+
+
+    showRegisterStatus(
+        "Creating your learner account...",
+        "success"
+    );
+
+
+    try {
+
+        const name =
+            document
+                .getElementById("regName")
+                .value
+                .trim();
+
+
+        const surname =
+            document
+                .getElementById("regSurname")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("regEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const contact =
+            document
+                .getElementById("regContact")
+                .value
+                .trim();
+
+
+        const grade =
+            document
+                .getElementById("regGrade")
+                .value;
+
+
+        const subject =
+            document
+                .getElementById("regSubject")
+                .value;
+
+
+        const password =
+            document
+                .getElementById("regPassword")
+                .value;
+
+
+        /* =============================================
+           CREATE AUTH ACCOUNT
+        ============================================= */
+
+        const {
+            data: authData,
+            error: authError
+        } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+
+                    data: {
+
+                        name: name,
+
+                        surname: surname,
+
+                        contact: contact,
+
+                        grade: grade,
+
+                        subject: subject
+
+                    }
+
+                }
+
+            });
+
+
+        if (authError) {
+
+            throw authError;
+
+        }
+
+
+        if (!authData.user) {
+
+            throw new Error(
+                "Supabase did not return a user account."
+            );
+
+        }
+
+
+        const userId =
+            authData.user.id;
+
+
+        /* =============================================
+           SAVE LEARNER PROFILE
+        ============================================= */
+
+        const {
+            error: learnerError
+        } =
+            await supabaseClient
+                .from("learners")
+                .insert({
+
+                    id: userId,
+
+                    name: name,
+
+                    surname: surname,
+
+                    email: email,
+
+                    contact: contact,
+
+                    grade: grade,
+
+                    subject: subject
+
+                });
+
+
+        if (learnerError) {
+
+            console.error(
+                "LEARNER DATABASE ERROR:",
+                learnerError
+            );
+
+            throw learnerError;
+
+        }
+
+
+        /* =============================================
+           NOTIFY ADMIN
+        ============================================= */
+
+        try {
+
+            const {
+                error: emailError
+            } =
+                await supabaseClient.functions.invoke(
+                    "notify-admin-registration",
+                    {
+
+                        body: {
+
+                            name: name,
+
+                            surname: surname,
+
+                            email: email,
+
+                            contact: contact,
+
+                            grade: grade,
+
+                            subject: subject
+
+                        }
+
+                    }
+                );
+
+
+            if (emailError) {
+
+                console.error(
+                    "ADMIN NOTIFICATION ERROR:",
+                    emailError
+                );
+
+            }
+
+        }
+
+        catch (emailError) {
+
+            console.error(
+                "ADMIN EMAIL FAILED:",
+                emailError
+            );
+
+        }
+
+
+        /* =============================================
+           SUCCESS
+        ============================================= */
+
+        document
+            .getElementById(
+                "registrationForm"
+            )
+            .reset();
+
+
+        showRegisterStatus(
+
+            "Registration successful. Your learner account has been created.",
+
+            "success"
+
+        );
+
+
+        button.innerText =
+            "Account Created";
+
+
+        if (authData.session) {
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },
+                1500
+            );
+
+        }
+
+        else {
+
+            setTimeout(
+                function() {
+
+                    closeModal(
+                        "registerModal"
+                    );
+
+                    openLogin();
+
+
+                    showLoginStatus(
+
+                        "Account created successfully. Please check your email if verification is required, then log in.",
+
+                        "success"
+
+                    );
+
+                },
+                1800
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "REGISTRATION ERROR:",
+            error
+        );
+
+
+        let message =
+            error.message ||
+            "Registration failed.";
+
+
+        if (
+            message.toLowerCase()
+                .includes(
+                    "already registered"
+                )
+        ) {
+
+            message =
+                "This email address is already registered. Please use another email or log in.";
+
+        }
+
+
+        showRegisterStatus(
+            message,
+            "error"
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "Create Learner Account";
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN LEARNER
+===================================================== */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        loginLearner
+    );
+
+
+async function loginLearner(event) {
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Signing In...";
+
+
+    try {
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signInWithPassword({
+
+                    email: email,
+
+                    password: password
+
+                });
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        if (!data.user) {
+
+            throw new Error(
+                "Login failed."
+            );
+
+        }
+
+
+        showLoginStatus(
+            "Login successful. Opening your dashboard...",
+            "success"
+        );
+
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            700
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
+
+        let message =
+            error.message ||
+            "Login failed.";
+
+
+        if (
+            message.includes(
+                "Invalid login credentials"
+            )
+        ) {
+
+            message =
+                "Incorrect email or password.";
+
+        }
+
+
+        showLoginStatus(
+            message,
+            "error"
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "Login";
+
+    }
+
+}
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+document
+    .getElementById(
+        "forgotPasswordForm"
+    )
+    .addEventListener(
+        "submit",
+        sendPasswordReset
+    );
+
+
+async function sendPasswordReset(event) {
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "forgotPasswordButton"
+        );
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Sending...";
+
+
+    try {
+
+        const email =
+            document
+                .getElementById(
+                    "forgotEmail"
+                )
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        /*
+         * IMPORTANT
+         *
+         * reset-password.html must be
+         * in the same website folder.
+         */
+
+        const resetPage =
+            window.location.origin +
+            "/reset-password.html";
+
+
+        const {
+            error
+        } =
+            await supabaseClient.auth
+                .resetPasswordForEmail(
+
+                    email,
+
+                    {
+                        redirectTo:
+                            resetPage
+                    }
+
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        showForgotPasswordStatus(
+
+            "Password reset instructions have been sent to your email address.",
+
+            "success"
+
+        );
+
+
+        document
+            .getElementById(
+                "forgotPasswordForm"
+            )
+            .reset();
+
+
+        button.innerText =
+            "Email Sent";
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "PASSWORD RESET ERROR:",
+            error
+        );
+
+
+        showForgotPasswordStatus(
+
+            error.message ||
+            "Unable to send password reset email.",
+
+            "error"
+
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "Send Reset Link";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

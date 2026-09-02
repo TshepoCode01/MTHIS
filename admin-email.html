@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Email Learners</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>MTHIS Tutorials</h2>
+
+        <span>Administrator Portal</span>
+
+    </div>
+
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<main class="dashboard">
+
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1>
+            Email Learners
+        </h1>
+
+        <p>
+            Send announcements and important
+            information to registered learners.
+        </p>
+
+    </section>
+
+
+
+    <!-- EMAIL FORM -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                SEND EMAIL
+            </p>
+
+            <h2>
+                Compose Message
+            </h2>
+
+        </div>
+
+
+        <div class="auth-card">
+
+
+            <form
+                id="emailForm"
+                onsubmit="sendEmail(event)">
+
+
+                <!-- RECIPIENT -->
+
+                <label for="recipient">
+
+                    Send To
+
+                </label>
+
+
+                <select
+                    id="recipient"
+                    onchange="recipientChanged()"
+                    required>
+
+                    <option value="">
+
+                        Select recipients
+
+                    </option>
+
+                    <option value="all">
+
+                         All Registered Learners
+
+                    </option>
+
+                    <option value="grade11">
+
+                         Grade 11 Learners
+
+                    </option>
+
+                    <option value="grade12">
+
+                         Grade 12 Learners
+
+                    </option>
+
+                    <option value="custom">
+
+                         Specific Email
+
+                    </option>
+
+                </select>
+
+
+
+                <!-- CUSTOM EMAIL -->
+
+                <div
+                    id="customEmailBox"
+                    style="display:none;">
+
+                    <label for="customEmail">
+
+                        Learner Email
+
+                    </label>
+
+
+                    <input
+                        type="email"
+                        id="customEmail"
+                        placeholder="learner@example.com">
+
+                </div>
+
+
+
+                <!-- SUBJECT -->
+
+                <label for="emailSubject">
+
+                    Subject
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="emailSubject"
+                    placeholder="Example: Important Class Announcement"
+                    required>
+
+
+
+                <!-- MESSAGE -->
+
+                <label for="emailMessage">
+
+                    Message
+
+                </label>
+
+
+                <textarea
+                    id="emailMessage"
+                    rows="10"
+                    placeholder="Write your message here..."
+                    required></textarea>
+
+
+
+                <!-- SEND -->
+
+                <button
+                    type="submit"
+                    id="sendButton">
+
+                     Send Email
+
+                </button>
+
+
+            </form>
+
+
+
+            <div
+                id="emailStatus"
+                style="margin-top:20px;">
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- LEARNER COUNT -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                LEARNERS
+            </p>
+
+            <h2>
+                Registered Learners
+            </h2>
+
+            <p id="learnerCount">
+                Loading learners...
+            </p>
+
+        </div>
+
+
+        <div
+            id="learnerPreview"
+            class="dashboard-grid">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- BACK -->
+
+    <section class="support-section">
+
+        <a
+            href="admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- POPUP -->
+
+<div
+    id="popup"
+    class="popup">
+
+
+    <div class="popup-box">
+
+
+        <button
+            class="popup-close"
+            onclick="closePopup()">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+
+        <p id="popupMessage"></p>
+
+
+        <button
+            type="button"
+            onclick="closePopup()">
+
+            Close
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let learners = [];
+
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+
+    }
+
+
+    return user;
+
+}
+
+
+
+/* =====================================================
+   LOAD LEARNERS
+===================================================== */
+
+async function loadLearners() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("learners")
+            .select(
+                "id,name,surname,email,grade,subject"
+            )
+            .order(
+                "name",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "LEARNER LOAD ERROR:",
+            error
+        );
+
+
+        document.getElementById(
+            "learnerCount"
+        ).innerText =
+            "Unable to load learners.";
+
+        return;
+
+    }
+
+
+    learners =
+        data || [];
+
+
+    document.getElementById(
+        "learnerCount"
+    ).innerText =
+        learners.length +
+        (
+            learners.length === 1
+                ? " registered learner"
+                : " registered learners"
+        );
+
+
+    displayLearners();
+
+}
+
+
+
+/* =====================================================
+   DISPLAY LEARNERS
+===================================================== */
+
+function displayLearners() {
+
+    const container =
+        document.getElementById(
+            "learnerPreview"
+        );
+
+
+    if (
+        learners.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    👨‍🎓
+                </div>
+
+                <h3>
+                    No Learners
+                </h3>
+
+                <p>
+                    There are currently no
+                    registered learners.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    learners.forEach(
+        learner => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "dashboard-card";
+
+
+            card.innerHTML = `
+
+                <div class="card-icon">
+                    
+                </div>
+
+                <h3>
+                    ${escapeHTML(
+                        learner.name || ""
+                    )}
+                    ${escapeHTML(
+                        learner.surname || ""
+                    )}
+                </h3>
+
+                <p>
+
+                    
+                    ${escapeHTML(
+                        learner.email || "No email"
+                    )}
+
+                </p>
+
+                <p>
+
+                    
+                    ${escapeHTML(
+                        learner.grade || "Not selected"
+                    )}
+
+                </p>
+
+                <p>
+
+                    
+                    ${escapeHTML(
+                        learner.subject || "Not selected"
+                    )}
+
+                </p>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   RECIPIENT CHANGE
+===================================================== */
+
+function recipientChanged() {
+
+    const recipient =
+        document.getElementById(
+            "recipient"
+        ).value;
+
+
+    const customBox =
+        document.getElementById(
+            "customEmailBox"
+        );
+
+
+    const customEmail =
+        document.getElementById(
+            "customEmail"
+        );
+
+
+    if (
+        recipient === "custom"
+    ) {
+
+        customBox.style.display =
+            "block";
+
+        customEmail.required =
+            true;
+
+    }
+
+    else {
+
+        customBox.style.display =
+            "none";
+
+        customEmail.required =
+            false;
+
+        customEmail.value =
+            "";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   GET RECIPIENT EMAILS
+===================================================== */
+
+function getRecipientEmails() {
+
+    const recipient =
+        document.getElementById(
+            "recipient"
+        ).value;
+
+
+    if (
+        recipient === "custom"
+    ) {
+
+        const email =
+            document.getElementById(
+                "customEmail"
+            ).value.trim();
+
+
+        if (!email) {
+
+            throw new Error(
+                "Please enter an email address."
+            );
+
+        }
+
+
+        return [
+            email
+        ];
+
+    }
+
+
+
+    if (
+        recipient === "all"
+    ) {
+
+        return learners
+            .map(
+                learner =>
+                    learner.email
+            )
+            .filter(
+                email =>
+                    email &&
+                    email.includes("@")
+            );
+
+    }
+
+
+
+    if (
+        recipient === "grade11"
+    ) {
+
+        return learners
+            .filter(
+                learner =>
+                    learner.grade ===
+                    "Grade 11"
+            )
+            .map(
+                learner =>
+                    learner.email
+            )
+            .filter(
+                email =>
+                    email &&
+                    email.includes("@")
+            );
+
+    }
+
+
+
+    if (
+        recipient === "grade12"
+    ) {
+
+        return learners
+            .filter(
+                learner =>
+                    learner.grade ===
+                    "Grade 12"
+            )
+            .map(
+                learner =>
+                    learner.email
+            )
+            .filter(
+                email =>
+                    email &&
+                    email.includes("@")
+            );
+
+    }
+
+
+    throw new Error(
+        "Please select email recipients."
+    );
+
+}
+
+
+
+/* =====================================================
+   SEND EMAIL
+===================================================== */
+
+async function sendEmail(
+    event
+) {
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "sendButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "emailStatus"
+        );
+
+
+    const subject =
+        document.getElementById(
+            "emailSubject"
+        ).value.trim();
+
+
+    const message =
+        document.getElementById(
+            "emailMessage"
+        ).value.trim();
+
+
+    if (
+        !subject ||
+        !message
+    ) {
+
+        status.innerHTML = `
+
+            <div class="error-box">
+
+                ❌ Subject and message are required.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    let recipients;
+
+
+    try {
+
+        recipients =
+            getRecipientEmails();
+
+    }
+
+    catch (error) {
+
+        status.innerHTML = `
+
+            <div class="error-box">
+
+                ❌
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    if (
+        recipients.length === 0
+    ) {
+
+        status.innerHTML = `
+
+            <div class="error-box">
+
+                ❌ No learners with valid email
+                addresses were found.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    button.disabled =
+        true;
+
+
+    button.innerText =
+        "⏳ Sending...";
+
+
+    status.innerHTML = `
+
+        <div class="loading-box">
+
+            Sending email to
+            ${recipients.length}
+            recipient(s)...
+
+        </div>
+
+    `;
+
+
+
+    try {
+
+
+        /*
+         * Send through Supabase Edge Function.
+         *
+         * The Resend API key NEVER appears
+         * in this HTML file.
+         */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.functions.invoke(
+                "send-email",
+                {
+                    body: {
+
+                        to:
+                            recipients,
+
+                        subject:
+                            subject,
+
+                        message:
+                            message
+
+                    }
+
+                }
+            );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        if (
+            data &&
+            data.error
+        ) {
+
+            throw new Error(
+                data.error
+            );
+
+        }
+
+
+
+        status.innerHTML = `
+
+            <div class="success-box">
+
+                Email sent successfully!
+
+                <br><br>
+
+                Sent to
+                <strong>
+                    ${recipients.length}
+                </strong>
+                recipient(s).
+
+            </div>
+
+        `;
+
+
+        document
+            .getElementById(
+                "emailForm"
+            )
+            .reset();
+
+
+        recipientChanged();
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "EMAIL ERROR:",
+            error
+        );
+
+
+        status.innerHTML = `
+
+            <div class="error-box">
+
+                ❌ Failed to send email.
+
+                <br><br>
+
+                ${escapeHTML(
+                    error.message ||
+                    "Unknown error"
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+    finally {
+
+        button.disabled =
+            false;
+
+        button.innerText =
+            " Send Email";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showMessage(
+    message
+) {
+
+    document.getElementById(
+        "popupMessage"
+    ).innerText =
+        message;
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   START
+===================================================== */
+
+async function startPage() {
+
+    const user =
+        await checkAdmin();
+
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    await loadLearners();
+
+}
+
+
+startPage();
+
+</script>
+
+
+</body>
+
+</html>

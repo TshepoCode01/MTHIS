@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MTHIS Tutorials | Manage Learners</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="dashboard-header">
+
+    <div class="brand">
+
+        <h2>MTHIS Tutorials</h2>
+
+        <span>Administrator Portal</span>
+
+    </div>
+
+    <button
+        class="logout-btn"
+        onclick="adminLogout()">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+<main class="dashboard">
+
+    <section class="dashboard-welcome">
+
+        <p class="small-title">
+            ADMINISTRATION
+        </p>
+
+        <h1>
+            Registered Learners
+        </h1>
+
+        <p>
+            View and manage all learners registered
+            with MTHIS Tutorials.
+        </p>
+
+    </section>
+
+
+    <!-- SEARCH / FILTER -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                LEARNER MANAGEMENT
+            </p>
+
+            <h2>
+                All Registered Learners
+            </h2>
+
+            <p id="learnerCount">
+                Loading learners...
+            </p>
+
+        </div>
+
+
+        <div class="schedule-filter">
+
+            <input
+                type="text"
+                id="searchLearner"
+                placeholder="Search name, surname or email..."
+                oninput="filterLearners()">
+
+
+            <select
+                id="gradeFilter"
+                onchange="filterLearners()">
+
+                <option value="All">
+                    All Grades
+                </option>
+
+                <option value="Grade 11">
+                    Grade 11
+                </option>
+
+                <option value="Grade 12">
+                    Grade 12
+                </option>
+
+            </select>
+
+
+            <select
+                id="subjectFilter"
+                onchange="filterLearners()">
+
+                <option value="All">
+                    All Subjects
+                </option>
+
+                <option value="Mathematics">
+                    Mathematics
+                </option>
+
+                <option value="Physical Science">
+                    Physical Science
+                </option>
+
+                <option value="Both">
+                    Mathematics & Physical Science
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                onclick="loadLearners()">
+
+                🔄 Refresh
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- LEARNERS -->
+
+    <section>
+
+        <div
+            id="learnerList"
+            class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    
+                </div>
+
+                <h3>
+                    Loading Learners
+                </h3>
+
+                <p>
+                    Please wait...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BACK -->
+
+    <section class="support-section">
+
+        <a
+            href="admin.html"
+            class="dashboard-button">
+
+            ← Back to Admin Dashboard
+
+        </a>
+
+    </section>
+
+</main>
+
+
+<!-- POPUP -->
+
+<div
+    id="popup"
+    class="popup">
+
+    <div class="popup-box">
+
+        <button
+            class="popup-close"
+            onclick="closePopup()">
+
+            ×
+
+        </button>
+
+        <h2>
+            MTHIS Tutorials
+        </h2>
+
+        <p id="popupMessage"></p>
+
+        <button
+            type="button"
+            onclick="closePopup()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://bcpxdigpblgolreftfjx.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let allLearners = [];
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getUser();
+
+
+    if (
+        error ||
+        !user
+    ) {
+
+        window.location.href =
+            "admin-login.html";
+
+        return null;
+
+    }
+
+
+    return user;
+
+}
+
+
+/* =====================================================
+   LOAD LEARNERS
+===================================================== */
+
+async function loadLearners() {
+
+    const list =
+        document.getElementById(
+            "learnerList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "learnerCount"
+        );
+
+
+    list.innerHTML = `
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                
+            </div>
+
+            <h3>
+                Loading Learners
+            </h3>
+
+            <p>
+                Please wait...
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const user =
+            await checkAdmin();
+
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+        const {
+            data: learners,
+            error
+        } =
+            await supabaseClient
+                .from("learners")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        allLearners =
+            learners || [];
+
+
+        count.innerText =
+            allLearners.length +
+            (
+                allLearners.length === 1
+                    ? " learner registered"
+                    : " learners registered"
+            );
+
+
+        filterLearners();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LEARNER LOAD ERROR:",
+            error
+        );
+
+
+        count.innerText =
+            "Unable to load learners.";
+
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    
+                </div>
+
+                <h3>
+                    Unable to Load Learners
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   FILTER LEARNERS
+===================================================== */
+
+function filterLearners() {
+
+    const search =
+        document.getElementById(
+            "searchLearner"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const grade =
+        document.getElementById(
+            "gradeFilter"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "subjectFilter"
+        ).value;
+
+
+    let filtered =
+        allLearners.filter(
+            learner => {
+
+                const fullName =
+                    (
+                        learner.name ||
+                        ""
+                    ) +
+                    " " +
+                    (
+                        learner.surname ||
+                        ""
+                    );
+
+
+                const email =
+                    learner.email ||
+                    "";
+
+
+                const matchesSearch =
+                    !search ||
+                    fullName
+                        .toLowerCase()
+                        .includes(search) ||
+                    email
+                        .toLowerCase()
+                        .includes(search);
+
+
+                const matchesGrade =
+                    grade === "All" ||
+                    learner.grade === grade;
+
+
+                const matchesSubject =
+                    subject === "All" ||
+                    learner.subject === subject;
+
+
+                return (
+                    matchesSearch &&
+                    matchesGrade &&
+                    matchesSubject
+                );
+
+            }
+        );
+
+
+    displayLearners(
+        filtered
+    );
+
+}
+
+
+/* =====================================================
+   DISPLAY LEARNERS
+===================================================== */
+
+function displayLearners(
+    learners
+) {
+
+    const list =
+        document.getElementById(
+            "learnerList"
+        );
+
+
+    const count =
+        document.getElementById(
+            "learnerCount"
+        );
+
+
+    if (
+        learners.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    👨‍🎓
+                </div>
+
+                <h3>
+                    No Learners Found
+                </h3>
+
+                <p>
+                    No registered learners match
+                    your search or filters.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    learners.forEach(
+        learner => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "dashboard-card";
+
+
+            let subject =
+                learner.subject ||
+                "Not selected";
+
+
+            if (
+                subject === "Both"
+            ) {
+
+                subject =
+                    "Mathematics & Physical Science";
+
+            }
+
+
+            card.innerHTML = `
+
+                <div class="card-icon">
+                    
+                </div>
+
+
+                <h3>
+                    ${escapeHTML(
+                        learner.name ||
+                        "Unknown"
+                    )}
+                    ${escapeHTML(
+                        learner.surname ||
+                        ""
+                    )}
+                </h3>
+
+
+                <div class="schedule-info">
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Email
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                learner.email ||
+                                "Not available"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Contact
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                learner.contact_number ||
+                                learner.phone ||
+                                "Not available"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Grade
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                learner.grade ||
+                                "Not selected"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Subject
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                subject
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Payment Status
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                learner.payment_status ||
+                                "Not set"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="schedule-item">
+
+                        <strong>
+                            Account Status
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(
+                                learner.status ||
+                                "Active"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function adminLogout() {
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showMessage(
+    message
+) {
+
+    document.getElementById(
+        "popupMessage"
+    ).innerText =
+        message;
+
+
+    document.getElementById(
+        "popup"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closePopup() {
+
+    document.getElementById(
+        "popup"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadLearners();
+
+</script>
+
+</body>
+</html>
