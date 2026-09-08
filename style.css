@@ -10238,3 +10238,768 @@ select:focus-visible {
             0.01ms !important;
     }
 }
+/* =========================================================
+   MTHIS TUTORIALS
+   ADMIN DOCUMENTS PAGE
+   FINAL LAYOUT FIX
+   ========================================================= */
+
+.admin-documents-page {
+    background: #f4f7fb;
+    color: #14213d;
+}
+
+/* ---------------------------------------------------------
+   MAIN PAGE CONTAINER
+   --------------------------------------------------------- */
+
+.admin-documents-page .dashboard {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    padding: 45px 0 80px;
+}
+
+/* ---------------------------------------------------------
+   WELCOME SECTION
+   --------------------------------------------------------- */
+
+.admin-documents-page .dashboard-welcome {
+    margin-bottom: 45px;
+}
+
+/* ---------------------------------------------------------
+   IMPORTANT:
+   PREVENT THE GENERAL .section-heading FLEX LAYOUT
+   FROM BREAKING THIS PAGE
+   --------------------------------------------------------- */
+
+.admin-documents-page .section-heading {
+    width: 100%;
+    max-width: 800px;
+
+    display: block;
+
+    margin-bottom: 25px;
+
+    text-align: left;
+}
+
+.admin-documents-page .section-heading .small-title {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #0066ff;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.admin-documents-page .section-heading h2 {
+    margin: 0 0 8px;
+
+    color: #102344;
+
+    font-size: clamp(28px, 4vw, 40px);
+
+    line-height: 1.15;
+}
+
+.admin-documents-page .section-heading > p:last-child {
+    margin: 0;
+
+    color: #65738a;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   UPLOAD CARD
+   --------------------------------------------------------- */
+
+.admin-documents-page .admin-upload-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e3e9f2;
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 12px 35px rgba(15, 35, 65, 0.07);
+
+    margin-bottom: 50px;
+}
+
+/* ---------------------------------------------------------
+   FORM
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadForm {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 24px;
+
+    row-gap: 6px;
+}
+
+/* ---------------------------------------------------------
+   LABELS
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadForm label {
+    display: block;
+
+    margin: 12px 0 8px;
+
+    color: #172033;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+/* ---------------------------------------------------------
+   TITLE
+   --------------------------------------------------------- */
+
+.admin-documents-page #title {
+    grid-column: 1 / -1;
+}
+
+/* ---------------------------------------------------------
+   DESCRIPTION
+   --------------------------------------------------------- */
+
+.admin-documents-page #description {
+    grid-column: 1 / -1;
+
+    min-height: 120px;
+}
+
+/* ---------------------------------------------------------
+   ALL FORM CONTROLS
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadForm input[type="text"],
+.admin-documents-page #uploadForm textarea,
+.admin-documents-page #uploadForm select {
+    width: 100%;
+
+    min-height: 52px;
+
+    padding: 13px 15px;
+
+    border: 1px solid #d5dce7;
+
+    border-radius: 10px;
+
+    background: #f9fbfd;
+
+    color: #172033;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.admin-documents-page #uploadForm textarea {
+    min-height: 120px;
+
+    resize: vertical;
+}
+
+/* ---------------------------------------------------------
+   FOCUS
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadForm input:focus,
+.admin-documents-page #uploadForm textarea:focus,
+.admin-documents-page #uploadForm select:focus {
+    border-color: #0066ff;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(0, 102, 255, 0.10);
+}
+
+/* ---------------------------------------------------------
+   FILE INPUT
+   --------------------------------------------------------- */
+
+.admin-documents-page #documentFiles {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    min-height: 55px;
+
+    padding: 8px;
+
+    border: 1px dashed #aebed4;
+
+    border-radius: 10px;
+
+    background: #f8fbff;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.admin-documents-page #documentFiles::file-selector-button {
+    margin-right: 12px;
+
+    padding: 10px 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #eaf2ff;
+
+    color: #0066ff;
+
+    font-family: inherit;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.admin-documents-page #documentFiles::file-selector-button:hover {
+    background: #dceaff;
+}
+
+/* ---------------------------------------------------------
+   FILE HELP TEXT
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadForm small {
+    grid-column: 1 / -1;
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #718096;
+
+    font-size: 12px;
+}
+
+/* ---------------------------------------------------------
+   SELECTED FILES
+   --------------------------------------------------------- */
+
+.admin-documents-page .selected-files {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    margin-top: 15px;
+}
+
+.admin-documents-page .selected-files-box {
+    padding: 16px 18px;
+
+    border: 1px solid #dce7f5;
+
+    border-radius: 12px;
+
+    background: #f7faff;
+
+    color: #172033;
+
+    font-size: 14px;
+}
+
+.admin-documents-page .selected-files-box strong {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #0066ff;
+}
+
+.admin-documents-page .selected-files-box ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.admin-documents-page .selected-files-box li {
+    margin: 5px 0;
+
+    color: #526174;
+
+    word-break: break-word;
+}
+
+/* ---------------------------------------------------------
+   UPLOAD BUTTON
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadButton {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    min-height: 54px;
+
+    margin-top: 22px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0066ff,
+            #0045a8
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(0, 102, 255, 0.22);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.admin-documents-page #uploadButton:hover {
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #1687ff,
+            #0066ff
+        );
+
+    box-shadow:
+        0 14px 32px rgba(0, 102, 255, 0.30);
+}
+
+.admin-documents-page #uploadButton:active {
+    transform: translateY(0);
+}
+
+.admin-documents-page #uploadButton:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+/* ---------------------------------------------------------
+   UPLOAD MESSAGES
+   --------------------------------------------------------- */
+
+.admin-documents-page #uploadMessage {
+    margin-top: 18px;
+}
+
+.admin-documents-page .success-box,
+.admin-documents-page .error-box,
+.admin-documents-page .loading-box {
+    padding: 15px 18px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+}
+
+.admin-documents-page .success-box {
+    background: #eaf8f0;
+
+    border: 1px solid #b8e6c9;
+
+    color: #167344;
+}
+
+.admin-documents-page .error-box {
+    background: #fff0f0;
+
+    border: 1px solid #f0c4c4;
+
+    color: #a52a2a;
+}
+
+.admin-documents-page .loading-box {
+    background: #edf4ff;
+
+    border: 1px solid #c8dcff;
+
+    color: #0066ff;
+}
+
+/* ---------------------------------------------------------
+   DOCUMENT LIBRARY HEADING
+   --------------------------------------------------------- */
+
+.admin-documents-page .section-heading + .schedule-filter {
+    margin-top: -5px;
+}
+
+/* ---------------------------------------------------------
+   FILTERS
+   --------------------------------------------------------- */
+
+.admin-documents-page .schedule-filter {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 22px;
+}
+
+.admin-documents-page .schedule-filter select {
+    min-width: 170px;
+
+    height: 46px;
+
+    padding: 0 38px 0 13px;
+
+    border: 1px solid #d5dce7;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+.admin-documents-page .schedule-filter select:focus {
+    border-color: #0066ff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 102, 255, 0.09);
+}
+
+/* ---------------------------------------------------------
+   REFRESH BUTTON
+   --------------------------------------------------------- */
+
+.admin-documents-page .schedule-filter button {
+    height: 46px;
+
+    padding: 0 20px;
+
+    border: 1px solid #0066ff;
+
+    border-radius: 9px;
+
+    background: #0066ff;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.admin-documents-page .schedule-filter button:hover {
+    background: #004fc7;
+
+    transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------
+   DOCUMENT GRID
+   --------------------------------------------------------- */
+
+.admin-documents-page #adminDocumentsList {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 22px;
+}
+
+/* ---------------------------------------------------------
+   EMPTY / LOADING DOCUMENT CARD
+   --------------------------------------------------------- */
+
+.admin-documents-page #adminDocumentsList .dashboard-card {
+    min-height: 220px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    background: #ffffff;
+
+    border: 1px solid #e3e9f2;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 10px 30px rgba(15, 35, 65, 0.06);
+}
+
+.admin-documents-page #adminDocumentsList .dashboard-card h3 {
+    margin: 14px 0 7px;
+
+    color: #172033;
+
+    font-size: 20px;
+}
+
+.admin-documents-page #adminDocumentsList .dashboard-card p {
+    margin: 0;
+
+    color: #718096;
+
+    line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   DOCUMENT ICON
+   --------------------------------------------------------- */
+
+.admin-documents-page #adminDocumentsList .card-icon {
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf5ff,
+            #e7f7f4
+        );
+
+    color: #0066ff;
+
+    font-size: 20px;
+
+    font-weight: 800;
+}
+
+/* ---------------------------------------------------------
+   BACK TO DASHBOARD
+   --------------------------------------------------------- */
+
+.admin-documents-page .support-section {
+    margin-top: 45px;
+
+    text-align: center;
+}
+
+.admin-documents-page .dashboard-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding: 0 22px;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    border: 1px solid #d7e0ec;
+
+    color: #0066ff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: 0.25s ease;
+}
+
+.admin-documents-page .dashboard-button:hover {
+    background: #0066ff;
+
+    border-color: #0066ff;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+}
+
+/* ---------------------------------------------------------
+   TABLET
+   --------------------------------------------------------- */
+
+@media (max-width: 800px) {
+
+    .admin-documents-page .dashboard {
+        width: 94%;
+
+        padding-top: 30px;
+    }
+
+    .admin-documents-page .admin-upload-card {
+        padding: 25px;
+    }
+
+    .admin-documents-page #uploadForm {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-documents-page #title,
+    .admin-documents-page #description,
+    .admin-documents-page #documentFiles,
+    .admin-documents-page #uploadButton,
+    .admin-documents-page #uploadForm small,
+    .admin-documents-page .selected-files {
+        grid-column: 1;
+    }
+
+    .admin-documents-page .section-heading h2 {
+        font-size: 30px;
+    }
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .admin-documents-page .dashboard {
+        width: calc(100% - 28px);
+
+        padding:
+            25px 0 60px;
+    }
+
+    .admin-documents-page .dashboard-welcome {
+        margin-bottom: 30px;
+    }
+
+    .admin-documents-page .dashboard-welcome h1 {
+        font-size: 32px;
+    }
+
+    .admin-documents-page .admin-upload-card {
+        padding: 20px;
+
+        border-radius: 15px;
+    }
+
+    .admin-documents-page .section-heading {
+        margin-bottom: 20px;
+    }
+
+    .admin-documents-page .section-heading h2 {
+        font-size: 27px;
+    }
+
+    .admin-documents-page #uploadForm input[type="text"],
+    .admin-documents-page #uploadForm textarea,
+    .admin-documents-page #uploadForm select {
+        min-height: 50px;
+    }
+
+    .admin-documents-page .schedule-filter {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .admin-documents-page .schedule-filter select,
+    .admin-documents-page .schedule-filter button {
+        width: 100%;
+    }
+
+    .admin-documents-page #adminDocumentsList {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------------------------------------
+   SMALL PHONES
+   --------------------------------------------------------- */
+
+@media (max-width: 380px) {
+
+    .admin-documents-page .dashboard {
+        width: calc(100% - 20px);
+    }
+
+    .admin-documents-page .admin-upload-card {
+        padding: 16px;
+    }
+
+    .admin-documents-page .dashboard-welcome h1 {
+        font-size: 28px;
+    }
+}
