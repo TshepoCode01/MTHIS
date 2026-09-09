@@ -15,10 +15,711 @@
         rel="stylesheet"
         href="style.css">
 
+
+<style>
+/* =========================================================
+   MTHIS TUTORIALS
+   ADMIN PAYMENTS — MATCHED ADMIN DESIGN
+   Clean typography, spacing and responsive layout
+   ========================================================= */
+
+.admin-payments-page,
+.admin-payments-page * {
+    box-sizing: border-box;
+}
+
+.admin-payments-page {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #f4f7fb;
+    color: #14213d;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.admin-payments-page .dashboard-header {
+    width: 100%;
+    min-height: 92px;
+    padding: 0 5.5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: linear-gradient(135deg, #020817, #061b3a);
+    color: #fff;
+    box-shadow: 0 8px 28px rgba(2, 8, 23, .18);
+    position: relative;
+    z-index: 20;
+}
+
+.admin-payments-page .brand {
+    min-width: 0;
+}
+
+.admin-payments-page .brand h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1.15;
+}
+
+.admin-payments-page .brand span {
+    display: block;
+    margin-top: 6px;
+    color: #aebed4;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.admin-payments-page .logout-btn {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 1px solid rgba(22, 135, 255, .35);
+    border-radius: 9px;
+    background: rgba(255,255,255,.06);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.admin-payments-page .logout-btn:hover {
+    background: #0066ff;
+    border-color: #0066ff;
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.admin-payments-page .dashboard {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 48px 0 80px;
+}
+
+.admin-payments-page .dashboard-welcome {
+    margin: 0 0 48px;
+}
+
+.admin-payments-page .small-title {
+    margin: 0 0 9px;
+    color: #0066ff;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.3;
+}
+
+.admin-payments-page .dashboard-welcome h1 {
+    margin: 0 0 10px;
+    color: #102344;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 900;
+    letter-spacing: -.5px;
+    line-height: 1.12;
+}
+
+.admin-payments-page .dashboard-welcome > p:last-child {
+    max-width: 680px;
+    margin: 0;
+    color: #65738a;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.admin-payments-page .section-heading {
+    width: 100%;
+    display: block !important;
+    margin: 0 0 25px !important;
+    padding: 0 !important;
+}
+
+.admin-payments-page .section-heading .small-title {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.admin-payments-page .section-heading h2 {
+    display: block;
+    margin: 0 0 8px !important;
+    color: #102344;
+    font-size: clamp(27px, 4vw, 38px) !important;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.admin-payments-page .section-heading > p:last-child {
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   SUMMARY CARDS
+   ========================================================= */
+
+.admin-payments-page .dashboard-grid {
+    width: 100%;
+    min-width: 0;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.admin-payments-page .dashboard-grid > .dashboard-card {
+    min-width: 0;
+    min-height: 100%;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 17px;
+    box-shadow: 0 10px 30px rgba(15,35,65,.06);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.admin-payments-page .dashboard-grid > .dashboard-card:hover {
+    transform: translateY(-4px);
+    border-color: #c8dcff;
+    box-shadow: 0 17px 38px rgba(15,35,65,.10);
+}
+
+.admin-payments-page .card-icon {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 17px;
+    border: 1px solid #d9e8ff;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #edf5ff, #e7f7f4);
+    color: #0066ff;
+    font-size: 0;
+    font-weight: 900;
+}
+
+/* Letter-style visual markers, no emoji */
+.admin-payments-page .dashboard-grid > .dashboard-card:nth-child(1) .card-icon::after {
+    content: "T";
+    font-size: 16px;
+}
+
+.admin-payments-page .dashboard-grid > .dashboard-card:nth-child(2) .card-icon::after {
+    content: "P";
+    font-size: 16px;
+}
+
+.admin-payments-page .dashboard-grid > .dashboard-card:nth-child(3) .card-icon::after {
+    content: "N";
+    font-size: 16px;
+}
+
+.admin-payments-page .dashboard-grid > .dashboard-card:nth-child(4) .card-icon::after {
+    content: "U";
+    font-size: 16px;
+}
+
+.admin-payments-page .dashboard-card h3 {
+    margin: 0 0 12px;
+    color: #172033;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.admin-payments-page .dashboard-card > p {
+    margin: 0;
+    color: #65738a;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.admin-payments-page #totalLearners,
+.admin-payments-page #paidLearners,
+.admin-payments-page #pendingLearners,
+.admin-payments-page #unpaidLearners {
+    color: #0066ff;
+    font-size: 29px;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+/* =========================================================
+   SEARCH / FILTER
+   ========================================================= */
+
+.admin-payments-page .schedule-filter {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: minmax(280px, 1.7fr) minmax(190px, .9fr) auto;
+    align-items: stretch;
+    gap: 12px;
+    margin: 0 0 30px;
+}
+
+.admin-payments-page #searchLearner,
+.admin-payments-page .schedule-filter select,
+.admin-payments-page .schedule-filter > button {
+    width: 100%;
+    height: 50px;
+    min-height: 50px;
+    border-radius: 9px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.admin-payments-page #searchLearner {
+    min-width: 0;
+    padding: 0 16px;
+    border: 1px solid #d5dce7;
+    outline: none;
+    background: #fff;
+    color: #172033;
+    line-height: 50px;
+    transition: .25s ease;
+}
+
+.admin-payments-page #searchLearner::placeholder {
+    color: #98a2b3;
+}
+
+.admin-payments-page #searchLearner:focus {
+    border-color: #0066ff;
+    box-shadow: 0 0 0 4px rgba(0,102,255,.10);
+}
+
+.admin-payments-page .schedule-filter select {
+    min-width: 0;
+    padding: 0 36px 0 14px;
+    border: 1px solid #d5dce7;
+    outline: none;
+    background: #fff;
+    color: #172033;
+    cursor: pointer;
+    line-height: 50px;
+}
+
+.admin-payments-page .schedule-filter select:focus {
+    border-color: #0066ff;
+    box-shadow: 0 0 0 4px rgba(0,102,255,.10);
+}
+
+.admin-payments-page .schedule-filter > button {
+    padding: 0 22px;
+    border: 1px solid #0066ff;
+    background: #0066ff;
+    color: #fff;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    line-height: 50px;
+    transition: .25s ease;
+}
+
+.admin-payments-page .schedule-filter > button:hover {
+    background: #004fc7;
+    border-color: #004fc7;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0,102,255,.18);
+}
+
+/* =========================================================
+   PAYMENT CARDS
+   ========================================================= */
+
+.admin-payments-page #paymentList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-payments-page #paymentList .dashboard-card {
+    text-align: left;
+}
+
+.admin-payments-page #paymentList .dashboard-card h3 {
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+.admin-payments-page #paymentList .card-icon {
+    background: linear-gradient(135deg, #edf5ff, #f2f6fc);
+}
+
+.admin-payments-page #paymentList .schedule-info {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.admin-payments-page #paymentList .schedule-item {
+    min-width: 0;
+    min-height: 72px;
+    padding: 12px 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 5px;
+    border: 1px solid #edf0f4;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.admin-payments-page #paymentList .schedule-item strong {
+    display: block;
+    margin: 0;
+    color: #667085;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .7px;
+    line-height: 1.25;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-payments-page #paymentList .schedule-item span {
+    display: block;
+    margin: 0;
+    color: #172033;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.admin-payments-page #paymentList .schedule-item:nth-child(4) span {
+    color: #0066ff;
+    font-weight: 800;
+}
+
+.admin-payments-page #paymentList .schedule-item:nth-child(5) span {
+    color: #172033;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.admin-payments-page #paymentList .document-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.admin-payments-page #paymentList .document-actions button {
+    width: 100%;
+    min-height: 43px;
+    padding: 9px 13px;
+    border: 1px solid #d6e3f5;
+    border-radius: 8px;
+    background: #eef5ff;
+    color: #0066ff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.admin-payments-page #paymentList .document-actions button:hover {
+    background: #0066ff;
+    border-color: #0066ff;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.admin-payments-page #paymentList .document-actions .delete-button {
+    border-color: #f0d7d7;
+    background: #fff5f5;
+    color: #c0392b;
+}
+
+.admin-payments-page #paymentList .document-actions .delete-button:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+    color: #fff;
+}
+
+/* =========================================================
+   LOADING / EMPTY / ERROR
+   ========================================================= */
+
+.admin-payments-page #paymentList > .dashboard-card:only-child {
+    grid-column: 1 / -1;
+    min-height: 260px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.admin-payments-page #paymentList > .dashboard-card:only-child .card-icon {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-payments-page #paymentList > .dashboard-card:only-child h3,
+.admin-payments-page #paymentList > .dashboard-card:only-child p {
+    text-align: center;
+}
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.admin-payments-page .support-section {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.admin-payments-page .support-section .dashboard-button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px;
+    border: 1px solid #d7e0ec;
+    border-radius: 9px;
+    background: #fff;
+    color: #0066ff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    transition: .25s ease;
+}
+
+.admin-payments-page .support-section .dashboard-button:hover {
+    background: #0066ff;
+    border-color: #0066ff;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,102,255,.18);
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+    .admin-payments-page .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-payments-page #paymentList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-payments-page .schedule-filter {
+        grid-template-columns:
+            minmax(220px, 1fr)
+            minmax(170px, .8fr);
+    }
+
+    .admin-payments-page .schedule-filter > button {
+        grid-column: 1 / -1;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+    .admin-payments-page .dashboard {
+        width: min(94%, 720px);
+        padding-top: 34px;
+    }
+
+    .admin-payments-page .schedule-filter {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-payments-page #searchLearner {
+        grid-column: 1 / -1;
+    }
+
+    .admin-payments-page .schedule-filter > button {
+        grid-column: 1 / -1;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .admin-payments-page .dashboard-header {
+        min-height: 78px;
+        padding: 14px 18px;
+    }
+
+    .admin-payments-page .brand h2 {
+        font-size: 20px;
+    }
+
+    .admin-payments-page .brand span {
+        font-size: 9px;
+        letter-spacing: 1.2px;
+    }
+
+    .admin-payments-page .logout-btn {
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 13px;
+    }
+
+    .admin-payments-page .dashboard {
+        width: calc(100% - 28px);
+        padding: 28px 0 55px;
+    }
+
+    .admin-payments-page .dashboard-welcome {
+        margin-bottom: 36px;
+    }
+
+    .admin-payments-page .dashboard-welcome h1 {
+        font-size: 31px;
+    }
+
+    .admin-payments-page .dashboard-grid,
+    .admin-payments-page #paymentList {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+
+    .admin-payments-page .section-heading h2 {
+        font-size: 27px !important;
+    }
+
+    .admin-payments-page .schedule-filter {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .admin-payments-page #searchLearner,
+    .admin-payments-page .schedule-filter select,
+    .admin-payments-page .schedule-filter > button {
+        grid-column: 1;
+        width: 100%;
+    }
+
+    .admin-payments-page .dashboard-grid > .dashboard-card,
+    .admin-payments-page #paymentList .dashboard-card {
+        padding: 20px;
+    }
+
+    .admin-payments-page #paymentList .schedule-info {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-payments-page .support-section {
+        margin-top: 36px;
+    }
+
+    .admin-payments-page .support-section .dashboard-button {
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+    .admin-payments-page .dashboard {
+        width: calc(100% - 20px);
+    }
+
+    .admin-payments-page .brand h2 {
+        font-size: 18px;
+    }
+
+    .admin-payments-page .brand span {
+        font-size: 8px;
+    }
+
+    .admin-payments-page .logout-btn {
+        padding: 0 11px;
+        font-size: 12px;
+    }
+
+    .admin-payments-page .dashboard-welcome h1 {
+        font-size: 28px;
+    }
+
+    .admin-payments-page .dashboard-grid > .dashboard-card,
+    .admin-payments-page #paymentList .dashboard-card {
+        padding: 17px;
+    }
+
+    .admin-payments-page #paymentList .schedule-item {
+        min-height: 68px;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.admin-payments-page button,
+.admin-payments-page a,
+.admin-payments-page input,
+.admin-payments-page select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.admin-payments-page button:focus-visible,
+.admin-payments-page a:focus-visible,
+.admin-payments-page input:focus-visible,
+.admin-payments-page select:focus-visible {
+    outline: 3px solid rgba(0,102,255,.22);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-payments-page *,
+    .admin-payments-page *::before,
+    .admin-payments-page *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+</style>
+
 </head>
 
 
-<body>
+<body class="admin-payments-page">
 
 
 <!-- =====================================================
@@ -112,7 +813,7 @@
             <div class="dashboard-card">
 
                 <div class="card-icon">
-                    👨‍🎓
+                    ‍
                 </div>
 
                 <h3>
@@ -133,7 +834,7 @@
             <div class="dashboard-card">
 
                 <div class="card-icon">
-                    ✅
+                    
                 </div>
 
                 <h3>
@@ -260,7 +961,7 @@
                 type="button"
                 onclick="loadPayments()">
 
-                🔄 Refresh
+                 Refresh
 
             </button>
 
@@ -864,7 +1565,7 @@ function displayPayments(
 
 
             let statusIcon =
-                "❌";
+                "";
 
 
             if (
@@ -1184,7 +1885,7 @@ async function updatePaymentStatus(
 
 
         showMessage(
-            "❌ Failed to update payment: " +
+            " Failed to update payment: " +
             error.message
         );
 
