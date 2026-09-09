@@ -1,290 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>MTHIS Tutorials | Class Schedule</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --navy: #020a19;
+            --dark: #08111f;
+            --blue: #0066ff;
+            --light-blue: #00aaff;
+            --accent: #1687ff;
+            --background: #f4f7fb;
+            --white: #ffffff;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #dce5f0;
+            --success: #0f9d68;
+            --danger: #dc3545;
+            --shadow: 0 18px 45px rgba(2, 10, 25, 0.08);
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(0, 102, 255, 0.07), transparent 28%),
+                radial-gradient(circle at 90% 80%, rgba(0, 170, 255, 0.06), transparent 30%);
+            z-index: -1;
+        }
+
+        /* HEADER */
+
+        .dashboard-header {
+            min-height: 78px;
+            background: linear-gradient(135deg, var(--navy), var(--dark));
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 6%;
+            box-shadow: 0 8px 30px rgba(2, 10, 25, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand h2 {
+            font-size: 22px;
+            margin-bottom: 3px;
+        }
+
+        .brand span {
+            color: #a9c8f5;
+            font-size: 13px;
+        }
+
+        .logout-btn {
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.08);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+            transform: translateY(-2px);
+        }
+
+        /* MAIN */
+
+        .dashboard {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 55px 0 70px;
+        }
+
+        .dashboard-welcome {
+            margin-bottom: 45px;
+        }
+
+        .small-title {
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-welcome h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+
+        .dashboard-welcome > p:last-child {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* SECTIONS */
+
+        .learner-profile,
+        .section-heading,
+        .dashboard > section {
+            margin-bottom: 30px;
+        }
+
+        .section-title,
+        .section-heading {
+            margin-bottom: 18px;
+        }
+
+        .section-title h2,
+        .section-heading h2 {
+            color: var(--navy);
+            font-size: 27px;
+        }
+
+        .section-heading > p:last-child {
+            color: var(--muted);
+            margin-top: 7px;
+        }
+
+        /* PROFILE */
+
+        .profile-info {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 8px 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
+            padding: 17px 0;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-row strong {
+            color: var(--navy);
+        }
+
+        .profile-row span {
+            color: var(--muted);
+            text-align: right;
+            word-break: break-word;
+        }
+
+        /* FILTER */
+
+        .schedule-filter {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .schedule-filter select,
+        .schedule-filter button {
+            min-height: 46px;
+            border-radius: 9px;
+            font: inherit;
+        }
+
+        .schedule-filter select {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 0 15px;
+            color: var(--text);
+            min-width: 210px;
+            outline: none;
+        }
+
+        .schedule-filter select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(0,102,255,0.1);
+        }
+
+        .schedule-filter button {
+            border: none;
+            background: linear-gradient(135deg, var(--blue), var(--light-blue));
+            color: white;
+            padding: 0 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .schedule-filter button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,102,255,0.22);
+        }
+
+        /* CARDS */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            transition: 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue), var(--light-blue));
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 22px 50px rgba(2, 10, 25, 0.12);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 102, 255, 0.08);
+            border: 1px solid rgba(0, 102, 255, 0.14);
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .dashboard-card h3 {
+            color: var(--navy);
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card > p {
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        /* SCHEDULE INFO */
+
+        .schedule-info {
+            margin: 22px 0;
+            border-top: 1px solid #edf1f6;
+        }
+
+        .schedule-item {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .schedule-item strong {
+            color: var(--navy);
+        }
+
+        .schedule-item span {
+            color: var(--muted);
+        }
+
+        .schedule-action {
+            margin-top: 18px;
+        }
+
+        .dashboard-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 46px;
+            padding: 0 20px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--blue), var(--light-blue));
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dashboard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,102,255,0.2);
+        }
+
+        .no-link {
+            color: var(--muted);
+            background: #f6f8fb;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 13px;
+            font-size: 14px;
+        }
+
+        /* STATES */
+
+        .loading-box,
+        .error-box {
+            padding: 18px;
+            border-radius: 10px;
+            background: #f7f9fc;
+            color: var(--muted);
+        }
+
+        .error-box {
+            color: var(--danger);
+            border: 1px solid rgba(220,53,69,0.15);
+            background: rgba(220,53,69,0.04);
+        }
+
+        /* BACK */
+
+        .support-section {
+            margin-top: 45px;
+        }
+
+        /* POPUP */
+
+        .popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(2,10,25,0.72);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.25s ease;
+            z-index: 1000;
+        }
+
+        .popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-box {
+            width: min(440px, 100%);
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+        }
+
+        .popup-box h2 {
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+
+        .popup-box p {
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+            color: var(--muted);
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 760px) {
+            .dashboard-header {
+                padding: 14px 4%;
+            }
+
+            .brand h2 {
+                font-size: 18px;
+            }
+
+            .dashboard {
+                width: 92%;
+                padding-top: 38px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-row {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .profile-row span {
+                text-align: left;
+            }
+
+            .schedule-filter {
+                flex-direction: column;
+            }
+
+            .schedule-filter select,
+            .schedule-filter button {
+                width: 100%;
+            }
+
+            .dashboard-button {
+                width: 100%;
+            }
+
+            .schedule-item {
+                grid-template-columns: 90px 1fr;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header class="dashboard-header">
-
     <div class="brand">
-
         <h2>MTHIS Tutorials</h2>
-
         <span>Learner Portal</span>
-
     </div>
 
-
-    <button
-        class="logout-btn"
-        onclick="logout()">
-
+    <button class="logout-btn" onclick="logout()">
         Logout
-
     </button>
-
 </header>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
 
 <main class="dashboard">
 
-
-    <!-- =================================================
-         PAGE INTRO
-    ================================================== -->
-
     <section class="dashboard-welcome">
+        <p class="small-title">LEARNING</p>
 
-        <p class="small-title">
-            LEARNING
-        </p>
-
-
-        <h1>
-            My Class Schedule
-        </h1>
-
+        <h1>My Class Schedule</h1>
 
         <p>
             View all your upcoming MTHIS Tutorials
             classes and join your online lessons.
         </p>
-
     </section>
-
-
-
-    <!-- =================================================
-         LEARNER INFORMATION
-    ================================================== -->
 
     <section class="learner-profile">
-
         <div class="section-title">
-
-            <p class="small-title">
-                MY ACCOUNT
-            </p>
-
-
-            <h2>
-                My Learning Details
-            </h2>
-
+            <p class="small-title">MY ACCOUNT</p>
+            <h2>My Learning Details</h2>
         </div>
 
-
-        <div
-            id="learnerDetails"
-            class="profile-info">
-
+        <div id="learnerDetails" class="profile-info">
             <div class="loading-box">
-
                 Loading your information...
-
             </div>
-
         </div>
-
     </section>
 
-
-
-    <!-- =================================================
-         FILTER
-    ================================================== -->
-
     <section>
-
         <div class="section-heading">
-
-            <p class="small-title">
-                MY CLASSES
-            </p>
-
-
-            <h2>
-                Upcoming Classes
-            </h2>
-
+            <p class="small-title">MY CLASSES</p>
+            <h2>Upcoming Classes</h2>
         </div>
-
 
         <div class="schedule-filter">
-
-            <select
-                id="subjectFilter"
-                onchange="filterSchedules()">
-
-                <option value="All">
-                    All My Subjects
-                </option>
-
+            <select id="subjectFilter" onchange="filterSchedules()">
+                <option value="All">All My Subjects</option>
             </select>
 
-
-            <button
-                type="button"
-                onclick="loadSchedules()">
-
-                🔄 Refresh
-
+            <button type="button" onclick="loadSchedules()">
+                Refresh
             </button>
-
         </div>
-
-
     </section>
-
-
-
-    <!-- =================================================
-         SCHEDULE LIST
-    ================================================== -->
 
     <section>
-
-        <div
-            id="scheduleList"
-            class="dashboard-grid">
-
+        <div id="scheduleList" class="dashboard-grid">
             <div class="dashboard-card">
+                <div class="card-icon">CLASS</div>
 
-                <div class="card-icon">
-                    ⏳
-                </div>
-
-
-                <h3>
-                    Loading Schedule
-                </h3>
-
+                <h3>Loading Schedule</h3>
 
                 <p>
-                    Please wait while we load
-                    your classes.
+                    Please wait while we load your classes.
                 </p>
-
             </div>
-
         </div>
-
     </section>
-
-
-
-    <!-- =================================================
-         BACK TO DASHBOARD
-    ================================================== -->
 
     <section class="support-section">
-
-        <a
-            href="dashboard.html"
-            class="dashboard-button">
-
-            ← Back to Learner Dashboard
-
+        <a href="dashboard.html" class="dashboard-button">
+            Back to Learner Dashboard
         </a>
-
     </section>
-
 
 </main>
 
-
-
-<!-- =====================================================
-     POPUP
-===================================================== -->
-
-<div
-    id="popup"
-    class="popup">
-
-
+<div id="popup" class="popup">
     <div class="popup-box">
 
-
-        <button
-            class="popup-close"
-            onclick="closePopup()">
-
+        <button class="popup-close" onclick="closePopup()">
             ×
-
         </button>
 
+        <h2>MTHIS Tutorials</h2>
 
-        <h2>
-            MTHIS Tutorials
-        </h2>
+        <p id="popupMessage"></p>
 
-
-        <p id="popupMessage">
-        </p>
-
-
-        <button
-            type="button"
-            onclick="closePopup()">
-
+        <button type="button"
+                class="dashboard-button"
+                onclick="closePopup()">
             Close
-
         </button>
-
 
     </div>
-
 </div>
 
-
-
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-</script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
-
-/* =====================================================
-   SUPABASE CONFIGURATION
-===================================================== */
-
 const SUPABASE_URL =
     "https://bcpxdigpblgolreftfjx.supabase.co";
 
-
 const SUPABASE_ANON_KEY =
     "sb_publishable_KMj2CtNM_uqqc5pjVh8V2Q_w9xydiX3";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -292,241 +581,85 @@ const supabaseClient =
         SUPABASE_ANON_KEY
     );
 
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
 let currentLearner = null;
-
 let allSchedules = [];
 
-
-
-/* =====================================================
-   START PAGE
-===================================================== */
-
 async function startSchedulePage() {
-
-
     try {
-
-
-        /* =============================================
-           GET LOGGED-IN USER
-        ============================================= */
-
         const {
-            data: {
-                user
-            },
+            data: { user },
             error: authError
-        } =
-            await supabaseClient
-                .auth
-                .getUser();
+        } = await supabaseClient.auth.getUser();
 
-
-
-        if (
-            authError ||
-            !user
-        ) {
-
-            window.location.href =
-                "login.html";
-
+        if (authError || !user) {
+            window.location.href = "login.html";
             return;
-
         }
-
-
-
-        /* =============================================
-           GET LEARNER INFORMATION
-        ============================================= */
 
         const {
             data: learner,
             error: learnerError
-        } =
-            await supabaseClient
-                .from("learners")
-                .select("*")
-                .eq(
-                    "id",
-                    user.id
-                )
-                .maybeSingle();
-
-
+        } = await supabaseClient
+            .from("learners")
+            .select("*")
+            .eq("id", user.id)
+            .maybeSingle();
 
         if (learnerError) {
-
             throw learnerError;
-
         }
-
-
 
         if (!learner) {
-
-
-            document.getElementById(
-                "learnerDetails"
-            ).innerHTML = `
-
+            document.getElementById("learnerDetails").innerHTML = `
                 <div class="error-box">
-
-                    ❌ Learner profile
-                    could not be found.
-
+                    Learner profile could not be found.
                 </div>
-
             `;
-
-
             return;
-
         }
 
+        currentLearner = learner;
 
-
-        currentLearner =
-            learner;
-
-
-
-        /* =============================================
-           SHOW LEARNER INFORMATION
-        ============================================= */
-
-        displayLearner(
-            learner,
-            user
-        );
-
-
-
-        /* =============================================
-           CREATE SUBJECT FILTER
-        ============================================= */
-
-        createSubjectFilter(
-            learner
-        );
-
-
-
-        /* =============================================
-           LOAD CLASSES
-        ============================================= */
+        displayLearner(learner, user);
+        createSubjectFilter(learner);
 
         await loadSchedules();
 
-    }
+    } catch (error) {
+        console.error("START ERROR:", error);
 
-
-    catch (error) {
-
-
-        console.error(
-            "START ERROR:",
-            error
-        );
-
-
-        document.getElementById(
-            "scheduleList"
-        ).innerHTML = `
-
+        document.getElementById("scheduleList").innerHTML = `
             <div class="dashboard-card">
+                <div class="card-icon">ERROR</div>
 
-                <div class="card-icon">
-                    ❌
-                </div>
-
-
-                <h3>
-                    Something went wrong
-                </h3>
-
+                <h3>Something went wrong</h3>
 
                 <p>
-                    ${escapeHTML(
-                        error.message
-                    )}
+                    ${escapeHTML(error.message)}
                 </p>
-
             </div>
-
         `;
-
     }
-
 }
 
+function displayLearner(learner, user) {
+    let subject = learner.subject || "Not selected";
 
-
-/* =====================================================
-   DISPLAY LEARNER
-===================================================== */
-
-function displayLearner(
-    learner,
-    user
-) {
-
-
-    let subject =
-        learner.subject ||
-        "Not selected";
-
-
-    if (
-        subject === "Both"
-    ) {
-
-        subject =
-            "Mathematics & Physical Science";
-
+    if (subject === "Both") {
+        subject = "Mathematics & Physical Science";
     }
 
-
-
-    document.getElementById(
-        "learnerDetails"
-    ).innerHTML = `
-
+    document.getElementById("learnerDetails").innerHTML = `
         <div class="profile-row">
-
-            <strong>
-                Learner
-            </strong>
-
+            <strong>Learner</strong>
             <span>
-
-                ${escapeHTML(
-                    learner.name || ""
-                )}
-
-                ${escapeHTML(
-                    learner.surname || ""
-                )}
-
+                ${escapeHTML(learner.name || "")}
+                ${escapeHTML(learner.surname || "")}
             </span>
-
         </div>
 
-
         <div class="profile-row">
-
-            <strong>
-                Email
-            </strong>
-
+            <strong>Email</strong>
             <span>
                 ${escapeHTML(
                     learner.email ||
@@ -534,78 +667,39 @@ function displayLearner(
                     ""
                 )}
             </span>
-
         </div>
 
-
         <div class="profile-row">
-
-            <strong>
-                Grade
-            </strong>
-
+            <strong>Grade</strong>
             <span>
                 ${escapeHTML(
                     learner.grade ||
                     "Not selected"
                 )}
             </span>
-
         </div>
-
 
         <div class="profile-row">
-
-            <strong>
-                Subjects
-            </strong>
-
+            <strong>Subjects</strong>
             <span>
-                ${escapeHTML(
-                    subject
-                )}
+                ${escapeHTML(subject)}
             </span>
-
         </div>
-
     `;
-
 }
 
-
-
-/* =====================================================
-   SUBJECT FILTER
-===================================================== */
-
-function createSubjectFilter(
-    learner
-) {
-
-
+function createSubjectFilter(learner) {
     const filter =
-        document.getElementById(
-            "subjectFilter"
-        );
-
+        document.getElementById("subjectFilter");
 
     filter.innerHTML = `
-
         <option value="All">
             All My Subjects
         </option>
-
     `;
 
-
-
-    if (
-        learner.subject === "Both"
-    ) {
-
-
+    if (learner.subject === "Both") {
         filter.innerHTML += `
-
             <option value="Mathematics">
                 Mathematics
             </option>
@@ -613,591 +707,238 @@ function createSubjectFilter(
             <option value="Physical Science">
                 Physical Science
             </option>
-
         `;
-
-    }
-
-
-    else if (
-        learner.subject
-    ) {
-
-
+    } else if (learner.subject) {
         filter.innerHTML += `
-
-            <option
-                value="${escapeHTML(
-                    learner.subject
-                )}">
-
-                ${escapeHTML(
-                    learner.subject
-                )}
-
+            <option value="${escapeHTML(learner.subject)}">
+                ${escapeHTML(learner.subject)}
             </option>
-
         `;
-
     }
-
 }
 
-
-
-/* =====================================================
-   LOAD SCHEDULES
-===================================================== */
-
 async function loadSchedules() {
-
-
     const list =
-        document.getElementById(
-            "scheduleList"
-        );
-
+        document.getElementById("scheduleList");
 
     list.innerHTML = `
-
         <div class="dashboard-card">
+            <div class="card-icon">CLASS</div>
 
-            <div class="card-icon">
-                ⏳
-            </div>
+            <h3>Loading Classes</h3>
 
-            <h3>
-                Loading Classes
-            </h3>
-
-            <p>
-                Please wait...
-            </p>
-
+            <p>Please wait...</p>
         </div>
-
     `;
 
-
-
-    if (
-        !currentLearner
-    ) {
-
-
-        list.innerHTML = `
-
-            <div class="dashboard-card">
-
-                <h3>
-                    Learner information unavailable
-                </h3>
-
-            </div>
-
-        `;
-
-
+    if (!currentLearner) {
         return;
-
     }
 
-
-
     try {
-
-
-        /* =============================================
-           GET CLASSES FOR LEARNER GRADE
-        ============================================= */
-
         const {
             data: schedules,
             error
-        } =
-            await supabaseClient
-                .from("schedules")
-                .select("*")
-                .eq(
-                    "grade",
-                    currentLearner.grade
-                )
-                .order(
-                    "class_date",
-                    {
-                        ascending: true
-                    }
-                )
-                .order(
-                    "start_time",
-                    {
-                        ascending: true
-                    }
-                );
-
-
+        } = await supabaseClient
+            .from("schedules")
+            .select("*")
+            .eq("grade", currentLearner.grade)
+            .order("class_date", {
+                ascending: true
+            })
+            .order("start_time", {
+                ascending: true
+            });
 
         if (error) {
-
             throw error;
-
         }
-
-
-
-        /* =============================================
-           FILTER SUBJECTS
-        ============================================= */
 
         let allowedSubjects = [];
 
-
-        if (
-            currentLearner.subject === "Both"
-        ) {
-
-
+        if (currentLearner.subject === "Both") {
             allowedSubjects = [
-
                 "Mathematics",
-
                 "Physical Science"
-
             ];
-
-        }
-
-
-        else if (
-            currentLearner.subject
-        ) {
-
-
+        } else if (currentLearner.subject) {
             allowedSubjects = [
-
                 currentLearner.subject
-
             ];
-
         }
 
-
-
-        allSchedules =
-            (schedules || [])
-                .filter(
-                    schedule =>
-                        allowedSubjects.includes(
-                            schedule.subject
-                        )
-                );
-
-
+        allSchedules = (schedules || []).filter(
+            schedule =>
+                allowedSubjects.includes(schedule.subject)
+        );
 
         filterSchedules();
 
-    }
-
-
-    catch (error) {
-
-
+    } catch (error) {
         console.error(
             "LOAD SCHEDULE ERROR:",
             error
         );
 
-
         list.innerHTML = `
-
             <div class="dashboard-card">
+                <div class="card-icon">ERROR</div>
 
-                <div class="card-icon">
-                    ❌
-                </div>
-
-
-                <h3>
-                    Unable to Load Schedule
-                </h3>
-
+                <h3>Unable to Load Schedule</h3>
 
                 <p>
-                    ${escapeHTML(
-                        error.message
-                    )}
+                    ${escapeHTML(error.message)}
                 </p>
-
             </div>
-
         `;
-
     }
-
 }
-
-
-
-/* =====================================================
-   FILTER SCHEDULES
-===================================================== */
 
 function filterSchedules() {
-
-
     const filter =
-        document.getElementById(
-            "subjectFilter"
+        document.getElementById("subjectFilter");
+
+    const selected = filter.value;
+
+    let schedules = allSchedules;
+
+    if (selected !== "All") {
+        schedules = allSchedules.filter(
+            schedule =>
+                schedule.subject === selected
         );
-
-
-    const selected =
-        filter.value;
-
-
-    let schedules =
-        allSchedules;
-
-
-
-    if (
-        selected !== "All"
-    ) {
-
-
-        schedules =
-            allSchedules.filter(
-                schedule =>
-                    schedule.subject ===
-                    selected
-            );
-
     }
 
-
-
-    displaySchedules(
-        schedules
-    );
-
+    displaySchedules(schedules);
 }
 
-
-
-/* =====================================================
-   DISPLAY SCHEDULES
-===================================================== */
-
-function displaySchedules(
-    schedules
-) {
-
-
+function displaySchedules(schedules) {
     const list =
-        document.getElementById(
-            "scheduleList"
-        );
+        document.getElementById("scheduleList");
 
-
-
-    if (
-        !schedules ||
-        schedules.length === 0
-    ) {
-
-
+    if (!schedules || schedules.length === 0) {
         list.innerHTML = `
-
             <div class="dashboard-card">
+                <div class="card-icon">CLASS</div>
 
-                <div class="card-icon">
-                    📅
-                </div>
-
-
-                <h3>
-                    No Classes Scheduled
-                </h3>
-
+                <h3>No Classes Scheduled</h3>
 
                 <p>
                     There are currently no upcoming
                     classes for your grade and subject.
                 </p>
-
-
             </div>
-
         `;
 
-
         return;
-
     }
-
-
 
     list.innerHTML = "";
 
-
-
-    schedules.forEach(
-        schedule => {
-
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-
-            card.className =
-                "dashboard-card";
-
-
-
-            let teamsButton = "";
-
-
-
-            if (
-                schedule.teams_link
-            ) {
-
-
-                teamsButton = `
-
-                    <a
-                        href="${escapeHTML(
-                            schedule.teams_link
-                        )}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="dashboard-button">
-
-                        🟢 Join Microsoft Teams
-
-                    </a>
-
-                `;
-
-            }
-
-
-            else {
-
-
-                teamsButton = `
-
-                    <p class="no-link">
-
-                        Teams meeting link
-                        has not been added yet.
-
-                    </p>
-
-                `;
-
-            }
-
-
-
-            card.innerHTML = `
-
-                <div class="card-icon">
-                    📅
-                </div>
-
-
-                <h3>
-                    ${escapeHTML(
-                        schedule.title
-                    )}
-                </h3>
-
-
-                ${
-                    schedule.description
-                        ? `
-
-                            <p>
-                                ${escapeHTML(
-                                    schedule.description
-                                )}
-                            </p>
-
-                        `
-                        : ""
-                }
-
-
-                <div class="schedule-info">
-
-
-                    <div class="schedule-item">
-
-                        <span>
-                            🎓
-                        </span>
-
-                        <strong>
-                            Grade
-                        </strong>
-
-                        <span>
-                            ${escapeHTML(
-                                schedule.grade
-                            )}
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="schedule-item">
-
-                        <span>
-                            📚
-                        </span>
-
-                        <strong>
-                            Subject
-                        </strong>
-
-                        <span>
-                            ${escapeHTML(
-                                schedule.subject
-                            )}
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="schedule-item">
-
-                        <span>
-                            📅
-                        </span>
-
-                        <strong>
-                            Date
-                        </strong>
-
-                        <span>
-                            ${formatDate(
-                                schedule.class_date
-                            )}
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="schedule-item">
-
-                        <span>
-                            🕐
-                        </span>
-
-                        <strong>
-                            Time
-                        </strong>
-
-                        <span>
-
-                            ${formatTime(
-                                schedule.start_time
-                            )}
-
-                            ${
-                                schedule.end_time
-                                    ? " - " +
-                                      formatTime(
-                                          schedule.end_time
-                                      )
-                                    : ""
-                            }
-
-                        </span>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <div
-                    class="schedule-action">
-
-                    ${teamsButton}
-
-                </div>
-
+    schedules.forEach(schedule => {
+        const card =
+            document.createElement("div");
+
+        card.className = "dashboard-card";
+
+        let teamsButton = "";
+
+        if (schedule.teams_link) {
+            teamsButton = `
+                <a
+                    href="${escapeHTML(schedule.teams_link)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="dashboard-button">
+                    Join Microsoft Teams
+                </a>
             `;
-
-
-            list.appendChild(
-                card
-            );
-
+        } else {
+            teamsButton = `
+                <p class="no-link">
+                    Teams meeting link has not been added yet.
+                </p>
+            `;
         }
-    );
 
+        card.innerHTML = `
+            <div class="card-icon">CLASS</div>
+
+            <h3>
+                ${escapeHTML(schedule.title)}
+            </h3>
+
+            ${
+                schedule.description
+                    ? `
+                        <p>
+                            ${escapeHTML(schedule.description)}
+                        </p>
+                    `
+                    : ""
+            }
+
+            <div class="schedule-info">
+
+                <div class="schedule-item">
+                    <strong>Grade</strong>
+                    <span>
+                        ${escapeHTML(schedule.grade)}
+                    </span>
+                </div>
+
+                <div class="schedule-item">
+                    <strong>Subject</strong>
+                    <span>
+                        ${escapeHTML(schedule.subject)}
+                    </span>
+                </div>
+
+                <div class="schedule-item">
+                    <strong>Date</strong>
+                    <span>
+                        ${formatDate(schedule.class_date)}
+                    </span>
+                </div>
+
+                <div class="schedule-item">
+                    <strong>Time</strong>
+                    <span>
+                        ${formatTime(schedule.start_time)}
+                        ${
+                            schedule.end_time
+                                ? " - " +
+                                  formatTime(schedule.end_time)
+                                : ""
+                        }
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="schedule-action">
+                ${teamsButton}
+            </div>
+        `;
+
+        list.appendChild(card);
+    });
 }
 
+function formatDate(date) {
+    if (!date) return "";
 
+    const parts = date.split("-");
 
-/* =====================================================
-   FORMAT DATE
-===================================================== */
-
-function formatDate(
-    date
-) {
-
-
-    if (!date) {
-
-        return "";
-
-    }
-
-
-    const parts =
-        date.split("-");
-
-
-    if (
-        parts.length !== 3
-    ) {
-
+    if (parts.length !== 3) {
         return date;
-
     }
 
-
-    const year =
-        parts[0];
-
-
-    const month =
-        parseInt(
-            parts[1],
-            10
-        );
-
-
-    const day =
-        parseInt(
-            parts[2],
-            10
-        );
-
+    const year = parts[0];
+    const month = parseInt(parts[1], 10);
+    const day = parseInt(parts[2], 10);
 
     const months = [
-
         "January",
         "February",
         "March",
@@ -1210,197 +951,68 @@ function formatDate(
         "October",
         "November",
         "December"
-
     ];
 
-
     return (
-
         day +
         " " +
         months[month - 1] +
         " " +
         year
-
     );
-
 }
 
+function formatTime(time) {
+    if (!time) return "";
 
+    const parts = time.split(":");
 
-/* =====================================================
-   FORMAT TIME
-===================================================== */
-
-function formatTime(
-    time
-) {
-
-
-    if (!time) {
-
-        return "";
-
-    }
-
-
-    const parts =
-        time.split(":");
-
-
-    let hours =
-        parseInt(
-            parts[0],
-            10
-        );
-
-
-    const minutes =
-        parts[1];
-
+    let hours = parseInt(parts[0], 10);
+    const minutes = parts[1];
 
     const ampm =
         hours >= 12
             ? "PM"
             : "AM";
 
+    hours = hours % 12;
 
-    hours =
-        hours % 12;
-
-
-    if (
-        hours === 0
-    ) {
-
+    if (hours === 0) {
         hours = 12;
-
     }
 
-
-    return (
-
-        hours +
-        ":" +
-        minutes +
-        " " +
-        ampm
-
-    );
-
+    return hours + ":" + minutes + " " + ampm;
 }
-
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
 
 async function logout() {
-
-
-    await supabaseClient
-        .auth
-        .signOut();
-
-
-    window.location.href =
-        "login.html";
-
+    await supabaseClient.auth.signOut();
+    window.location.href = "login.html";
 }
 
-
-
-/* =====================================================
-   POPUP
-===================================================== */
-
-function showMessage(
-    message
-) {
-
-
-    document.getElementById(
-        "popupMessage"
-    ).innerText =
+function showMessage(message) {
+    document.getElementById("popupMessage").innerText =
         message;
 
-
-    document.getElementById(
-        "popup"
-    ).classList.add(
-        "show"
-    );
-
+    document.getElementById("popup")
+        .classList.add("show");
 }
-
-
 
 function closePopup() {
-
-
-    document.getElementById(
-        "popup"
-    ).classList.remove(
-        "show"
-    );
-
+    document.getElementById("popup")
+        .classList.remove("show");
 }
 
-
-
-/* =====================================================
-   SECURITY
-===================================================== */
-
-function escapeHTML(
-    value
-) {
-
-
-    return String(
-        value ?? ""
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
+function escapeHTML(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
-
-
-
-/* =====================================================
-   START
-===================================================== */
 
 startSchedulePage();
-
-
 </script>
 
-
 </body>
-
 </html>
